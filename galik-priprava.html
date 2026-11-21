@@ -1,0 +1,1361 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gálík příprava</title>
+<style>
+:root{--page:#5C0F1F;--bg:#faf7ee;--card:#fff;--ink:#1c1a14;--mut:#6b6556;--line:#e6dfc9;--blue:#7A1630;--red:#D82128;--grn:#14783d;--yel:#FDE100;--inp:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16140d;--card:#211e12;--ink:#f6f1dd;--mut:#b9b095;--line:#3b3520;--blue:#FDE100;--grn:#4cc27a;--inp:#1a170d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#16140d;--card:#211e12;--ink:#f6f1dd;--mut:#b9b095;--line:#3b3520;--blue:#f2c200;--grn:#4cc27a;--inp:#1a170d;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1180px;margin:0 auto;padding:16px}
+h1{color:var(--blue);text-shadow:0 2px 8px rgba(0,0,0,.45);letter-spacing:.04em;margin:0 0 14px;text-align:center;font-size:clamp(20px,5vw,30px);font-weight:800}
+.tabs{display:flex;gap:8px;margin:0 0 14px;overflow-x:auto}
+.tab{flex:1 0 auto;padding:12px 8px;min-width:0;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font:800 12px system-ui;cursor:pointer}
+.tab[aria-selected=true]{background:var(--yel);border-color:var(--yel);color:#1a1400}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+.card h2{margin:0 0 10px;font-size:15px;color:var(--blue)}
+a{color:var(--blue)}
+.btn{padding:10px 14px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:700 14px system-ui;cursor:pointer}
+.btn.pri{background:var(--yel);border-color:var(--yel);color:#1a1400}.btn.dg{color:var(--red);border-color:var(--red)}
+.big{width:100%;padding:14px;border:0;border-radius:12px;background:var(--yel);color:#1a1400;font:800 16px system-ui;cursor:pointer}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mut{color:var(--mut)}
+label{display:block;font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:2px solid var(--line);border-radius:10px;background:var(--inp);color:var(--ink);font:inherit}
+input[type=checkbox]{width:22px;height:22px;flex:none}
+textarea{min-height:80px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drop{border:2px dashed var(--blue);border-radius:12px;padding:16px;text-align:center}
+.m{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;margin:0 0 8px;cursor:pointer;background:var(--card)}
+.m:hover{border-color:var(--blue)}
+.m .t{flex:1;font-weight:700}.m small{display:block;color:var(--mut);font-weight:400}
+.sc{min-width:64px;text-align:center;font-size:22px;font-weight:800;border-radius:10px;padding:6px 8px;color:#fff}
+.sc.w{background:var(--grn)}.sc.l{background:var(--red)}.sc.n{background:var(--mut)}
+.big-sc{font-size:44px;font-weight:800;text-align:center;line-height:1.1}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;color:var(--mut);text-transform:uppercase}
+th:first-child,td:first-child{text-align:left}
+tr.h td{font-weight:800;background:var(--bg);color:var(--blue)}
+.vid{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;margin:10px 0}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chip{padding:8px 12px;border:2px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:700 13px system-ui;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--yel);border-color:var(--yel);color:#1a1400}
+.pre{display:flex}.pre span{padding:0 10px;background:var(--bg);border:2px solid var(--line);border-right:0;border-radius:10px 0 0 10px;color:var(--mut);white-space:nowrap;font-size:12px;display:flex;align-items:center}
+.pre input{border-radius:0 10px 10px 0}
+.ok{color:var(--grn);font-weight:700}.er{color:var(--red);font-weight:700}
+tr.t td{font-weight:800;background:rgba(242,194,0,.2)}
+.gv{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;align-items:start}
+.evl{max-height:440px;overflow-y:auto;margin-top:10px}
+.ev{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin:0 0 6px;cursor:pointer}
+.ev.act{border-color:var(--yel);background:rgba(242,194,0,.15)}
+.ev small{display:block;color:var(--mut)}
+.ic{width:28px;height:28px;border:2px solid #1D1D1B;border-radius:50%;flex:none;color:#1E4FB5;font-weight:800;display:flex;align-items:center;justify-content:center}
+.ic.q0{background:#1B9E3E;color:#fff}.ic.q1{background:#1D1D1B;color:#fff}.ic.q2{background:#F2C200;color:#1D1D1B}.ic.q3{background:#F28C1B;color:#1D1D1B}.ic.q4{background:#8E44AD;color:#fff}.ic.q5{background:#D82128;color:#fff}
+.lbg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.lbc{border:1px solid var(--line);border-radius:12px;padding:10px 12px}.lbc h3{margin:0 0 8px;font-size:15px;color:var(--blue)}.lbr{display:flex;gap:8px;padding:5px 8px;background:var(--bg);border-radius:6px;margin:0 0 4px;font-size:13px}.lbr span:nth-child(2){flex:1}.lbr small{font-weight:400;color:var(--mut)}
+.hs .arw{opacity:.25}.hs .arw.sel{opacity:1}
+.stp{display:flex;align-items:center;gap:8px;margin:8px 0}.stp b{min-width:42px;text-align:center}
+.fb{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.fb>div{min-width:130px;flex:1}
+.clk{cursor:pointer;color:var(--blue);font-weight:700;text-decoration:underline dotted}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px}.kp div{background:var(--bg);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--mut)}.kp b{display:block;font-size:20px;color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}.tile{border:1px solid var(--line);border-radius:12px;padding:10px}
+.bdg{display:inline-block;padding:2px 8px;border-radius:999px;color:#fff;font:700 11px system-ui;margin:1px 2px 1px 0}
+.bar{display:inline-block;vertical-align:middle;width:56px;height:8px;border-radius:4px;background:var(--line);margin:0 6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--blue)}
+.vyt td:nth-child(2){text-align:left;white-space:normal;min-width:120px}
+.ytl{margin-left:auto;font-size:20px;text-decoration:none;padding:0 6px}
+
+/* Styly pro DataVolley sestavu a Sideout/Transition */
+.dv-tbl{border:1.5px solid var(--ink);font-size:12px;width:100%;border-collapse:collapse;background:var(--card)}
+.dv-tbl th{background:var(--bg);color:var(--ink);font-weight:800;text-transform:none;font-size:11px;padding:5px 6px;border:1px solid var(--line)}
+.dv-tbl td{padding:5px 6px;border:1px solid var(--line);text-align:center}
+.dv-tbl td:first-child{text-align:left}
+.dv-tbl tr.dv-tot td{font-weight:800;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:rgba(242,194,0,.15)}
+.dv-tbl .b-l{border-left:1.5px solid var(--ink)}
+.dv-tbl .b-b{border-bottom:1.5px solid var(--ink)}
+.st-box{display:inline-block;min-width:20px;padding:1px 4px;border:1px solid var(--ink);border-radius:3px;font-weight:700;font-size:11px;background:var(--bg);margin:0 1px}
+.st-box.empty{border-color:var(--line);background:transparent;color:transparent}
+.so-grid{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:14px;align-items:start}
+@media(max-width:860px){.so-grid{grid-template-columns:1fr}}
+.so-hdr{display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:10px;margin-bottom:12px;font-size:18px;font-weight:800;color:var(--blue)}
+.so-sub{background:var(--bg);font-weight:800;color:var(--blue);text-align:center;padding:5px;border-radius:6px;margin:8px 0 4px;font-size:13px}
+.pos-v{color:var(--grn);font-weight:700}.neg-v{color:var(--red);font-weight:700}
+
+/* Styly pro video přehrávač a rotace (v12) */
+#ypw{background:#000;border-radius:12px;overflow:hidden;position:relative}
+#ypw:fullscreen{display:flex;flex-direction:column;border-radius:0}
+#ypw:fullscreen .vid{flex:1;aspect-ratio:auto}
+#ypv{margin:0!important;border-radius:0!important}
+.ypb{display:flex;gap:6px;padding:8px;flex-wrap:wrap;align-items:center;background:#0b1730;color:#fff;font-weight:800;font-size:12px}
+.ypb .btn{padding:8px 10px;font-size:13px}
+#ypc{position:absolute;left:0;right:0;top:0;padding:10px 14px;background:rgba(10,20,50,.88);color:#fff;font-weight:700;display:none;z-index:3;pointer-events:none}
+#ypk{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;touch-action:none}
+.rtg{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:6px}
+.rtg .chip{width:100%;padding:8px 4px}
+.apc{min-width:150px;border:1px solid var(--line);border-radius:10px;padding:6px;flex:none}
+</style>
+</head>
+<body>
+  <div id="err" style="display:none;background:#D82128;color:#fff;font:13px/1.4 system-ui,sans-serif;padding:10px 14px;white-space:pre-wrap;word-break:break-word"></div>
+  <main>
+    <h1 id="ttl">GÁLÍK PŘÍPRAVA</h1>
+    <nav class="tabs" id="tabs"></nav>
+    <div id="v"></div>
+    <footer style="text-align:center;font-size:12px;margin:24px 0 8px;color:#f1d9dd">Tuto verzi vyvíjí Libor Gálík · VERZE 43</footer>
+  </main>
+
+  <script>
+    /* Výpis chyb přímo na stránku (pro snadnou diagnostiku) */
+    function showErr(t){var e=document.getElementById('err');e.style.display='block';e.textContent+=t+'\n'}
+    window.addEventListener('error',function(ev){
+      if(ev.target&&ev.target.tagName==='SCRIPT'){showErr('Soubor se nenačetl: '+ev.target.getAttribute('src'));return}
+      var f=(ev.filename||'').split('/').pop();
+      showErr('Chyba: '+ev.message+(f?' ('+f+', řádek '+ev.lineno+')':''));
+    },true);
+  </script>
+  <script>
+/* ===== core.js ===== */
+var KV={'20260807_TUR-USA_0-3_Pool-A':'https://youtube.com'},K='mojeutkani-v2',S={team:'Gálík příprava',my:'',m:[]},view='list',cur=null,sel={},an='team',vsel=0,armed='',msg=[];
+var GR=[['ex','Extraligová','#14783d'],['po','Pohárová','#d9a400'],['cev','Pohárová CEV','#2563eb'],['pr','Přátelská','#6b7280'],['rep','Reprezentační','#E63946']];
+var SK={S:'Podání',R:'Příjem',E:'Nahrávka',A:'Útok',B:'Blok',D:'Obrana',F:'Freeball'};
+var EV={'#':'výborné','+':'pozitivní','!':'průměrné','-':'slabé','/':'špatné','=':'chyba'};
+var TL={A:{H:'Tvrdé údery',P:'Měkké (topspin)',T:'Ulívky (tip)'},S:{H:'Jump (H)',M:'Jump float (M)',Q:'Float (Q)',T:'Topspin (T)'}};
+var shown=60,pre=3,post=4,vs2=1,tmr=null,LST=[],fac='',DR=null,DL=[],fpl='',fset=0,fev='',fsk='';
+var CUR=null,CI=-1,CS=0,CE=1,SP=1,pen=false,YT0=0,YS=-1,YID='';
+
+function gname(k){var g=GR.filter(function(x){return x[0]===k})[0];return g?g[1]:'Nezařazeno'}
+function gguess(c){c=(c||'').toLowerCase();if(/cev/.test(c))return'cev';if(/extralig/.test(c))return'ex';if(/p[řr]\u00e1tel|friendly/.test(c))return'pr';if(/po[hr]\u00e1r|pohar|cup/.test(c))return'po';if(/repre|national|nations|vnl|pool/.test(c))return'rep';return''}
+function gp(m){return m.grp!==undefined?m.grp:gguess(m.comp)}
+function gbadge(k){var g=GR.filter(function(x){return x[0]===k})[0];return'<span class="bdg" style="background:'+(g?g[2]:'#8a97ab')+'">'+gname(k)+'</span>'}
+function $(i){return document.getElementById(i)}
+function ld(){try{var x=JSON.parse(localStorage.getItem(K));if(x&&x.m)S=x}catch(e){}S.fb=S.fb||{};S.my=S.my||'';if(!S.team||S.team==='Moje družstvo'||S.team==='Moje utkání')S.team='Gálík příprava';S.m.forEach(m=>{for(var k in KV)if((m.fn||'').indexOf(k)>=0&&!m.v1)m.v1=KV[k]})}
+function sv(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){alert('Úložiště prohlížeče je plné – udělej zálohu a smaž stará utkání.')}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function yid(u){u=String(u||'').trim();var m=u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([\w-]{11})/);return m?m[1]:(/^[\w-]{11}$/.test(u)?u:'')}
+function fdt(m){return fd(m.date)+(m.time?' '+m.time:'')}
+function fd(d){if(!d)return'';var p=d.split('-');return (+p[2])+'. '+(+p[1])+'. '+p[0]}
+function find(id){return S.m.filter(function(m){return m.id===id})[0]}
+function side(m){return m.mine==='a'?1:0}
+function nm(m,i){return i?m.away:m.home}
+function go(v,id){clearTimeout(tmr);DR=null;view=v;cur=id||null;vsel=0;armed='';draw()}
+function draw(){
+  $('ttl').textContent=S.team.toUpperCase();
+  var T=[['list','UTKÁNÍ'],['an','SCOUTING'],['pl','HRÁČKA'],['st','STATISTIKA'],['vyt','VYTÍŽENÍ'],['bk','ZÁLOHA']],t='';
+  T.forEach(function(x){var on=view===x[0]||(view==='det'&&x[0]==='list');t+='<button class="tab" aria-selected="'+on+'" onclick="go(\''+x[0]+'\')">'+x[1]+'</button>'});
+  $('tabs').innerHTML=t;
+  ({list:vList,det:vDet,an:vAn,pl:vPl,vyt:vVyt,bk:vBk,st:vSt})[view]();window.scrollTo(0,0);
+}
+
+/* ---------- DataVolley (.dvw) parser vč. rotací ---------- */
+function parse(txt,fn){
+  var L=txt.split(/\r?\n/),sec='',tm=[],sets=[],pl={h:{},a:{}},rk={h:{},a:{}},lb={h:{},a:{}},ac={},sm=[0,0],ev=[],rl=[],mf=null,cs='0:0',ls=0,pp=[{},{}],startZones={h:{},a:{}},scn={},scr={},coaches={h:['',''],a:['','']};
+  for(var i=0;i<L.length;i++){var l=L[i];if(!l)continue;
+    if(l[0]==='['){sec=l.trim();continue}
+    var f=l.split(';');
+    if(sec==='[3MATCH]'){if(!mf)mf=f}
+    else if(sec==='[3TEAMS]'){
+      var tidx=tm.length;
+      tm.push({n:f[1],s:+f[2]||0});
+      if(tidx===0)coaches.h=[f[3]||'',f[4]||''];
+      if(tidx===1)coaches.a=[f[3]||'',f[4]||''];
+    }
+    else if(sec==='[3SET]'){var q=(f[4]||'').match(/(\d+)\s*-\s*(\d+)/);if(q)sets.push([+q[1],+q[2],+f[5]||0,[f[1],f[2],f[3]].map(x=>(x||'').replace(/\s/g,''))])}
+    else if(sec==='[3PLAYERS-H]'||sec==='[3PLAYERS-V]'){
+      var sk=sec==='[3PLAYERS-H]'?'h':'a',pn2=+f[1];
+      pl[sk][pn2]=((f[9]||'')+' '+(f[10]||'')).trim();
+      if(/L/i.test(f[12]||'')||f[13]==='1')lb[sk][pn2]=1;
+      if(f[13]==='4')rk[sk][pn2]=1;
+      startZones[sk][pn2]=[f[3]||'',f[4]||'',f[5]||'',f[6]||'',f[7]||''];
+    }
+    else if(sec==='[3SETTERCALL]'){var scd='';f.slice(1).forEach(function(x){x=(x||'').trim();if(/[A-Za-zÀ-ž]{3,}/.test(x)&&x.length>=scd.length)scd=x});if(/[A-Za-zÀ-ž]{3,}/.test(f[2]||''))scd=f[2].trim();if(f[0]&&f[0].trim()){scn[f[0].trim()]=scd;scr[f[0].trim()]=f.map(function(x){return(x||'').trim()})}}
+    else if(sec==='[3ATTACKCOMBINATION]'){if(f[0])ac[f[0]]=[f[1]||'',f[2]||'',f[3]||'',(f[4]||'').trim()]}
+    else if(sec==='[3SCOUT]'){
+      var c=f[0],t=c[0]==='*'?0:c[0]==='a'?1:-1;if(t<0||c.length<2)continue;
+      var sn=+f[8]||ls;if(sn!==ls){ls=sn;cs='0:0'}
+      var pm=c.match(/^[*a]p(\d+):(\d+)/);
+      if(pm){for(var i2=0;i2<12;i2++){var nn=+f[14+i2];if(!nn)continue;var po=pp[i2<6?0:1],oo=po[nn]||(po[nn]=[]);oo[sn-1]=(oo[sn-1]||0)+1}var sv0=rl.filter(e=>e[2]==='S')[0];if(sv0&&rk[sv0[0]?'a':'h'][sv0[1]])sm[sv0[0]]++;rl.forEach(e=>{e[7]=t});rl=[];cs=pm[1]+':'+pm[2];continue}
+      var q2=c.match(/^[*a](\d\d)([SREABDF])(.)(.)/);
+      if(q2){var e=[t,+q2[1],q2[2],q2[3],q2[4],sn,c[9]||'',-1,c[10]||'',cs,+f[12]||0,c[11]||'',q2[2]==='A'?c.substr(6,2).trim():'',q2[2]==='A'?c.substr(12,1):''];ev.push(e);rl.push(e)}
+    }
+  }
+  if(tm.length<2||!ev.length)throw new Error('Soubor neobsahuje zápis utkání.');
+  var d='',r=(fn||'').match(/(\d{4})(\d{2})(\d{2})/);
+  var tmd='';
+  if(mf)for(var q4=0;q4<Math.min(6,mf.length);q4++){var fv=String(mf[q4]||'').trim(),dm;
+    if(!d&&(dm=fv.match(/^(\d{1,2})\s*[\/.\-]\s*(\d{1,2})\s*[\/.\-]\s*(\d{4})/)))d=dm[3]+'-'+('0'+dm[2]).slice(-2)+'-'+('0'+dm[1]).slice(-2);
+    else if(!d&&(dm=fv.match(/^(\d{4})\s*[\/.\-]\s*(\d{1,2})\s*[\/.\-]\s*(\d{1,2})/)))d=dm[1]+'-'+('0'+dm[2]).slice(-2)+'-'+('0'+dm[3]).slice(-2);
+    else if(!tmd&&(dm=fv.match(/^(\d{1,2})[.:](\d{2})(?:[.:]\d{2})?$/)))tmd=('0'+dm[1]).slice(-2)+':'+dm[2]}
+  if(r)d=r[1]+'-'+r[2]+'-'+r[3];
+  var m={id:'m'+Date.now()+Math.floor(Math.random()*999),fn:fn,date:d,comp:mf?((mf[3]||'')+' '+(mf[4]||'')).trim():'',home:tm[0].n,away:tm[1].n,
+    sw:[tm[0].s,tm[1].s],sets:sets,pp:pp,sz:startZones,coaches:coaches,fv:3,mine:'h',v1:'',v2:'',off:0,note:'',pl:pl,ev:ev,ac:ac,lb:lb,sm:sm,lv:1};
+  
+  /* Doplnění rotace nahrávačky */
+  var sec2='',idx=0,st=[{},{}],lu=[null,null],lq=[null,null],lt=[],lk={},ltx=function(a){if(!a)return -1;var k=a.join(',');if(lk[k]===undefined){lk[k]=lt.length;lt.push(k)}return lk[k]};
+  for(var k=0;k<L.length;k++){var l2=L[k];if(!l2)continue;if(l2[0]==='['){sec2=l2.trim();continue}
+    var f2=l2.split(';');
+    if(sec2==='[3PLAYERS-H]'||sec2==='[3PLAYERS-V]'){if((f2[13]||'').trim()==='5')st[sec2==='[3PLAYERS-H]'?0:1][+f2[1]]=1;continue}
+    if(sec2!=='[3SCOUT]')continue;var c2=f2[0],t2=c2[0]==='*'?0:c2[0]==='a'?1:-1;if(t2<0||c2.length<2)continue;
+    var ps=f2.slice(t2?20:14,t2?26:20).map(Number),own=ps.some(function(x){return x>0});if(own)lu[t2]=ps;var q0=f2.slice(14,20).map(Number),q1=f2.slice(20,26).map(Number);if(q0.some(function(x){return x>0}))lq[0]=q0;if(q1.some(function(x){return x>0}))lq[1]=q1;
+    if(/^[*a](\d\d)([SREABDF])(.)(.)/.test(c2)){var evItem=m.ev[idx++],rot=0;
+      if(evItem){if(c2[3]==='E'){evItem[17]=c2.substr(6,2).trim();evItem[18]=(c2[8]||'').trim()}var q3=own?ps:lu[t2];if(q3)q3.forEach(function(num,ix){if(st[t2][num]&&(!rot||ix===0||ix===4||ix===5))rot=ix+1});
+        if(!rot){var s1=+(t2?f2[10]:f2[9]);rot=s1>=1&&s1<=6?s1:0}evItem[14]=rot;evItem[15]=ltx(lq[0]);evItem[16]=ltx(lq[1])}}}
+  m.lt=lt;m.scn=scn;m.scr=scr;m.cv=1;
+  var vf=[],sec3='';for(var k3=0;k3<L.length;k3++){var l3=L[k3];if(!l3)continue;if(l3[0]==='['){sec3=l3.trim();continue}if(sec3==='[3VIDEO]'){var mv=l3.match(/^Camera\d*=(.+)$/i);if(mv){var bn=mv[1].trim().split(/[\\\/]/).pop();if(bn)vf.push(bn)}}}
+  m.vf=vf;
+  m.time=tmd;
+  return m;
+}
+
+/* ---------- Základní statistické výpočty a tabulky ---------- */
+function pick(ms,own){var o=[];ms.forEach(m=>{var sd=side(m),ti=own?sd:1-sd;(m.ev||[]).forEach((a,ix)=>{if(a[0]===ti)o.push({n:ix,t:a[0],p:a[1],k:a[2],y:a[3],e:a[4],s:a[5],z:a[6],w:a[7],x:a[8]||'',u:a[11]||'',sc:a[9]||'',vt:a[10]||0,c:a[12]||'',h:a[13]||'',q:a[17]||'',m:m,ti:ti})})});return o}
+function pname(e){var m=e.m;return(m.pl&&m.pl[e.ti?'a':'h'][e.p])||('č. '+e.p)}
+function cnt(L){var r={sn:0,ace:0,se:0,bp:0,rn:0,rf:0,rp:0,re:0,so:0,an:0,ak:0,ae:0,ab:0,bn:0,bk:0,be:0,dn:0,dp:0,c:{S:{},R:{},A:{},B:{},D:{}}};
+  L.forEach(e=>{var k=e.k,v=e.e,c=r.c[k];if(c)c[v]=(c[v]||0)+1;
+    if(k==='S'){r.sn++;if(v==='#')r.ace++;if(v==='=')r.se++;if(e.w===e.t)r.bp++}
+    else if(k==='R'){r.rn++;if(v==='#')r.rf++;if(v==='#'||v==='+')r.rp++;if(v==='=')r.re++;if(e.w===e.t)r.so++}
+    else if(k==='A'){r.an++;if(v==='#')r.ak++;if(v==='=')r.ae++;if(v==='/')r.ab++}
+    else if(k==='B'){r.bn++;if(v==='#')r.bk++;if(v==='=')r.be++}
+    else if(k==='D'){r.dn++;if(v==='#'||v==='+')r.dp++}});return r}
+function pc(a,b){return b?Math.round(100*a/b)+' %':'–'}
+function ef(r){return r.an?Math.round(100*(r.ak-r.ae-r.ab)/r.an)+' %':'–'}
+function elab(e){return({'S#':'eso','R#':'perfektní','A#':'bod','A/':'zablokováno','B#':'bod'})[e.k+e.e]||EV[e.e]||e.e}
+function ecl(v){var i='#+!-/='.indexOf(v);return'q'+(i<0?2:i)}
+function mmss(t){t=Math.max(0,Math.round(t));return Math.floor(t/60)+':'+('0'+t%60).slice(-2)}
+function ce(r,k,v){return(r.c[k]&&r.c[k][v])||0}
+function pts(r){return r.ace+r.ak+r.bk}
+function err(r){return r.se+r.re+r.ae+r.ab}
+function z(x){return x||'.'}
+function pe(x,n){return n?Math.round(100*x/n)+'%':'.'}
+function peP(x,n){return n?'('+Math.round(100*x/n)+'%)':'.'}
+function sg(x){return x>0?'+'+x:(x===0?'.':x)}
+
+
+/* Kontrola stavu utkání: vrací seznam {t:'bad'|'info',s:text}. bad = staré / poškozené / špatně nahrané utkání */
+var MCK={};
+function mchk(m){
+  var n=(m.ev||[]).length,key=m.id+'|'+n+'|'+(m.cv?1:0);if(MCK[m.id]&&MCK[m.id].k===key)return MCK[m.id].r;
+  var r=[],ev=m.ev||[];
+  if(!n)r.push({t:'bad',s:'v souboru nejsou žádné události – soubor je prázdný nebo poškozený'});
+  else if(n<30)r.push({t:'bad',s:'jen '+n+' událostí – soubor je neúplný nebo poškozený'});
+  if(!m.sets||!m.sets.length)r.push({t:'bad',s:'chybí výsledky setů'});
+  if(n&&!m.cv)r.push({t:'bad',s:'nahráno starší verzí aplikace – chybí kódy nahrávek, sestavy a čas; nahraj .dvw znovu'});
+  if(n&&m.cv){var ac=ev.filter(function(e){return e[2]==='A'||e[2]==='E'}),nr=ac.filter(function(e){return!e[14]}).length;
+    if(ac.length&&nr/ac.length>.25)r.push({t:'bad',s:'u '+Math.round(100*nr/ac.length)+' % útoků a nahrávek chybí rotace – sestava nebo střídání v souboru nesedí, rotace nejsou spolehlivé'})}
+  if(n&&m.cv&&!ev.some(function(e){return e[2]==='E'&&/^K[A-Z0-9]$/.test(String(e[17]||'').toUpperCase())}))r.push({t:'info',s:'v souboru nejsou kódy nahrávek (setter call) – do karty SETTER CALL se nezapočítá'});
+  MCK[m.id]={k:key,r:r};return r}
+function mbad(m){return mchk(m).filter(function(x){return x.t==='bad'})}
+function mwarnHtml(ms){
+  var b=ms.filter(function(m){return mbad(m).length});if(!b.length)return'';
+  return'<div class="er" style="font-size:12px;margin:0 0 8px;border:2px solid #c0392b;border-radius:8px;padding:6px 8px;background:rgba(192,57,43,.08)"><b>⚠ '+b.length+' z '+ms.length+' vybraných utkání je staré nebo poškozené – čísla nemusí být správná:</b>'+b.map(function(m){return'<div>• '+esc(m.home+' – '+m.away)+': '+mbad(m).map(function(x){return esc(x.s)}).join('; ')+'</div>'}).join('')+'</div>'}
+
+</script>
+<script>
+/* ===== tab-utkani.js ===== */
+/* ---------- Karta Utkání a detail utkání ---------- */
+function imp(files){
+  var out=[],n=files.length,done=0,ids=[],V1=nv($('iv1').value),V2=nv($('iv2').value);if(!n)return;
+  [].forEach.call(files,function(f){var r=new FileReader();
+    r.onload=function(){var t;try{t=new TextDecoder('windows-1250').decode(r.result)}catch(x){t=new TextDecoder().decode(r.result)}
+      try{var m=parse(t,f.name),o=S.m.filter(x=>x.fn===f.name||(x.home===m.home&&x.away===m.away&&x.date===m.date))[0],w='Načteno';
+        if(o){['v1','v2','off','note','mine','date','comp','grp','time'].forEach(k=>{if(o[k]!==undefined&&o[k]!=='')m[k]=o[k]});m.id=o.id;S.m[S.m.indexOf(o)]=m;w='Aktualizováno'}else{autoMine(m);S.m.push(m)}
+        if(V1)m.v1=V1;if(V2)m.v2=V2;for(var k in KV)if((m.fn||'').indexOf(k)>=0&&!m.v1)m.v1=KV[k];
+        ids.push(m.id);out.push(['ok',w+': '+m.home+' – '+m.away+' '+m.sw[0]+':'+m.sw[1]+' ('+m.ev.length+' akcí)'])}catch(x){out.push(['er',f.name+': '+x.message])}
+      if(++done===n){sv();msg=out;if(ids.length===1)go('det',ids[0]);else{view='list';draw()}}};
+    r.readAsArrayBuffer(f)});
+}
+
+function sumTable(ms,a,b,na,nb){
+  var rows=[['Podání'],['Počet',a.sn,b.sn],['Esa',a.ace,b.ace],['Esa %',pc(a.ace,a.sn),pc(b.ace,b.sn)],['Chyby %',pc(a.se,a.sn),pc(b.se,b.sn)],['Body z podání (break-point) %',pc(a.bp,a.sn),pc(b.bp,b.sn)],
+   ['Příjem'],['Počet',a.rn,b.rn],['Perfektní %',pc(a.rf,a.rn),pc(b.rf,b.rn)],['Pozitivní (# a +) %',pc(a.rp,a.rn),pc(b.rp,b.rn)],['Chyby %',pc(a.re,a.rn),pc(b.re,b.rn)],['Side-out %',pc(a.so,a.rn),pc(b.so,b.rn)],
+   ['Útok'],['Počet',a.an,b.an],['Body %',pc(a.ak,a.an),pc(b.ak,b.an)],['Chyby %',pc(a.ae,a.an),pc(b.ae,b.an)],['Zablokováno %',pc(a.ab,a.an),pc(b.ab,b.an)],['Efektivita',ef(a),ef(b)],
+   ['Blok a obrana'],['Bodové bloky',a.bk,b.bk],['Obrana – počet',a.dn,b.dn],['Obrana – pozitivní %',pc(a.dp,a.dn),pc(b.dp,b.dn)]];
+  return '<div class="tw"><table><tr><th></th><th>'+esc(na)+'</th><th>'+esc(nb)+'</th></tr>'+rows.map(function(r){return r.length===1?'<tr class="h"><td colspan="3">'+r[0]+'</td></tr>':'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>'}).join('')+'</table></div>';
+}
+
+function vList(){
+  var h='<div class="card"><h2>PŘIDAT UTKÁNÍ ZE SOUBORU DATAVOLLEY</h2><label>YouTube záznam 1 (volitelné, použije se u nahraných utkání)</label><div class="pre"><span>youtube.com/watch?v=</span><input id="iv1" placeholder="ID nebo odkaz"></div><label>YouTube záznam 2 (volitelné)</label><div class="pre"><span>youtube.com/watch?v=</span><input id="iv2" placeholder="ID nebo odkaz"></div><div style="height:12px"></div><div class="drop"><p class="mut" style="margin:0 0 10px">Vyber jeden nebo více souborů <b>.dvw</b></p><input type="file" id="fi" accept=".dvw,.txt" multiple onchange="imp(this.files)"></div>';
+  msg.forEach(function(x){h+='<div class="'+x[0]+'" style="margin-top:6px">'+(x[0]==='ok'?'✓ ':'⚠ ')+esc(x[1])+'</div>'});msg=[];h+='</div>';
+  var a=S.m.slice().sort(function(x,y){return(y.date||'').localeCompare(x.date||'')});
+  h+='<div class="card"><h2>ULOŽENÁ UTKÁNÍ ('+a.length+')</h2><div class="row" style="margin-bottom:8px"><button class="btn" title="Zkontroluje parser, uložená utkání a prostředí" onclick="selfTest()">🧪 ZKONTROLOVAT APLIKACI</button></div><div id="stout"></div><div id="lvbox">'+lvUi()+'</div>'+mwarnHtml(a);
+  if(!a.length)h+='<p class="mut">Zatím tu nic není. Nahraj první soubor DataVolley.</p>';
+  a.forEach(function(m){var r=res(m);
+    h+='<div class="m" onclick="go(\'det\',\''+m.id+'\')"><div class="t">'+esc(nm(m,0))+' – '+esc(nm(m,1))+'<small>'+fdt(m)+(m.comp?' · '+esc(m.comp):'')+(gp(m)?' · '+gname(gp(m)):'')+' · '+m.sets.map(function(s){return s[0]+':'+s[1]}).join(', ')+((yid(m.v1)||yid(m.v2))?' · ▶ video':'')+(LVID[m.id]?' · 💾 místní video':'')+(m.fv!==3?' · ⚠ starší verze – nahraj soubor znovu':'')+(mbad(m).length?' · <b class="er">⚠ STARÉ / POŠKOZENÉ – nahraj .dvw znovu</b>':'')+'</small></div><div class="sc '+(r[0]>r[1]?'w':'l')+'">'+m.sw[0]+' : '+m.sw[1]+'</div></div>'});
+  $('v').innerHTML=h+'</div>';
+}
+
+function vDet(){
+  var m=find(cur);if(!m){go('list');return}
+  var h='<div class="card"><div class="mut" style="text-align:center">'+fdt(m)+(m.comp?' · '+esc(m.comp):'')+'</div><div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-align:center;margin-top:8px;gap:8px"><b style="font-size:18px">'+esc(m.home)+'</b><div class="big-sc">'+m.sw[0]+' : '+m.sw[1]+'</div><b style="font-size:18px">'+esc(m.away)+'</b></div></div>';
+  if(m.sets.length)h+='<div class="card"><h2>SETY</h2><div class="tw"><table><tr><th>Set</th><th>'+esc(m.home)+'</th><th>'+esc(m.away)+'</th></tr>'+m.sets.map(function(s,i){return '<tr><td>Set '+(i+1)+'</td><td>'+s[0]+'</td><td>'+s[1]+'</td></tr>'}).join('')+'</table></div></div>';
+  var vs=[[m.v1,'Záznam 1'],[m.v2,'Záznam 2']].filter(function(x){return yid(x[0])});
+  h+='<div class="card"><h2>VIDEO (YOUTUBE)</h2>';
+  if(vs.length){if(vsel>=vs.length)vsel=0;
+    var vid=yid(vs[vsel][0]),vlink='https://www.youtube.com/watch?v='+vid;
+    h+='<div class="row">'+vs.map(function(x,i){return '<button class="chip" aria-pressed="'+(i===vsel)+'" onclick="vsel='+i+';draw2()">'+x[1]+'</button>'}).join('')+'</div>'+(okEmbed()?'<div class="vid"><iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/'+vid+'" allow="encrypted-media;picture-in-picture;fullscreen" allowfullscreen loading="lazy" title="Video"></iframe></div>':noEmb(vlink))+'<a href="'+vlink+'" target="_blank" rel="noopener">Otevřít na YouTube ↗</a>'}
+  h+='<label>Záznam 1 – odkaz nebo ID videa</label><div class="pre"><span>youtube.com/watch?v=</span><input id="v1" value="'+esc(yid(m.v1)||m.v1)+'"></div>'+
+  '<label>Záznam 2 – odkaz nebo ID videa</label><div class="pre"><span>youtube.com/watch?v=</span><input id="v2" value="'+esc(yid(m.v2)||m.v2)+'"></div><label>Posun videa (s) – přičte se k času ze souboru DataVolley</label><input type="number" id="off" value="'+(+m.off||0)+'"></div>';
+  h+='<div class="card"><h2>ÚDAJE O UTKÁNÍ</h2><div class="g2"><div><label>Datum</label><input type="date" id="dd" value="'+esc(m.date)+'"><label>Čas utkání</label><input type="time" id="dt" value="'+esc(m.time||'')+'"></div><div><label>Soutěž</label><input id="dc" value="'+esc(m.comp)+'"></div></div>'+
+  '<label>Skupina utkání</label><select id="dg"><option value=""'+(!gp(m)?' selected':'')+'>Nezařazeno</option>'+GR.map(function(g){return'<option value="'+g[0]+'"'+(gp(m)===g[0]?' selected':'')+'>'+g[1]+'</option>'}).join('')+'</select>'+
+  '<label>Náš tým (pro rozbor)</label><select id="dm"><option value="h"'+(m.mine!=='a'?' selected':'')+'>'+esc(m.home)+' (domácí)</option><option value="a"'+(m.mine==='a'?' selected':'')+'>'+esc(m.away)+' (hosté)</option></select>'+
+  '<label>Poznámky</label><textarea id="dn">'+esc(m.note)+'</textarea><div style="margin-top:12px"><button class="big" onclick="saveD()">ULOŽIT</button></div></div>';
+  var i=side(m);h+='<div class="card"><h2>SOUHRN UTKÁNÍ</h2>'+sumTable([m],cnt(pick([m],true)),cnt(pick([m],false)),nm(m,i)+' (náš)',nm(m,1-i))+'</div>';
+  h+='<div class="row"><button class="btn dg" onclick="del(\''+m.id+'\')">'+(armed===m.id?'OPRAVDU SMAZAT?':'SMAZAT UTKÁNÍ')+'</button><button class="btn" onclick="go(\'list\')">ZPĚT</button></div>';
+  $('v').innerHTML=h;
+}
+
+function saveD(){var m=find(cur);m.date=$('dd').value;m.time=($('dt')||{}).value||'';m.comp=$('dc').value.trim();m.grp=$('dg').value;m.mine=$('dm').value;m.note=$('dn').value;m.v1=nv($('v1').value);m.v2=nv($('v2').value);m.off=+$('off').value||0;sv();draw()}
+function draw2(){var y=window.scrollY;vDet();window.scrollTo(0,y)}
+function del(id){if(armed!==id){armed=id;draw2();return}S.m=S.m.filter(function(m){return m.id!==id});sv();go('list')}
+</script>
+<script>
+/* ===== tab-scouting.js ===== */
+/* ---------- Karta SCOUTING (rozbor utkání) ---------- */
+/* Tento soubor obsahuje i sdílené funkce, které používají ostatní záložky: res, groups, tbl, fcf, srt, dmatch, dlab, okEmbed, noEmb, go2, dk, vidSec, přehrávač akcí. */
+/* ---------- Doplňky pro core.js (v core.js tyto funkce smaž, jsou tady) ---------- */
+function nv(u){var i=yid(u);return i?'https://www.youtube.com/watch?v='+i:''}
+function autoMine(m){var s=(S.my||'').toLowerCase().trim();if(!s)return false;
+  if((m.away||'').toLowerCase().indexOf(s)>=0){m.mine='a';return true}
+  if((m.home||'').toLowerCase().indexOf(s)>=0){m.mine='h';return true}
+  return false}
+
+/* ---------- Sdílené funkce ---------- */
+function res(m){var a=m.sw||[0,0],i=side(m);return[a[i],a[1-i]]}
+function groups(v){
+  var C=(h,f,sp,rd)=>[h,f,sp,rd];
+  if(v==='short'){
+    return [
+      ['Set',[C('1',r=>r.s1||''),C('2',r=>r.s2||''),C('3',r=>r.s3||''),C('4',r=>r.s4||''),C('5',r=>r.s5||'')]],
+      ['Body',[C('Celk',r=>z(pts(r)),'S#,A#,B#'),C('BP',r=>z(r.bp)),C('V-P',r=>sg(pts(r)-err(r)))]],
+      ['Podání',[C('Celk',r=>z(r.sn),'S*'),C('Chyb',r=>z(r.se),'S='),C('Bod',r=>z(r.ace),'S#')]],
+      ['Příjem',[C('Celk',r=>z(r.rn),'R*'),C('Chyb',r=>z(r.re),'R='),C('Poz%',r=>pe(r.rp,r.rn),'R#,R+'),C('(Perf%)',r=>peP(r.rf,r.rn),'R#')]],
+      ['Útok',[C('Celk',r=>z(r.an),'A*'),C('Chyb',r=>z(r.ae),'A='),C('Blok',r=>z(r.ab),'A/'),C('Bod',r=>z(r.ak),'A#'),C('Bod%',r=>pe(r.ak,r.an),'A#')]],
+      ['Blok',[C('Bod',r=>z(r.bk),'B#')]]
+    ];
+  }
+  if(v==='ws'){var BE=r=>ce(r,'B','/')+ce(r,'B','='),lt=(a,b,t)=>b>0&&100*a/b<t;return[['Podání',[C('Tot',r=>r.sn,'S*'),C('Err',r=>z(r.se),'S=',r=>r.se>0),C('Pts',r=>z(r.ace),'S#')]],['Příjem',[C('Tot',r=>r.rn,'R*'),C('Err',r=>z(r.re),'R=',r=>r.re>0),C('/',r=>z(ce(r,'R','/')),'R/',r=>ce(r,'R','/')>0),C('Pos%',r=>pe(r.rp,r.rn),'R#,R+',r=>lt(r.rp,r.rn,40)),C('Exc%',r=>pe(r.rf,r.rn),'R#',r=>lt(r.rf,r.rn,20))]],['Útok',[C('Tot',r=>r.an,'A*'),C('Err',r=>z(r.ae),'A=',r=>r.ae>0),C('Blo',r=>z(r.ab),'A/'),C('Pts',r=>z(r.ak),'A#'),C('Pts%',r=>pe(r.ak,r.an),'A#',r=>lt(r.ak,r.an,40)),C('Effc%',r=>pe(r.ak-r.ae-r.ab,r.an),'A*')]],['Blok',[C('Pts',r=>z(r.bk),'B#'),C('Err',r=>z(BE(r)),'B/,B=',r=>BE(r)>0)]]]}
+  if(v==='eff')return[['Podání',[C('Celk',r=>z(r.sn),'S*'),C('Eso %',r=>pe(r.ace,r.sn),'S#'),C('Chyb %',r=>pe(r.se,r.sn),'S='),C('Efekt.',r=>pe(r.ace-r.se,r.sn),'S*')]],['Příjem',[C('Celk',r=>z(r.rn),'R*'),C('Poz %',r=>pe(r.rp,r.rn),'R#,R+'),C('Perf %',r=>pe(r.rf,r.rn),'R#'),C('Chyb %',r=>pe(r.re,r.rn),'R='),C('Efekt.',r=>pe(r.rp-r.re,r.rn),'R*')]],['Útok',[C('Celk',r=>z(r.an),'A*'),C('Bod %',r=>pe(r.ak,r.an),'A#'),C('Chyb %',r=>pe(r.ae,r.an),'A='),C('Zablok. %',r=>pe(r.ab,r.an),'A/'),C('Efekt.',r=>pe(r.ak-r.ae-r.ab,r.an),'A*')]],['Obrana',[C('Celk',r=>z(r.dn),'D*'),C('Poz %',r=>pe(r.dp,r.dn),'D#,D+')]],['Blok',[C('Bod',r=>z(r.bk),'B#'),C('Chyb',r=>z(r.be),'B=')]]];
+  return['S','R','A','B'].map(k=>[SK[k],'#+!-/='.split('').map(v2=>C(v2,r=>z(ce(r,k,v2)),k+v2))]);
+}
+
+function tbl(g,rows,h1,h2){
+  var activeG = g;
+  if (vw === 'short') {
+    var has4 = rows.some(r => r[2] && r[2].s4);
+    var has5 = rows.some(r => r[2] && r[2].s5);
+    activeG = g.map(grp => {
+      if (grp[0] === 'Set') {
+        var cols = grp[1].slice(0, 3);
+        if (has4) cols.push(grp[1][3]);
+        if (has5) cols.push(grp[1][4]);
+        return ['Set', cols];
+      }
+      return grp;
+    });
+  }
+  var bl=' style="border-left:1.5px solid var(--ink)"';
+  var h='<div class="tw"><table class="dv-tbl"><thead><tr><th rowspan="2" style="text-align:left">'+(h1||'#')+'</th><th rowspan="2" style="text-align:left">'+(h2||'Hráčka')+'</th>'+activeG.map(x=>'<th colspan="'+x[1].length+'" style="text-align:center;border-left:1.5px solid var(--ink)">'+x[0]+'</th>').join('')+'</tr><tr>'+activeG.map(x=>x[1].map((c,i)=>'<th'+(i?'':bl)+'>'+c[0]+'</th>').join('')).join('')+'</tr></thead><tbody>';
+  rows.forEach(r=>{
+    var isTot = r[3]==='t';
+    h+='<tr'+(isTot?' class="dv-tot"':(r[3]?' class="'+r[3]+'"':''))+'><td>'+r[0]+'</td><td style="text-align:left;font-weight:'+(isTot?'800':'600')+'">'+esc(r[1])+'</td>'+activeG.map(x=>x[1].map((c,i)=>{
+      var vv=c[1](r[2]),k='';
+      if(c[2]&&r[4]&&vv!==''&&vv!==0&&vv!=='.'&&vv!=='–'&&vv!=='0%'){DL.push(Object.assign({k:c[2]},r[4]));k=' class="clk" onclick="dk('+(DL.length-1)+')"'}
+      var rd=c[3]&&c[3](r[2]),sty=(!i?'border-left:1.5px solid var(--ink);':'')+(rd?'color:#D82128;font-weight:700;':'');
+      if (c[0]==='V-P' && typeof vv === 'string') {
+        if (vv.startsWith('+')) sty += 'color:var(--grn);font-weight:700;';
+        else if (vv.startsWith('-')) sty += 'color:var(--red);font-weight:700;';
+      }
+      return'<td'+k+(sty?' style="'+sty+'"':'')+'>'+vv+'</td>'
+    }).join('')).join('')+'</tr>'
+  });
+  return h+'</tbody></table></div>';
+}
+/* Stav záložky: own = družstvo v nákresech, mtab = 'dir' (nákres směru) | 'rot' (útoky podle rotace nahrávačky), RT = vybraná rotace (0 = všechny) */
+var own=true,vw='short',RT=0,mtab='',stab='dv',FACL=[];
+
+/* Pokročilé statistiky: Sideout, Transition po rotacích, Útok po příjmu / po obraně */
+function calcAdvancedStats(ms){
+  var mk=function(){var r={};for(var i=1;i<=6;i++)r[i]={so:0,tr:0,L:{sw:[],sl:[],tw:[],tl:[]}};return{soPts:0,recTot:0,bpPts:0,srvTot:0,rot:r,attPos:{n:0,k:0,b:0,e:0},attNeg:{n:0,k:0,b:0,e:0},attDef:{n:0,k:0,b:0,e:0}}};
+  var res=[mk(),mk()];
+  ms.forEach(function(m){
+    var sd=side(m),rallies=[],ra=[],last='',lastSet=0;
+    (m.ev||[]).forEach(function(e){
+      if(ra.length&&(e[9]!==last||e[5]!==lastSet)){rallies.push(ra);ra=[]}
+      last=e[9];lastSet=e[5];ra.push(e)});
+    if(ra.length)rallies.push(ra);
+    /* rotace družstva: nejdřív v téže výměně, jinak v nejbližších dalších výměnách téhož setu (např. eso bez zapsaného příjmu) */
+    var rotOf=function(ri,team){
+      for(var j=ri;j<rallies.length&&j<ri+4;j++){
+        if(rallies[j][0][5]!==rallies[ri][0][5])break;
+        var f=rallies[j].filter(function(x){return x[0]===team&&x[14]})[0];
+        if(f)return f[14]}
+      return 0};
+    rallies.forEach(function(rally,ri){
+      var srv=rally.filter(function(e){return e[2]==='S'})[0],winner=rally[0][7];
+      if(!srv||(winner!==0&&winner!==1))return;
+      var srvTeam=srv[0]===sd?0:1,recTeam=1-srvTeam,winSide=winner===sd?0:1,
+          rSrv=rotOf(ri,srv[0]),rRec=rotOf(ri,1-srv[0]);
+      res[srvTeam].srvTot++;res[recTeam].recTot++;var sev=mkE(m,srv[0],srv,m.ev.indexOf(srv));
+      if(winSide===srvTeam){
+        res[srvTeam].bpPts++;
+        if(res[srvTeam].rot[rSrv]){res[srvTeam].rot[rSrv].tr++;res[srvTeam].rot[rSrv].L.tw.push(sev)}
+        if(res[recTeam].rot[rRec]){res[recTeam].rot[rRec].so--;res[recTeam].rot[rRec].L.sl.push(sev)}
+      }else{
+        res[recTeam].soPts++;
+        if(res[recTeam].rot[rRec]){res[recTeam].rot[rRec].so++;res[recTeam].rot[rRec].L.sw.push(sev)}
+        if(res[srvTeam].rot[rSrv]){res[srvTeam].rot[rSrv].tr--;res[srvTeam].rot[rSrv].L.tl.push(sev)}
+      }
+      var rec=rally.filter(function(e){return e[2]==='R'})[0],firstDone=false;
+      rally.forEach(function(e){
+        if(e[2]!=='A')return;
+        var tIdx=e[0]===sd?0:1,target=null;
+        if(!firstDone&&rec&&e[0]===rec[0]){
+          firstDone=true;
+          if(rec[4]==='#'||rec[4]==='+')target=res[tIdx].attPos;
+          else if(rec[4]==='!'||rec[4]==='-'||rec[4]==='/')target=res[tIdx].attNeg;
+        }else target=res[tIdx].attDef;
+        if(target){target.n++;if(e[4]==='#')target.k++;else if(e[4]==='/')target.b++;else if(e[4]==='=')target.e++}
+      });
+    });
+  });
+  return res;
+}
+
+function renderSideoutPanel(ms,nameOwn,nameOpp){
+  var adv=calcAdvancedStats(ms),a=adv[0],b=adv[1];SOX=[];
+  var pct=function(k,n){return n?Math.round(100*k/n)+'%':'0%'};
+  var fSg=function(v){return v>0?'<span class="pos-v">+'+v+'</span>':(v<0?'<span class="neg-v">'+v+'</span>':'0')};
+  var ratio=function(t,p){return p?(t/p).toFixed(2):'–'};
+  var clk=function(txt,arr,lab){return arr.length?'<span class="clk" title="'+arr.length+' výměn – klikni pro video" onclick="xk(xAdd(\''+lab.replace(/['"\\]/g,'')+'\','+'SOX['+(SOX.push(arr)-1)+']))">'+txt+'</span>':txt};
+  var rotT=function(x,nm){var L=function(r,k){var l=x.rot[r].L;return k==='so'?l.sw.concat(l.sl):k==='tr'?l.tw.concat(l.tl):l.sw.concat(l.sl,l.tw,l.tl)};
+    var tot={so:0,tr:0,L:{sw:[],sl:[],tw:[],tl:[]}};[1,2,3,4,5,6].forEach(function(r){tot.so+=x.rot[r].so;tot.tr+=x.rot[r].tr;['sw','sl','tw','tl'].forEach(function(q){tot.L[q]=tot.L[q].concat(x.rot[r].L[q])})});
+    var row=function(lbl,o,rr){var l=o.L,al=l.sw.concat(l.sl,l.tw,l.tl),so=l.sw.concat(l.sl),tr=l.tw.concat(l.tl);return'<tr><td><b>'+lbl+'</b></td><td>'+clk(fSg(o.so+o.tr),al,nm+' '+lbl+' celkem')+'</td><td>'+clk(fSg(o.so),so,nm+' '+lbl+' sideout')+'</td><td>'+clk(fSg(o.tr),tr,nm+' '+lbl+' transition')+'</td></tr>'};
+    return'<div class="tw"><table class="dv-tbl"><tr><th></th><th colspan="3">Body</th></tr><tr><th>Nahr.</th><th>Celkem</th><th>Sideout</th><th>Transition</th></tr>'+
+    [6,5,4,3,2,1].map(function(r){return row('S'+r,x.rot[r])}).join('')+row('Σ',tot)+'</table></div>'+
+    '<div style="font-size:12px;margin-top:10px;line-height:1.5"><div>Příjmů <b>'+x.recTot+'</b></div><div>Body SO <b>'+x.soPts+'</b><br><small class="mut">'+ratio(x.recTot,x.soPts)+' příjmů = 1 bod</small></div>'+
+    '<div style="margin-top:6px">Podání <b>'+x.srvTot+'</b></div><div>Body BP <b>'+x.bpPts+'</b><br><small class="mut">'+ratio(x.srvTot,x.bpPts)+' podání = 1 bod</small></div></div>'};
+  var atk=function(t,k){return(t?'<div style="font-size:11px;font-weight:800;text-align:center;margin:10px 0 6px">'+t+'</div>':'')+'<div class="tw"><table class="dv-tbl"><tr><th>Chyb</th><th>Blok</th><th>Bod%</th><th>Celk</th><th class="b-l">Celk</th><th>Bod%</th><th>Blok</th><th>Chyb</th></tr>'+
+    '<tr><td>'+a[k].e+'</td><td>'+a[k].b+'</td><td><b>'+pct(a[k].k,a[k].n)+'</b></td><td><b>'+a[k].n+'</b></td><td class="b-l"><b>'+b[k].n+'</b></td><td><b>'+pct(b[k].k,b[k].n)+'</b></td><td>'+b[k].b+'</td><td>'+b[k].e+'</td></tr></table></div>'};
+  return'<div class="card"><div class="so-hdr"><span>'+esc(nameOwn)+'</span><span>'+esc(nameOpp)+'</span></div><div class="so-grid"><div>'+rotT(a,nameOwn)+'</div>'+
+    '<div><div class="so-sub">Útok po příjmu</div>'+atk('1. útok po pozitivním příjmu (+#)','attPos')+atk('1. útok po negativním příjmu (-!)','attNeg')+'<div class="so-sub" style="margin-top:14px">Útok po obraně</div>'+atk('','attDef')+'</div>'+
+    '<div>'+rotT(b,nameOpp)+'</div></div>'+
+    '<p class="mut" style="font-size:11px;margin:12px 0 0;border-top:1px solid var(--line);padding-top:8px"><b>Legenda:</b> Body v rotacích = bilance (+/−) podle pozice nahrávačky · Sideout – body po příjmu · Transition – body po vlastním podání · BP – body získané při vlastním podání · V-P – body minus chyby hráčky · Chyb – chyba · Blok (u útoku) – zablokovaný útok · Poz% – pozitivní příjem (+#) · (Perf%) – perfektní příjem (#) · Chy.s – chyby soupeře (podání, útok a ostatní, příjem se nepočítá) · rámeček u setu – start v základní sestavě (číslo je zóna).</p></div>'
+}
+
+function hdr(m){var dur=0,pf=0,pa=0,rows=m.sets.map((s,k)=>{dur+=s[2]||0;pf+=s[0];pa+=s[1];return'<tr><td>Set '+(k+1)+'</td><td>'+(s[2]?s[2]+' min':'–')+'</td><td>'+(s[3]||[]).join(' · ')+'</td><td><b>'+s[0]+'-'+s[1]+'</b></td></tr>'}).join('');
+  return'<div class="card"><div class="mut" style="text-align:center">'+fdt(m)+(m.comp?' · '+esc(m.comp):'')+'</div><div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;text-align:center;margin:8px 0"><b style="font-size:18px">'+esc(m.home)+'</b><div class="big-sc">'+m.sw[0]+' : '+m.sw[1]+'</div><b style="font-size:18px">'+esc(m.away)+'</b></div><div class="tw"><table><tr><th>Set</th><th>Délka</th><th>Průběžné stavy</th><th>Výsledek</th></tr>'+rows+'<tr class="t"><td>Celkem</td><td>'+(dur?dur+' min':'')+'</td><td></td><td>'+pf+' : '+pa+'</td></tr></table></div></div>'}
+var ZT={1:[0,0],6:[1,0],5:[2,0],9:[0,1],8:[1,1],7:[2,1],2:[0,2],3:[1,2],4:[2,2]},ZB={4:[0,3],3:[1,3],2:[2,3],7:[0,4],8:[1,4],9:[2,4],5:[0,5],6:[1,5],1:[2,5]};
+var MC={S:['B','T'],A:['B','T'],F:['B','T'],R:['T','B'],D:['T','B'],E:['B','B'],B:['B','B']},ZZ={T:ZT,B:ZB},ms1='A',ms2='S';
+var EVC={'#':'#1B9E3E','+':'#1D1D1B','!':'#F2C200','-':'#F28C1B','/':'#8E44AD','=':'#D82128'},EVN={'#':'bod / perfektní','+':'pozitivní','!':'neutrální','-':'negativní','/':'velmi negativní','=':'chyba'},SELE=null,MAPE=[],SB={A:[-1,-1],B:[1,-1],C:[-1,1],D:[1,1]};
+function shp(v,x,y){var c=EVC[v]||EVC['!'],f='fill="'+c+'" stroke="#fff" stroke-width=".6"';
+  if(v==='#'){var q=[];for(var i=0;i<10;i++){var r=i%2?2:5,a=-Math.PI/2+i*Math.PI/5;q.push((x+r*Math.cos(a)).toFixed(1)+','+(y+r*Math.sin(a)).toFixed(1))}return'<polygon points="'+q.join(' ')+'" '+f+'/>'}
+  if(v==='+')return'<rect x="'+(x-3.5)+'" y="'+(y-3.5)+'" width="7" height="7" '+f+'/>';
+  if(v==='!')return'<polygon points="'+x+','+(y-4.5)+' '+(x-4.2)+','+(y+3.2)+' '+(x+4.2)+','+(y+3.2)+'" '+f+'/>';
+  if(v==='-')return'<circle cx="'+x+'" cy="'+y+'" r="3.6" fill="#fff" stroke="'+c+'" stroke-width="1.6"/>';
+  if(v==='/')return'<path d="M'+(x-3.5)+','+(y-3.5)+'L'+(x+3.5)+','+(y+3.5)+'M'+(x+3.5)+','+(y-3.5)+'L'+(x-3.5)+','+(y+3.5)+'" stroke="'+c+'" stroke-width="2" fill="none"/>';
+  return'<circle cx="'+x+'" cy="'+y+'" r="3.8" '+f+'/>'}
+function tcnt(E,k){var L=E.filter(e=>e.k===k);if(!L.length||(k!=='A'&&k!=='S'))return'';
+  var lab=k==='A'?{H:'Tvrdé údery',P:'Měkké (topspin)',T:'Ulívky (tip)'}:{H:'Jump (H)',M:'Jump float (M)',Q:'Float (Q)',T:'Topspin (T)'},g={},o=[];
+  L.forEach(e=>{var t=k==='A'?e.h:e.y;if(lab[t])(g[t]=g[t]||[]).push(e);else o.push(e)});
+  var it=(nm2,arr)=>arr.length?'<span class="clk" onclick="xk('+xAdd(SK[k]+' – '+nm2,arr)+')">'+nm2+' <b>'+arr.length+'</b></span>':nm2+' <b>0</b>';
+  var pt=Object.keys(lab).filter(t=>g[t]||k==='A').map(t=>it(lab[t],g[t]||[]));
+  if(o.length)pt.push(it('Ostatní / nezadáno',o));
+  return'<div style="text-align:center;font-size:13px;margin-top:6px">'+pt.join(' · ')+'</div>'+(k==='A'&&L.length===o.length?'<div class="mut" style="text-align:center;font-size:12px">Typ úderu (tvrdý / ulívka) není v tomto zápisu zadán.</div>':'')}
+function adet(){var e=SELE,h='<div id="adet">';
+  if(!e)return h+'<p class="mut" style="font-size:12px;margin:8px 0 0">Klepni na šipku – pod mapami se zobrazí detail akce a video.</p></div>';
+  var m=e.m,id=yid(vs2===2?m.v2:m.v1)||yid(m.v1)||yid(m.v2),t=Math.round(e.vt+(+m.off||0)),st=Math.max(0,t-pre),ln='https://www.youtube.com/watch?v='+id+'&t='+st+'s',
+  ht=({H:'tvrdý úder',P:'měkký úder (topspin)',T:'ulívka (tip)'})[e.h]||'',
+  pl=!id?'<p class="mut">Toto utkání nemá vložený odkaz na YouTube.</p>':okEmbed()?'<div class="vid"><iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/'+id+'?start='+st+'&end='+(t+post)+'&autoplay=1&rel=0&playsinline=1" allow="autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen title="Akce"></iframe></div><a href="'+ln+'" target="_blank" rel="noopener">Otevřít v YouTube v čase akce ↗</a>':noEmb(ln);
+  return h+'<div style="margin-top:12px;padding:12px;border:2px solid var(--yel);border-radius:12px"><div style="margin-bottom:8px"><b>'+SK[e.k]+'</b> · #'+e.p+' '+esc(pname(e))+' · '+(EVN[e.e]||esc(e.e))+' ('+esc(e.e)+')'+(e.k==='A'&&e.c?' · kód '+esc(e.c):'')+(ht?' · '+ht:'')+' · Set '+e.s+' · stav '+esc(e.sc)+'</div>'+pl+'<div style="margin-top:8px"><button class="btn" onclick="SELE=null;go2()">Zavřít detail</button></div></div></div>'}
+function jt(i,k){var h=Math.imul(i*2+k+1,2654435761);h^=h>>>15;h=Math.imul(h,2246822519);h^=h>>>13;return((h>>>0)%1000)/1000-.5}
+function mapSvg(L,kind){
+  var cf=MC[kind],Zs=ZZ[cf[0]],Ze=ZZ[cf[1]],E=L.filter(e=>e.k===kind),o='',ar='',nz=0,X=c=>10+c[0]*60+30,Y=c=>10+c[1]*60+(c[1]>2?10:0)+30,cl=(v,m)=>Math.max(-m,Math.min(m,v));
+  [ZT,ZB].forEach(Z=>Object.keys(Z).forEach(k=>{var c=Z[k];o+='<rect x="'+(X(c)-30)+'" y="'+(Y(c)-30)+'" width="60" height="60" fill="none" stroke="#8a97ab" stroke-opacity=".45"/><text x="'+(X(c)-27)+'" y="'+(Y(c)-19)+'" font-size="9" fill="#8a97ab" fill-opacity=".6">'+k+'</text>'}));
+  o+='<line x1="0" x2="200" y1="195" y2="195" stroke="currentColor" stroke-width="3"/>';
+  E.forEach((e,i)=>{var a=Zs[e.z],b=Ze[e.x];if(!b)return;nz++;var v=EVC[e.e]?e.e:'!',c=EVC[v],sb=SB[e.u],mr=cf[1]==='T'?-1:1,
+    ex=X(b)+cl(sb?sb[0]*mr*13+jt(i,3)*12:jt(i,3)*44,27),ey=Y(b)+cl(sb?sb[1]*mr*13+jt(i,4)*12:jt(i,4)*44,27),j=MAPE.length,sx='',hit;MAPE.push(e);
+    if(a){var x1=X(a)+cl(jt(i,1)*44,27),y1=Y(a)+cl(jt(i,2)*44,27),cd='x1="'+x1+'" y1="'+y1+'" x2="'+ex+'" y2="'+ey+'"';sx+='<line '+cd+' stroke="'+c+'" stroke-width="'+(v==='#'?1.8:1.3)+'" stroke-opacity=".9"/>';hit='<line '+cd+' stroke="#000" stroke-opacity="0" stroke-width="14" pointer-events="stroke"/>'}
+    else hit='<circle cx="'+ex+'" cy="'+ey+'" r="9" fill="#000" fill-opacity="0"/>';
+    sx+=shp(v,ex,ey);
+    ar+='<g class="arw'+(e===SELE?' sel':'')+'" style="cursor:pointer" onclick="mapPlay('+j+')">'+sx+hit+'</g>'});
+  return'<svg viewBox="0 0 200 392" style="width:100%;max-width:340px;display:block;margin:auto;color:var(--ink)">'+o+ar+'</svg><div class="mut" style="text-align:center;font-size:12px">'+(E.length?nz+' z '+E.length+' akcí má zadanou zónu dopadu':'žádné akce')+(E.length&&!nz?' – utkání je asi ze starší verze, nahraj soubor .dvw znovu v kartě Utkání':'')+'</div>'}
+function mapsHtml(E0){
+  MAPE=[];XD=[];
+  var cd={},nc=0;E0.forEach(e=>{if(e.k==='A'){if(!e.c){nc++;return}var o=cd[e.c]||(cd[e.c]={n:0,d:null});o.n++;if(!o.d&&e.m.ac&&e.m.ac[e.c])o.d=e.m.ac[e.c]}});
+  var ck=Object.keys(cd).sort();if(fac&&!cd[fac])fac='';var E=E0.filter(fcf);if(SELE)SELE=E.filter(e=>e.m===SELE.m&&e.n===SELE.n)[0]||null;
+  FACL=ck;
+  var cs='<div style="flex:0 1 240px;min-width:200px"><label style="margin-top:0">Kódy útoků DataVolley</label>'+(ck.length?'<div style="display:flex;flex-direction:column;gap:6px;max-height:560px;overflow-y:auto"><button class="chip" style="text-align:left;border-radius:12px" aria-pressed="'+!fac+'" onclick="fac=\'\';shown=60;go2()">Všechny kódy</button>'+ck.map(function(k,i){var o=cd[k],d=o.d;return'<button class="chip" style="text-align:left;border-radius:12px;font-size:12px;line-height:1.25" aria-pressed="'+(k===fac)+'" onclick="fac=FACL['+i+'];shown=60;go2()"><b>'+esc(k)+'</b>'+(d&&d[3]?' – '+esc(d[3]):'')+(d&&d[0]?' (zóna '+esc(d[0])+')':'')+' · '+o.n+'×</button>'}).join('')+'</div>':'<p class="mut" style="font-size:12px;margin:0">V těchto utkáních nejsou kódy útoků.</p>')+(nc&&ck.length?'<div class="mut" style="font-size:12px;margin-top:6px">'+nc+' útoků je z utkání bez kódů útoku – nahraj jejich .dvw znovu.</div>':'')+'</div>';
+  var sl=(v,fn)=>'<select style="margin-bottom:6px;font-weight:700" onchange="'+fn+'=this.value;go2()">'+Object.keys(SK).map(k=>'<option value="'+k+'"'+(k===v?' selected':'')+'>'+SK[k]+' – směr</option>').join('')+'</select>';
+  return '<div class="row" style="gap:6px 12px;margin:0 0 8px;font-size:12px">'+'#+!-/='.split('').map(v=>'<span><svg width="16" height="16" viewBox="-8 -8 16 16" style="vertical-align:middle">'+shp(v,0,0)+'</svg> <b>'+v+'</b> '+EVN[v]+'</span>').join('')+'</div><div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">'+cs+'<div style="flex:1 1 480px;min-width:0"><div class="gv'+(SELE?' hs':'')+'"><div>'+sl(ms1,'ms1')+mapSvg(E,ms1)+tcnt(E,ms1)+'</div><div>'+sl(ms2,'ms2')+mapSvg(E,ms2)+tcnt(E,ms2)+'</div></div>'+adet()+'</div></div><p class="mut" style="font-size:12px;margin:8px 0 0">Šipky ukazují směr akce ze zóny, odkud začala, do zóny dopadu (číslování zón podle DataVolley). Soubor obsahuje jen zóny, ne přesné souřadnice, proto je místo uvnitř zóny přibližné. U příjmu a obrany šipka začíná v poli soupeře, nahrávka a blok se kreslí jen v našem poli. Barva a tvar značky na konci šipky odpovídají hodnocení akce (legenda nad mapami, schéma DataVolley). Klepnutím na šipku se pod mapami zobrazí detail akce a video. Typy: útok H = tvrdý, P = měkký, T = ulívka (tip); podání H = jump, M = jump float, Q = float.</p>'}
+
+function buildTeamTableData(ms, L, isOwn) {
+  var g = {};
+  ms.forEach(m => {
+    var ti = isOwn ? side(m) : 1 - side(m);
+    var sk = ti ? 'a' : 'h';
+    var pl = (m.pl && m.pl[sk]) || {};
+    var lb = (m.lb && m.lb[sk]) || {};
+    var sz = (m.sz && m.sz[sk]) || {};
+    Object.keys(pl).forEach(numStr => {
+      var num = +numStr;
+      var name = pl[num];
+      if (!name) return;
+      if (!g[name]) g[name] = { p: num, l: [], lb: !!lb[num], sz: ms.length === 1 ? (sz[num] || []) : [] };
+    });
+  });
+  L.forEach(e => {
+    var n = pname(e);
+    if (!g[n]) g[n] = { p: e.p, l: [], lb: false, sz: [] };
+    g[n].l.push(e);
+  });
+  var ks = Object.keys(g).sort((x, y) => g[x].p - g[y].p);
+  var fmtBox = (v) => v ? '<span class="st-box">' + esc(v) + '</span>' : '<span class="st-box empty">.</span>';
+  
+  return ks.map(k => {
+    var c = cnt(g[k].l);
+    var zArr = g[k].sz || [];
+    c.s1 = fmtBox(zArr[0]);
+    c.s2 = fmtBox(zArr[1]);
+    c.s3 = fmtBox(zArr[2]);
+    c.s4 = fmtBox(zArr[3]);
+    c.s5 = fmtBox(zArr[4]);
+    var numDisp = g[k].p + (g[k].lb ? ' <b>L</b>' : '');
+    return [numDisp, k, c, '', { p: k, o: isOwn }];
+  });
+}
+
+
+/* Tabulka ve stylu DataVolley match reportu: hráčky, Celkem hráčky a pod tím Body získané po setech */
+function dvReport(ms,isOwn,name){
+  var L=pick(ms,isOwn),O=pick(ms,!isOwn),rows=buildTeamTableData(ms,L,isOwn),one=ms.length===1,
+    sn=[...new Set(L.concat(O).map(function(e){return e.s}))].sort(function(x,y){return x-y}),
+    mx=Math.max.apply(null,sn.concat([one?ms[0].sets.length:0,1])),nS=one?Math.min(5,mx):1,
+    G=groups('short').slice(1),A=nS+3,bl='border-left:1.5px solid var(--ink);',sp={o:isOwn},
+    errS=function(X){return X.filter(function(e){return e.e==='='&&e.k!=='R'}).length};
+  var cell=function(c,i,r,spec){
+    var vv=c[1](r),k='',sty=i?'':bl;
+    if(c[2]&&spec&&vv!==''&&vv!==0&&vv!=='.'&&vv!=='–'&&vv!=='0%'){DL.push(Object.assign({k:c[2]},spec));k=' class="clk" onclick="dk('+(DL.length-1)+')"'}
+    if(c[3]&&c[3](r))sty+='color:#D82128;font-weight:700;';
+    if(c[0]==='V-P'){var s=String(vv);if(s[0]==='+')sty+='color:var(--grn);font-weight:700;';else if(s[0]==='-')sty+='color:var(--red);font-weight:700;'}
+    return'<td'+k+(sty?' style="'+sty+'"':'')+'>'+vv+'</td>'};
+  var h='<div class="tw"><table class="dv-tbl"><thead><tr><th colspan="2" rowspan="2" style="text-align:center;font-size:12px">'+esc(name)+'</th><th colspan="'+nS+'" style="text-align:center;'+bl+'">Set</th>'+
+    G.map(function(g){return'<th colspan="'+g[1].length+'" style="text-align:center;'+bl+'">'+g[0]+'</th>'}).join('')+'</tr><tr>'+
+    Array.apply(null,Array(nS)).map(function(_,i){return'<th style="'+(i?'':bl)+'">'+(one?i+1:'')+'</th>'}).join('')+
+    G.map(function(g){return g[1].map(function(c,i){return'<th'+(i?'':' style="'+bl+'"')+'>'+c[0]+'</th>'}).join('')}).join('')+'</tr></thead><tbody>';
+  rows.forEach(function(r,ri){
+    var tot=r[3]==='t',c=r[2];
+    h+='<tr'+(tot?' class="dv-tot"':(ri%2?' style="background:var(--bg)"':''))+'><td>'+r[0]+'</td><td style="text-align:left;font-weight:'+(tot?'800':'500')+'">'+esc(r[1])+'</td>';
+    for(var i=0;i<nS;i++)h+='<td'+(i?'':' style="'+bl+'"')+'>'+((!tot&&one&&c['s'+(i+1)])||'')+'</td>';
+    G.forEach(function(g){g[1].forEach(function(col,i){h+=cell(col,i,c,r[4])})});
+    h+='</tr>'});
+  /* Body získané po setech – ve sloupcích pod tabulkou, vedle nich statistika setu ve stejných sloupcích */
+  var sub='font-size:12px;color:var(--mut);font-weight:700;',emp=function(n){return n>0?'<td colspan="'+n+'"></td>':''},
+    stCols=G.slice(1).reduce(function(a,g){return a+g[1].length},0);
+  h+='<tr><td colspan="2" style="'+sub+'border-top:1.5px solid var(--ink)">Body získané:</td>'+emp(A-4)+['Pod','Úto','Blok','Chy.s'].map(function(t){return'<td style="'+sub+'border-top:1.5px solid var(--ink);text-align:right">'+t+'</td>'}).join('')+'<td colspan="'+stCols+'" style="border-top:1.5px solid var(--ink)"></td></tr>';
+  sn.forEach(function(n,si){
+    var rl=cnt(L.filter(function(e){return e.s===n})),ro=O.filter(function(e){return e.s===n}),spec={s:n,o:isOwn};
+    h+='<tr'+(si%2?'':' style="background:var(--bg)"')+'><td colspan="2" style="font-size:12px">Set '+n+'</td>'+emp(A-4)+[rl.ace,rl.ak,rl.bk,errS(ro)].map(function(v){return'<td>'+(v||'.')+'</td>'}).join('')+
+      G.slice(1).map(function(g){return g[1].map(function(col,i){return cell(col,i,rl,spec)}).join('')}).join('')+'</tr>'});
+  h+='</tbody></table></div>';
+  if(one&&ms[0].coaches){
+    var ch=ms[0].coaches[(isOwn?side(ms[0]):1-side(ms[0]))?'a':'h']||[];
+    if(ch[0]||ch[1])h+='<div style="margin-top:8px;font-size:12px">'+(ch[0]?'<b>Hlavní trenér</b> '+esc(ch[0]):'')+(ch[0]&&ch[1]?' · ':'')+(ch[1]?'<b>Asistent</b> '+esc(ch[1]):'')+'</div>'}
+  return h;
+}
+
+/* ---------- Distribuce nahrávek (záložka Útoky podle rotace nahrávačky) ---------- */
+/* S1–S6 = zóna, ve které stojí nahrávačka (S1 = zóna 1, S2 = zóna 2 …). Hodnota je v události ev[14]. */
+var SOX=[],dmode='all',drev=[],scr=[],dpos='all',dbal=0,dstt='',dset=0,STL=[],XD=[];
+function xAdd(l,arr){return XD.push({x:1,l:l,e:arr})-1}
+function xk(i){DR=XD[i];shown=60;go2();setTimeout(function(){var e=$('vsec');if(e&&e.scrollIntoView)e.scrollIntoView();if(LST[0]&&hasVid(LST[0].m))playAll()},60)}
+function mkE(m,ti,a,ix){return{n:ix,t:a[0],p:a[1],k:a[2],y:a[3],e:a[4],s:a[5],z:a[6],w:a[7],x:a[8]||'',u:a[11]||'',sc:a[9]||'',vt:a[10]||0,c:a[12]||'',h:a[13]||'',m:m,ti:ti}}
+
+/* Všechny útoky družstva: kategorie 'set' = útok po nahrávce, R/F/D/X = přímo po kontaktu soupeře (příjem, freeball, obrana, jiné), 'own' = po vlastním kontaktu bez nahrávky */
+function distAtt(ms,isOwn){
+  var out=[];
+  ms.forEach(function(m){
+    var ti=isOwn?side(m):1-side(m),ev=m.ev||[],n=ev.length,pl=(m.pl&&m.pl[ti?'a':'h'])||{},i=0;
+    while(i<n){
+      var j=i;while(j+1<n&&ev[j+1][9]===ev[i][9]&&ev[j+1][5]===ev[i][5])j++;
+      var recEv=null,q,firstDone=false,sc=String(ev[i][9]||'').split(':'),lim=ev[i][5]===5?10:20,
+        bal=+sc[0]>=lim&&+sc[1]>=lim&&Math.abs(sc[0]-sc[1])<=2;
+      for(q=i;q<=j;q++)if(ev[q][2]==='R'){recEv=ev[q];break}
+      for(q=i;q<=j;q++){
+        var a=ev[q];if(a[2]!=='A')continue;
+        var isRec=false;if(recEv&&a[0]===recEv[0]&&!firstDone){isRec=true;firstDone=true}
+        if(a[0]!==ti)continue;
+        var pv=q>i?ev[q-1]:null,cat='own',sn='',cl='';
+        if(pv&&pv[0]===ti&&pv[2]==='E'){cat='set';sn=pl[pv[1]]||('č. '+pv[1]);cl=String(pv[17]||'').toUpperCase();if(!/^K[A-Z0-9]$/.test(cl))cl=''}
+        else if(pv&&pv[0]!==ti)cat=pv[2]==='R'?'R':pv[2]==='F'?'F':pv[2]==='D'?'D':'X';
+        out.push({e:mkE(m,ti,a,q),z:+a[6]||0,rot:a[14]||0,sname:sn,rec:isRec,rev:isRec&&recEv?recEv[4]:'',tg:cat==='set'&&pv?String(pv[18]||'').toUpperCase().replace(/[^A-Z]/g,''):'',sz:cat==='set'&&pv?(+pv[8]||+a[6]||0):0,pz:cat==='set'&&q-2>=i&&ev[q-2][0]===ti&&/[RDF]/.test(ev[q-2][2])?+ev[q-2][8]||0:0,psb:cat==='set'&&q-2>=i&&ev[q-2][0]===ti?String(ev[q-2][11]||'').toUpperCase():'',pe:cat==='set'&&q-2>=i&&ev[q-2][0]===ti?ev[q-2][4]:'',bal:bal,cat:cat,call:cl});
+      }
+      i=j+1;
+    }
+  });
+  return out;
+}
+/* filtr; ign = které filtry se přeskočí: m = režim, p = postavení, s = nahrávačka, b = vyrovnané koncovky */
+/* zóny 7, 8, 9 (útok zezadu přes 3m čáru) se v distribuci počítají do zad: 7 → 5, 8 → 6, 9 → 1 */
+function dz(r){return({7:5,8:6,9:1})[r.z]||r.z}
+function dpass(r,ign){ign=ign||'';
+  if(ign.indexOf('m')<0){if(dmode==='rec'&&!r.rec)return false;if(dmode==='tr'&&r.rec)return false}
+  if(ign.indexOf('r')<0&&ign.indexOf('m')<0&&dmode==='rec'&&drev.length&&drev.indexOf(r.rev)<0)return false;
+  if(ign.indexOf('p')<0&&dpos!=='all'){var P=dpos==='back'?[6,5,1]:dpos==='front'?[4,3,2]:[+dpos];if(P.indexOf(r.rot)<0)return false}
+  if(dset&&r.e.s!==dset)return false;
+  if(ign.indexOf('b')<0&&dbal&&!r.bal)return false;
+  if(ign.indexOf('s')<0&&dstt&&r.sname!==dstt)return false;
+  return true}
+function drt(v){var i=drev.indexOf(v);if(i<0)drev.push(v);else drev.splice(i,1)}
+function chp(on,fn,t,dis){return'<button class="chip" aria-pressed="'+on+'" onclick="'+fn+';DR=null;QR=null;shown=60;draw3()"'+(dis?' disabled style="opacity:.4"':'')+'>'+t+'</button>'}
+function dres(L){var k=0,x=0;L.forEach(function(r){if(r.e.e==='#')k++;else if(r.e.e==='='||r.e.e==='/')x++});return[k,L.length-k-x,x]}
+function dsq(c){return'<i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:'+c+';margin:0 2px 0 5px"></i>'}
+function dstat(L){var r=dres(L);return dsq('#1B9E3E')+r[0]+dsq('#8a97ab')+r[1]+dsq('#D82128')+r[2]}
+function zbox(z,list,total,lab){
+  var n=list.length,sh=total?n/total:0,P={};
+  list.forEach(function(r){var k=pname(r.e),o=P[k]||(P[k]=[]);o.push(r)});
+  var ks=Object.keys(P).sort(function(a,b){return P[b].length-P[a].length||a.localeCompare(b,'cs')}),
+    bg=n?'rgba(242,194,0,'+(0.12+0.55*sh).toFixed(2)+')':'transparent';
+  var h='<div style="border:1px solid var(--line);border-radius:10px;padding:10px;background:'+bg+(n?'':';opacity:.55')+'">'+
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px'+(n?';cursor:pointer" onclick="xk('+xAdd(lab+' · zóna '+z,list.map(function(r){return r.e}))+')"':'"')+'><div><div class="mut" style="font-size:11px;font-weight:800">ZÓNA '+z+'</div>'+
+    '<div><b style="font-size:28px">'+n+'</b> <b style="color:var(--blue);font-size:14px">'+(n?Math.round(100*sh)+' %':'')+'</b></div></div>'+
+    (n?'<div style="text-align:right"><div class="mut" style="font-size:11px;font-weight:800">ÚSPĚŠNOST</div><b style="font-size:22px">'+Math.round(100*dres(list)[0]/n)+' %</b></div>':'')+'</div>';
+  if(n)h+='<div style="display:flex;flex-direction:column;gap:3px;margin-top:6px">'+ks.map(function(k){var L=P[k];
+    return'<div style="font-size:12px;cursor:pointer" onclick="xk('+xAdd(lab+' · zóna '+z+' · '+k.split(' ')[0],L.map(function(r){return r.e}))+')"><span>'+esc(k.split(' ')[0])+' <b>'+L.length+'</b></span> <span class="mut">–</span>'+dstat(L)+'</div>'}).join('')+'</div>';
+  return h+'</div>'}
+
+function distHtml(ms,isOwn){
+  XD=[];
+  var R=distAtt(ms,isOwn),SA=R.filter(function(r){return r.cat==='set'}),
+    lab='Útok',ec=distSetters(ms,isOwn);
+  var sets=[...new Set(R.map(function(r){return r.e.s}))].sort(function(x,y){return x-y});
+  if(dset&&sets.indexOf(dset)<0)dset=0;
+  var balN=R.filter(function(r){return r.bal&&dpass(r,'bpsm')}).length;
+  if(dbal&&!balN)dbal=0;
+  var SAf=SA.filter(function(r){return dpass(r)}),
+    OT=R.filter(function(r){return r.cat!=='set'&&r.cat!=='own'&&dpass(r,'ps')}),
+    all=R.filter(function(r){return dpass(r,'ps')}),
+    cr=function(n){return SA.filter(function(r){return dpass(r,'p')&&r.rot===n}).length},
+    tot=SAf.length;
+  var h='<div style="margin-top:4px"><h2 style="margin:0 0 10px;font-size:17px;color:var(--blue)">DISTRIBUCE NAHRÁVEK</h2>'+
+    '<div class="row" style="margin-bottom:8px">'+[['all','Útoky celkem'],['rec','Útok po příjmu'],['tr','Transition útoky'],['tmp','Cíl a tempo nahrávek']].map(function(x){return chp(dmode===x[0],"dmode='"+x[0]+"'",x[1])}).join('')+'</div>'+
+    (dmode==='rec'?'<div class="mut" style="font-size:12px;margin:0 0 4px">Po jakém příjmu (jde vybrat jeden i více druhů):</div><div class="row" style="margin-bottom:8px">'+chp(!drev.length,"drev=[]",'Všechny příjmy ('+R.filter(function(r){return r.cat==='set'&&r.rec&&dpass(r,'r')}).length+')')+[['#','Perfektní'],['+','Pozitivní'],['!','Neutrální'],['-','Negativní'],['/','Velmi negativní']].map(function(x){var n=R.filter(function(r){return r.cat==='set'&&r.rec&&r.rev===x[0]&&dpass(r,'r')}).length;return chp(drev.indexOf(x[0])>=0,"drt('"+x[0]+"')",x[0]+' '+x[1]+' ('+n+')',!n&&drev.indexOf(x[0])<0)}).join('')+'</div>':'')+
+    '<div class="row" style="margin-bottom:8px">'+chp(!dbal,"dbal=0",'Celý set')+chp(!!dbal,"dbal=1",'Vyrovnané koncovky',!balN)+'</div>'+
+    '<div class="row" style="margin-bottom:8px">'+chp(dpos==='all',"dpos='all'",'Všechna postavení')+chp(dpos==='back',"dpos='back'",'Zadní nahrávačka (S6, S5, S1)')+chp(dpos==='front',"dpos='front'",'Přední nahrávačka (S4, S3, S2)')+
+      [1,6,5,4,3,2].map(function(n){return chp(dpos===''+n,"dpos='"+n+"'",'S'+n+' ('+cr(n)+')')}).join('')+'</div>'+
+    '<div class="mut" style="font-size:12px;margin:-2px 0 8px">S1–S6 = zóna, ve které stojí nahrávačka (S1 = zóna 1, S2 = zóna 2 …).</div>'+
+    '<div class="row" style="margin-bottom:8px">'+[[0,'Všechny sety']].concat(sets.map(function(n){return[n,n+'. set']})).map(function(x){return chp(dset===x[0],'dset='+x[0],x[1])}).join('')+'</div>'+
+    '<div class="row" style="margin-bottom:8px">'+chp(!!scfx,"scfx=scfx?0:1",'↔ Otočit šipky vodorovně')+chp(!!scfy,"scfy=scfy?0:1",'↕ Otočit šipky svisle')+chp(!!scdg,"scdg=scdg?0:1",'Zápis setter callů ze souboru')+'</div>'+(scdg?scDiag(ms):'')+
+    '<div class="row" style="margin-bottom:12px">'+chp(!dstt,"dstt=''",'Obě nahrávačky')+STL.map(function(k,i){return chp(dstt===k,'dstt=STL['+i+']','#'+ec[k].p+' '+esc(k))}).join('')+'</div>'+
+    '<div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid var(--ink);padding-bottom:4px;margin-bottom:10px"><b style="font-size:15px">'+(dstt?'Nahrávačka '+esc(dstt):'Celý tým')+'</b><span class="mut" style="font-size:12px">'+tot+' útoků</span></div>';
+  if(dmode==='tmp'){
+    var C={};SAf.forEach(function(r){var c=r.e.c||'–';(C[c]=C[c]||[]).push(r)});
+    var ck=Object.keys(C).sort(function(a,b){return C[b].length-C[a].length||a.localeCompare(b)});
+    h+=tot?'<div class="tw"><table class="dv-tbl"><thead><tr><th>Kód</th><th>Popis</th><th>Zóna</th><th>Tempo (kód)</th><th>Útoků</th><th>%</th><th>Bod</th><th>Chyb / blok</th><th>Bod%</th></tr></thead><tbody>'+
+      ck.map(function(c){var L=C[c],d=(L[0].e.m.ac||{})[c],r=dres(L);
+        return'<tr><td>'+esc(c)+'</td><td style="text-align:left">'+esc(d&&d[3]||'')+'</td><td>'+(d&&d[0]||L[0].e.z||'–')+'</td><td>'+esc(d&&d[2]||'–')+'</td><td class="clk" onclick="xk('+xAdd(lab+' · kód '+c,L.map(function(x){return x.e}))+')">'+L.length+'</td><td>'+Math.round(100*L.length/tot)+'%</td><td>'+r[0]+'</td><td>'+r[2]+'</td><td>'+Math.round(100*r[0]/L.length)+'%</td></tr>'}).join('')+
+      '</tbody></table></div><p class="mut" style="font-size:12px;margin:8px 0 0">Kód útoku určuje cíl nahrávky (zóna, ze které se útočí) a tempo. Kliknutím na počet se spustí video.</p>':'<p class="mut">Pro tento výběr nejsou žádné útoky po nahrávce.</p>';
+  }else{
+    var Z={};SAf.forEach(function(r){var q=dz(r);if(q>=1&&q<=6)(Z[q]=Z[q]||[]).push(r)});
+    h+=tot?[[4,3,2],[5,6,1]].map(function(row){return'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px">'+row.map(function(z){return zbox(z,Z[z]||[],tot,lab)}).join('')+'</div>'}).join('')+(SAf.some(function(r){return r.z>=7&&r.z<=9})?'<div class="mut" style="font-size:12px">Útoky zezadu zapsané ze zón 7, 8, 9 jsou započítané do zón 5, 6, 1.</div>':''):'<p class="mut">Pro tento výběr nejsou žádné útoky po nahrávce.</p>';
+  }
+  if(dpos==='all'&&!dstt&&OT.length){
+    var cc={R:0,F:0,D:0,X:0};OT.forEach(function(r){cc[r.cat]++});
+    var sp=[['R','po příjmu soupeře'],['F','po freeballu soupeře'],['D','po obraně soupeře'],['X','jiné']].filter(function(x){return cc[x[0]]}).map(function(x){return x[1]+' '+cc[x[0]]});
+    h+='<div style="margin-top:12px;border:1px dashed var(--line);border-radius:10px;padding:8px 12px;font-size:13px"><b>Útok po kontaktu soupeře</b> <span class="mut">(příjem, freeball, obrana soupeře přes síť):</span> <span class="clk" onclick="xk('+xAdd(lab+' · po kontaktu soupeře',OT.map(function(r){return r.e}))+')">'+OT.length+'</span> ('+Math.round(100*OT.length/all.length)+' % ze všech útoků) · '+sp.join(' · ')+'</div>';
+  }
+  var chk=all.filter(function(r){return r.cat==='own'||r.cat==='X'||(r.cat==='set'&&((dz(r)<1||dz(r)>6)||!r.rot))});
+  if(chk.length)h+='<details style="margin-top:12px"><summary style="cursor:pointer;font-weight:700;font-size:13px">Kontrola zápisu – útoky k ověření ve videu ('+chk.length+')</summary><div style="margin-top:8px">'+chk.slice(0,40).map(function(r){var e=r.e,why=r.cat==='own'?'útok bez nahrávky po vlastním kontaktu':r.cat==='X'?'útok po jiném kontaktu soupeře':(dz(r)<1||dz(r)>6)?'chybí zóna útoku':'nelze určit S1–S6';
+    return'<div class="ev" onclick="xk('+xAdd(lab+' · k ověření',[e])+')"><div class="ic '+ecl(e.e)+'">'+esc(e.e)+'</div><div><b>#'+e.p+' '+esc(pname(e))+'</b> · set '+e.s+' · stav '+esc(e.sc)+'<small>'+why+'</small></div></div>'}).join('')+(chk.length>40?'<div class="mut" style="font-size:12px">Zobrazeno prvních 40.</div>':'')+'</div></details>';
+  h+='</div>';
+  return{h:h,ev:SAf.map(function(r){return r.e})};
+}
+
+/* Nahrávačky družstva (podle počtu nahrávek) – sdílí karty Rotace nahrávačky a Setter call */
+function distSetters(ms,isOwn){
+  var ec={},et=0;
+  pick(ms,isOwn).filter(function(e){return e.k==='E'}).forEach(function(e){var k=pname(e),o=ec[k]||(ec[k]={n:0,p:e.p});o.n++;et++});
+  STL=Object.keys(ec).filter(function(k){return ec[k].n>=Math.max(3,.1*et)}).sort(function(a,b){return ec[a].p-ec[b].p});
+  if(dstt&&STL.indexOf(dstt)<0)dstt='';
+  return ec}
+
+/* Setter call (DataVolley): kód útočné kombinace, kterou nahrávačka zahrála; počty, body, chyby a efektivita */
+function scrt(n){var i=scr.indexOf(n);if(i<0)scr.push(n);else scr.splice(i,1)}
+var SCMAP={X1:'K1',X2:'K2',X7:'K7',XC:'KC',CD:'KC',X5:'KP',X6:'KM'};
+function scMap(code,z){code=String(code||'').toUpperCase().trim();if(SCMAP[code])return SCMAP[code];if(!code||code==='~~')return'KE';return'KE'}
+var scfx=0,scfy=0,scdg=0,SCMS=[];
+/* DataVolley: index mřížky 1–10000 = (řádek−1)*100 + sloupec; řádek 1–50 = jedna půlka, 50 = síť. Cesta (path) = seznam indexů oddělených čárkami */
+function scXY(v){var n=parseInt(String(v||'').replace(/\D/g,''),10);if(!n||n<1||n>10000)return null;return[(n-1)%100+1,Math.floor((n-1)/100)+1]}
+function scPath(f){if(!f)return null;var P=[],t=String(f[8]||'').match(/\d+/g);
+  if(t&&t.length>=2)t.forEach(function(x){var p=scXY(x);if(p)P.push(p)});
+  if(P.length<2){P=[];[f[5],f[6],f[7]].forEach(function(x){var p=scXY(x);if(p)P.push(p)})}
+  return P.length>=2?P:null}
+function scPt(p,W3,H){var c=p[0],r=p[1];if(r>50){c=101-c;r=101-r}if(!scfx)c=101-c;if(scfy)r=51-r;return[(c-0.5)/100*W3,Math.min(H-2,Math.max(2,(r-0.5)/50*H))]}
+function scArrow(P,W3,H,w){
+  var pts=P.map(function(p){return scPt(p,W3,H)}),d=pts.map(function(p,i){return(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)}).join(' '),a=pts[pts.length-1],b=pts[pts.length-2],
+    an=Math.atan2(a[1]-b[1],a[0]-b[0]),hl=6+w,q=function(da){return(a[0]-hl*Math.cos(an+da)).toFixed(1)+','+(a[1]-hl*Math.sin(an+da)).toFixed(1)};
+  return'<path d="'+d+'" fill="none" stroke="#111" stroke-width="'+w+'" stroke-linecap="round" stroke-linejoin="round"/><polygon points="'+a[0].toFixed(1)+','+a[1].toFixed(1)+' '+q(.45)+' '+q(-.45)+'" fill="#111"/>'}
+function scDb(codes,ms,W3,H,w){
+  var out='',seen={};codes.forEach(function(c){if(seen[c])return;seen[c]=1;for(var i=0;i<ms.length;i++){var o=ms[i].scr&&ms[i].scr[c],P=scPath(o);if(P){out+=scArrow(P,W3,H,w);break}}});return out}
+function scDiag(ms){
+  var rows='';ms.forEach(function(m){var o=m.scr||{};Object.keys(o).forEach(function(k){var f=o[k],P=scPath(f);rows+='<tr><td>'+esc(k)+'</td><td style="text-align:left">'+esc(f.slice(1).join(' ; '))+'</td><td>'+(P?P.map(function(p){return p[0]+'/'+p[1]}).join(' → '):'–')+'</td></tr>'})});
+  return'<div class="tw" style="margin-top:8px"><table class="dv-tbl"><thead><tr><th>Kód</th><th>Zápis v souboru (pole 2 a dál)</th><th>Čtená dráha (sloupec/řádek)</th></tr></thead><tbody>'+(rows||'<tr><td colspan="3">V souboru není sekce setter callů, nebo utkání nahraj znovu (po verzi 25).</td></tr>')+'</tbody></table></div>'}
+function scCell(L,code,pct,idx,codes){
+  var n=L.length,zc={},zp={4:[2,1],3:[1,1],2:[0,1],5:[2,0],6:[1,0],1:[0,0]},mx=0,nz=0,tg={},k=0,er=0,bl=0,W=42,H1=27,H2=55,RB={};
+  L.forEach(function(r){var z=({7:5,8:6,9:1})[r.sz]||r.sz||0;if(zp[z]){zc[z]=(zc[z]||[]);zc[z].push(r)}else nz++;
+    if(r.tg)tg[r.tg]=(tg[r.tg]||0)+1;if(r.e.e==='#')k++;else if(r.e.e==='=')er++;else if(r.e.e==='/')bl++;
+    var pz=({7:5,8:6,9:1})[r.pz]||r.pz;if(zp[pz]){var key=pz+(r.psb||'')+(r.pe==='#'?'g':r.pe==='+'?'y':'n');RB[key]=RB[key]||{z:pz,sb:r.psb||'',c:r.pe==='#'?'#1fb34d':r.pe==='+'?'#f2c200':'#8a8a8a',n:0};RB[key].n++}});
+  Object.keys(zc).forEach(function(z){if(zc[z].length>mx)mx=zc[z].length});
+  var g='',rb='',zl=function(a){var t={},b='',m=0;a.forEach(function(r){if(r.tg)t[r.tg]=(t[r.tg]||0)+1});Object.keys(t).forEach(function(k){if(t[k]>m){m=t[k];b=k}});return esc(b)};
+  [4,3,2,5,6,1].forEach(function(z){var p=zp[z],a=zc[z]||[],x=p[0]*W,y=p[1]?H2:0,h=p[1]?H1:H2,col=a.length?'rgba(216,33,40,'+(0.15+0.7*a.length/mx).toFixed(2)+')':'transparent';
+    g+='<g'+(a.length?' style="cursor:pointer" onclick="xk('+xAdd('Setter call '+code+' · nahráno do zóny '+z,a.map(function(r){return r.e}))+')"':'')+'><rect x="'+x+'" y="'+y+'" width="'+W+'" height="'+h+'" fill="'+col+'" stroke="var(--line)"/>'+(a.length?'<text x="'+(x+3)+'" y="'+(y+10)+'" font-size="9.5" font-weight="800" fill="var(--ink)">'+Math.round(100*a.length/n)+'%</text><text x="'+(x+W-3)+'" y="'+(y+10)+'" text-anchor="end" font-size="9" font-weight="800" fill="#d82128">'+zl(a)+'</text><text x="'+(x+W-3)+'" y="'+(y+h-3)+'" text-anchor="end" font-size="8.5" fill="var(--ink)">'+a.length+'</text>':'<text x="'+(x+W/2)+'" y="'+(y+h/2+4)+'" text-anchor="middle" font-size="10" fill="var(--line)">'+z+'</text>')+'</g>'});
+  var SB={A:[-.25,-.25],B:[.25,-.25],C:[-.25,.25],D:[.25,.25]};
+  Object.keys(RB).forEach(function(key){var o=RB[key],p=zp[o.z],off=SB[o.sb]||[0,0],h=p[1]?H1:H2,cx=p[0]*W+W/2+off[0]*W,cy=(p[1]?H2:0)+h/2+off[1]*h,sw=Math.min(W-6,10+2*Math.min(o.n,6)),sh=Math.min(h-6,7+1.5*Math.min(o.n,6));
+    rb+='<rect x="'+(cx-sw/2).toFixed(1)+'" y="'+(cy-sh/2).toFixed(1)+'" width="'+sw+'" height="'+sh+'" fill="'+o.c+'" fill-opacity=".9" stroke="#111" stroke-width=".6"><title>příjem '+o.n+'×</title></rect>'});
+  var tgs=Object.keys(tg).sort(function(a,b){return tg[b]-tg[a]}).slice(0,5).map(function(t){return'<span class="sct">'+esc(t)+' '+Math.round(100*tg[t]/n)+'%</span>'}).join('');
+  var ev=L.map(function(r){return r.e}),arw=scDb(codes||[code],SCMS,3*W,H1+H2,codes?1.6:2.6);
+  return'<div class="scc"><div class="sch"><span class="scl'+(code==='Tot'?' tot':'')+'">'+esc(code)+'</span><span class="'+'sp"></span><span class="clk" onclick="xk('+xAdd('Setter call '+code,ev)+')">'+n+'</span><span>'+pct+'%</span></div>'+
+    '<svg viewBox="0 0 '+(3*W)+' '+(H1+H2)+'" width="100%" style="display:block;background:var(--card)">'+g+rb+arw+'<line x1="0" y1="'+(H1+H2-1.5)+'" x2="'+(3*W)+'" y2="'+(H1+H2-1.5)+'" stroke="var(--ink)" stroke-width="3"/></svg>'+
+    '<div class="scf">'+(tgs?'<div>'+tgs+'</div>':'')+'<div>Bod '+Math.round(100*k/n)+'% · Efekt. '+Math.round(100*(k-er-bl)/n)+'%'+(nz?' · bez zóny '+nz:'')+'</div></div></div>'}
+function scHtml(ms,isOwn){
+  XD=[];SCMS=ms;
+  var R=distAtt(ms,isOwn),SA=R.filter(function(r){return r.cat==='set'}),ec=distSetters(ms,isOwn),lab='Setter call',
+    sets=[...new Set(R.map(function(r){return r.e.s}))].sort(function(x,y){return x-y});
+  if(dset&&sets.indexOf(dset)<0)dset=0;
+  var SAall=SA.filter(function(r){return dpass(r,'mbp')}),SA0=SAall.filter(function(r){return!!r.call}),SAf=scr.length?SA0.filter(function(r){return scr.indexOf(r.rot)>=0}):SA0,tot=SAf.length,all0=SA0.length,
+    cr=function(n){return SA0.filter(function(r){return r.rot===n}).length};
+  var css='<style>.scr{writing-mode:horizontal-tb;font:800 18px system-ui;min-width:38px;padding-top:4px}.scrow{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-top:2px solid var(--ink)}.scg{flex:1;min-width:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;align-items:start}.scc{min-width:0}.sce{min-height:1px}.sch{display:flex;gap:6px;align-items:center;font-size:12px;margin-bottom:3px}.scl{background:#8a8a8a;color:#fff;border-radius:3px;padding:1px 7px;font-weight:800}.scl.tot{background:#d82128}.sch .sp{flex:1}.sch .clk{font-weight:800}.scf{font-size:11px;color:var(--mut);margin-top:2px}.sct{display:inline-block;border:1px solid var(--line);border-radius:4px;padding:0 4px;margin:0 3px 2px 0;color:var(--ink)}</style>';
+  var h=css+'<div style="margin-top:4px"><h2 style="margin:0 0 10px;font-size:17px;color:var(--blue)">SETTER CALL</h2>'+
+    '<div class="row" style="margin-bottom:8px">'+chp(!scr.length,"scr=[]",'Všechny rotace ('+all0+')')+[1,6,5,4,3,2].map(function(n){return chp(scr.indexOf(n)>=0,"scrt("+n+")",'S'+n+' ('+cr(n)+')',!cr(n)&&scr.indexOf(n)<0)}).join('')+'</div>'+
+    '<div class="mut" style="font-size:12px;margin:-2px 0 8px">S1–S6 = zóna, ve které stojí nahrávačka. Jde vybrat více rotací najednou; bez výběru se ukážou všechny.</div>'+
+    '<div class="row" style="margin-bottom:8px">'+[[0,'Všechny sety']].concat(sets.map(function(n){return[n,n+'. set']})).map(function(x){return chp(dset===x[0],'dset='+x[0],x[1])}).join('')+'</div>'+
+    '<div class="row" style="margin-bottom:12px">'+chp(!dstt,"dstt=''",'Obě nahrávačky')+STL.map(function(k,i){return chp(dstt===k,'dstt=STL['+i+']','#'+ec[k].p+' '+esc(k))}).join('')+'</div>'+
+    '<div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid var(--ink);padding-bottom:4px;margin-bottom:6px"><b style="font-size:15px">'+(dstt?'Nahrávačka '+esc(dstt):'Celý tým')+'</b><span class="mut" style="font-size:12px">'+tot+' útoků po nahrávce</span></div>';
+  var withK=ms.filter(function(m){return(m.ev||[]).some(function(x){return x[2]==='E'&&/^K[A-Z0-9]$/.test(String(x[17]||'').toUpperCase())})}),woK=ms.filter(function(m){return withK.indexOf(m)<0});
+  h+=mwarnHtml(ms);
+  if(woK.length)h+='<p class="er" style="font-size:12px;margin:0 0 8px">'+(withK.length?'Kódy nahrávek (setter call) má jen <b>'+withK.length+' z '+ms.length+'</b> vybraných utkání. ':'Žádné z vybraných utkání ('+ms.length+') nemá v souboru DataVolley kódy nahrávek. ')+'Utkání bez kódů se do této karty nezapočítají: '+esc(woK.map(function(m){return m.home+' – '+m.away}).join(', '))+'.</p>';
+  if(!tot)return{h:h+'<p class="mut">'+(withK.length?'Pro tento výběr nejsou žádné útoky po nahrávce s kódem nahrávky.':'Karta SETTER CALL se nedá zobrazit, protože v souboru nejsou kódy nahrávek (K1, K7, KC …).')+'</p></div>',ev:[]};
+  var rots=[1,6,5,4,3,2].filter(function(n){return scr.length?scr.indexOf(n)>=0:true}),idx=0,GC={};
+  SAf.forEach(function(r){var c=r.call||'–';GC[c]=(GC[c]||0)+1});
+  var gk=Object.keys(GC).sort(function(a,b){return GC[b]-GC[a]||a.localeCompare(b)}),gk2=gk.filter(function(c){return c!=='–'});
+  var rowH=function(label,RR,den){
+    var C={};RR.forEach(function(r){var c=r.call||'–';(C[c]=C[c]||[]).push(r)});
+    return'<div class="scrow"><div class="scr">'+label+'</div><div class="scg">'+scCell(RR,'Tot',Math.round(100*RR.length/den),idx,gk2)+gk.map(function(c){return C[c]?scCell(C[c],c,Math.round(100*C[c].length/RR.length),idx):'<div class="sce"></div>'}).join('')+'</div></div>'};
+  rots.forEach(function(n){
+    var RR=SAf.filter(function(r){return r.rot===n});if(!RR.length)return;
+    h+=rowH('S'+n,RR,all0)});
+  var rr0=SAf.filter(function(r){return!r.rot});if(rr0.length)h+='<p class="mut" style="font-size:12px">'+rr0.length+' útoků bez určené rotace není zobrazeno.</p>';
+  h+='<h3 style="margin:14px 0 4px;font-size:14px">Total všech rotací</h3>'+rowH('Σ',SAf,all0);
+  var C={};SAf.forEach(function(r){var c=r.call||'–';(C[c]=C[c]||[]).push(r)});
+  var ck=Object.keys(C).sort(function(a,b){return C[b].length-C[a].length||a.localeCompare(b)});
+  var num=function(arr,ll){return arr.length?'<span class="clk" onclick="xk('+xAdd(ll,arr.map(function(x){return x.e}))+')">'+arr.length+'</span>':'.'};
+  var row=function(c,d,z,L,tt){
+    var n=L.length,rc=L.filter(function(r){return r.rec}),tr=L.filter(function(r){return!r.rec}),
+      k=L.filter(function(r){return r.e.e==='#'}).length,er=L.filter(function(r){return r.e.e==='='}).length,bl=L.filter(function(r){return r.e.e==='/'}).length,
+      ll=lab+' · '+(tt?'všechny kódy':c);
+    return'<tr'+(tt?' class="dv-tot"':'')+'><td>'+esc(c)+'</td><td style="text-align:left">'+esc(d||'')+'</td><td>'+(z||'–')+'</td><td>'+num(L,ll)+'</td><td>'+Math.round(100*n/tot)+'%</td><td>'+num(rc,ll+' · po příjmu')+'</td><td>'+num(tr,ll+' · transition')+'</td><td>'+(k||'.')+'</td><td>'+(er||'.')+'</td><td>'+(bl||'.')+'</td><td>'+Math.round(100*k/n)+'%</td><td>'+Math.round(100*(k-er-bl)/n)+'%</td></tr>'};
+  h+='<details style="margin-top:12px"><summary style="cursor:pointer;font-weight:700;font-size:13px">Tabulka kódů nahrávek</summary><div class="tw"><table class="dv-tbl"><thead><tr><th>Kód</th><th>Popis</th><th>Nahráno do zóny</th><th>Celk</th><th>%</th><th>Po příjmu</th><th>Transition</th><th>Bod</th><th>Chyb</th><th>Blok</th><th>Bod%</th><th>Efekt.</th></tr></thead><tbody>'+
+    ck.map(function(c){var L=C[c],d=(L[0].e.m.scn||{})[c],zc={},zb=0,zz='';L.forEach(function(r){var z=({7:5,8:6,9:1})[r.sz]||r.sz||'';if(!z)return;zc[z]=(zc[z]||0)+1;if(zc[z]>zb){zb=zc[z];zz=z}});return row(c,d,zz,L,0)}).join('')+row('Celkem','','',SAf,1)+'</tbody></table></div></details>'+
+    '<p class="mut" style="font-size:12px;margin:8px 0 0">Setter call = kód nahrávky zapsaný v DataVolley (K1, K7, KC, KD …). Počítají se jen nahrávky, které mají v souboru DataVolley zapsaný kód (K1, K7 …); ostatní se nezapočítají. V obrázku je půlka hřiště (síť dole): v zónách je podíl nahrávek zahraných do dané zóny, zelený / žlutý / šedý obdélník = kam dopadl příjem (zelený ++, žlutý +, šedý ostatní), šipka = náběh podle definice setter callu v databázi souboru DataVolley (jde otočit tlačítky nad obrázky), štítky F / C / B / P = cílový útočník nahrávky. N = počet útoků, % = podíl v rotaci (Tot = podíl rotace na všech nahrávkách). Po příjmu = první útok po příjmu, Transition = ostatní útoky po nahrávce. Efekt. = (body − chyby − zablokované) / útoky. Kliknutím na číslo nebo zónu se spustí video.</p></div>';
+  return{h:h,ev:SAf.map(function(r){return r.e})};
+}
+
+/* rotace nahrávačky u akce (pozice 1–6, 0 = neznámá) */
+function evRot(e){var a=e.m.ev&&e.m.ev[e.n];return a?a[14]||0:0}
+
+function vAn(){
+  DL=[];var a=S.m.slice().sort(function(x,y){return(y.date||'').localeCompare(x.date||'')});
+  if(!a.length){$('v').innerHTML='<div class="card"><p class="mut">Nejdřív nahraj utkání v kartě UTKÁNÍ.</p></div>';return}
+  if(!a.some(function(m){return sel[m.id]}))sel[a[0].id]=true;
+  var ms=a.filter(function(m){return sel[m.id]}),old=ms.some(function(m){return m.fv!==3}),one=ms.length===1,m0=ms[0];
+  var nameOwn=one?nm(m0,side(m0)):'Náš tým',nameOpp=one?nm(m0,1-side(m0)):'Soupeři';
+  var h='<div class="card"><h2>UTKÁNÍ K ROZBORU</h2><div class="row">'+a.map(function(m){return'<button class="chip" style="text-align:left;white-space:normal;line-height:1.25;border-radius:14px" aria-pressed="'+!!sel[m.id]+'" onclick="tg(\''+m.id+'\')">'+esc(m.home)+' – '+esc(m.away)+' '+m.sw[0]+':'+m.sw[1]+(m.sets&&m.sets.length?' <span style="font-weight:500">('+m.sets.map(function(x){return x[0]+':'+x[1]}).join(', ')+')</span>':'')+'<br><span style="font-weight:500;font-size:11px">'+(m.date?fdt(m):'datum neznámé'+(m.time?' · '+m.time:''))+'</span></button>'}).join('')+'</div>'+(old?'<p class="er">Některá utkání jsou ze starší verze (bez času videa a zón). Nahraj jejich .dvw znovu v kartě UTKÁNÍ, aktualizují se.</p>':'')+'</div>';h+=mwarnHtml(ms);
+  if(one)h+=hdr(m0);
+
+  /* DataVolley statistika – obě družstva pod sebou */
+  var fcss='<style>.ft{display:flex;gap:4px;padding:0 6px;position:relative;z-index:1}.ft button{flex:1;min-width:0;padding:10px 6px;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;background:linear-gradient(var(--card),var(--line));color:var(--ink);font:800 12px/1.2 system-ui;cursor:pointer}.ft button[aria-selected=true]{background:linear-gradient(var(--yel),#f2c200);border-color:#f2c200;color:#1a1400}.ftb{height:12px;margin:-1px 0 12px;background:linear-gradient(#f2c200,var(--yel) 60%,rgba(253,225,0,0))}</style>';
+  var dsn=function(isOwn,name){var Lt=pick(ms,isOwn),sr=buildTeamTableData(ms,Lt,isOwn);sr.push(['','Celkem hráčky',cnt(Lt),'t',{o:isOwn}]);return'<div class="card">'+tbl(groups(stab),sr,'#',name)+'</div>'};
+  h+='<div class="card">'+fcss+'<div class="ft">'+[['dv','DATAVOLLEY'],['det','PODROBNÁ STATISTIKA'],['eff','STATISTIKA EFEKTIVITY']].map(function(x){return'<button aria-selected="'+(stab===x[0])+'" onclick="stab=\''+x[0]+'\';DR=null;QR=null;draw3()">'+x[1]+'</button>'}).join('')+'</div><div class="ftb" style="margin-bottom:0"></div></div>';
+  h+=stab==='dv'?'<div class="card">'+dvReport(ms,true,nameOwn)+'</div><div class="card">'+dvReport(ms,false,nameOpp)+'</div>':dsn(true,nameOwn)+dsn(false,nameOpp)+'<p class="mut" style="font-size:12px;margin:0 0 14px">Kliknutím na číslo se zobrazí příslušné akce s videem níže.</p>';
+  /* Sideout / Transition po rotacích + útok po příjmu / negativním příjmu / obraně */
+  h+=renderSideoutPanel(ms,nameOwn,nameOpp);
+
+  /* Nákresy – dvě záložky */
+  var L=pick(ms,own),sn=[...new Set(L.map(function(e){return e.s}))].sort(function(x,y){return x-y}),
+    ks=buildTeamTableData(ms,L,own).map(function(r){return r[1]}),
+    F=L.filter(function(e){return(!fpl||pname(e)===fpl)&&(!fset||e.s===fset)&&(!fev||e.e===fev)}),
+    ch=function(on,fn,t){return'<button class="chip" aria-pressed="'+on+'" onclick="'+fn+'">'+t+'</button>'};
+  var FR=F;
+  h+='<div class="card">'+fcss+'<div class="ft">'+[['dir','SMĚRY ÚTOKŮ A PODÁNÍ'],['rot','ROTACE NAHRÁVAČKY'],['sc','SETTER CALL'],['qs','VYHLEDÁVÁNÍ']].map(function(x){return'<button aria-selected="'+(mtab===x[0])+'" onclick="mtab=mtab===\''+x[0]+'\'?\'\':\''+x[0]+'\';SELE=null;shown=60;DR=null;QR=null;draw3()">'+x[1]+'</button>'}).join('')+'</div><div class="ftb"></div>';
+  if(mtab&&mtab!=='qs')h+='<div class="row" style="margin-bottom:10px">'+ch(own,"own=true;fpl='';dstt='';DR=null;QR=null;SELE=null;draw3()",esc(nameOwn))+ch(!own,"own=false;fpl='';dstt='';DR=null;QR=null;SELE=null;draw3()",esc(nameOpp))+'</div>';
+  if(mtab==='qs'){h+=qcard(ms);FR=[]}
+  else if(mtab==='rot'){var dd=distHtml(ms,own);h+=dd.h;FR=dd.ev}
+  else if(mtab==='sc'){var sd=scHtml(ms,own);h+=sd.h;FR=sd.ev}
+  else if(mtab==='dir'){
+    h+='<div class="fb"><div><label>Hráčka</label><select onchange="fpl=this.value;shown=60;draw3()"><option value="">Všechny</option>'+ks.map(function(k){return'<option'+(k===fpl?' selected':'')+' value="'+esc(k)+'">'+esc(k)+'</option>'}).join('')+'</select></div>'+
+    '<div><label>Činnost v seznamu</label><select onchange="fsk=this.value;shown=60;draw3()"><option value="">Všechny</option>'+Object.keys(SK).map(function(k){return'<option value="'+k+'"'+(k===fsk?' selected':'')+'>'+SK[k]+'</option>'}).join('')+'</select></div></div>'+
+    '<div class="row" style="margin:10px 0 0">'+[[0,'Všechny sety']].concat(sn.map(function(n){return[n,n+'. set']})).map(function(x){return ch(fset===x[0],'fset='+x[0]+';shown=60;draw3()',x[1])}).join('')+'</div>'+
+    '<div class="row" style="margin:10px 0">'+[['','Všechny akce']].concat('#+!-/='.split('').map(function(v){return[v,'<svg width="16" height="16" viewBox="-8 -8 16 16" style="vertical-align:middle">'+shp(v,0,0)+'</svg> '+v+' '+EVN[v]]})).map(function(x){return ch(fev===x[0],"fev='"+x[0]+"';shown=60;draw3()",x[1])}).join('')+'</div>';
+    var rc={};F.forEach(function(e){if(e.k==='A'){var r=evRot(e);rc[r]=(rc[r]||0)+1}});
+    var na=Object.keys(rc).reduce(function(s,k){return s+rc[k]},0);
+    FR=F.filter(function(e){return!RT||evRot(e)===RT});
+    var ca=cnt(FR.filter(function(e){return e.k==='A'}));
+    h+='<label>Nahrávačka v zóně (S1 = zóna 1 …)</label><div class="rtg">'+[[0,'Vše ('+na+')']].concat([1,2,3,4,5,6].map(function(r){return[r,'S'+r+' ('+(rc[r]||0)+')']})).map(function(x){return ch(RT===x[0],'RT='+x[0]+';shown=60;SELE=null;draw3()',x[1])}).join('')+'</div>'+
+      '<div class="mut" style="font-size:13px;margin:8px 0 10px">Útoky <b>'+ca.an+'</b> · body <b>'+pc(ca.ak,ca.an)+'</b> · chyby <b>'+ca.ae+'</b> · zablokováno <b>'+ca.ab+'</b> · efektivita <b>'+ef(ca)+'</b>'+(rc[0]?' · '+rc[0]+' útoků bez určené S':'')+'</div>';
+    h+=mapsHtml(FR);
+  }
+  h+='</div>';
+
+  LST=(DR?pick(ms,DR.o===undefined?own:DR.o).filter(dmatch(DR)):(mtab==='qs'?(QR&&QR.ev?QR.ev.slice():[]):mtab==='rot'||mtab==='sc'?FR:FR.filter(function(e){return(!fsk||e.k===fsk)&&fcf(e)}))).sort(srt);
+  if(DR||mtab==='dir'||mtab==='rot'||mtab==='sc'||(mtab==='qs'&&QR&&QR.ev))h+=vidSec(DR||(mtab==='qs'&&QR&&QR.ev?{x:1,l:'Hledání: '+QT}:null));
+  $('v').innerHTML=h;
+}
+
+function ytl(e){var m=e.m,id=yid(vs2===2?m.v2:m.v1)||yid(m.v1)||yid(m.v2);if(!id)return'';return'<a class="ytl" title="Otevřít na YouTube" target="_blank" rel="noopener" onclick="event.stopPropagation()" href="https://www.youtube.com/watch?v='+id+'&t='+Math.max(0,Math.round(e.vt+(+m.off||0))-pre)+'s">↗</a>'}
+function mapPlay(j){var e=MAPE[j];if(!e)return;SELE=e;go2();setTimeout(function(){var d=$('adet');if(d&&d.scrollIntoView)d.scrollIntoView({behavior:'smooth',block:'nearest'})},60)}
+function kst(){var a=-pre;return a>0?'+'+a+' s':a<0?'−'+(-a)+' s':'0 s'}
+function adj(k,d){var a=pre,b=post;if(k==='st'){a=pre-d;b=post+d}else if(k==='len'){b=post+d}if(a<-60||a>120||a+b<1||a+b>180)return;pre=a;post=b;var x=$('kst'),y=$('kln');if(x)x.textContent=kst();if(y)y.textContent=(pre+post)+' s';if(typeof YI!=='undefined'&&YI>=0&&$('ypw'))playEv(YI);else klen()}
+function tg(id){sel[id]=!sel[id];fpl='';dstt='';dset=0;fset=0;shown=60;DR=null;QR=null;SELE=null;draw3()}
+function draw3(){var y=window.scrollY;vAn();window.scrollTo(0,y)}
+
+/* ---------- proklik z tabulek a video ---------- */
+function fcf(e){return!fac||e.k!=='A'||e.c===fac}
+function srt(x,y){return x.m.id===y.m.id?x.vt-y.vt:(x.m.date||'').localeCompare(y.m.date||'')}
+function dmatch(d){if(d.x){var KK={};d.e.forEach(function(e){KK[e.m.id+'|'+e.n]=1});return function(e){return KK[e.m.id+'|'+e.n]===1}}var T=d.k.split(',');return e=>(!d.p||pname(e)===d.p)&&(!d.s||e.s===d.s)&&(!d.m||e.m.id===d.m)&&(!d.ms||d.ms.indexOf(e.m.id)>=0)&&T.some(t=>e.k===t[0]&&(t[1]==='*'||e.e===t[1]))}
+function dlab(d){if(d.x)return d.l;var t=d.k.split(',').map(x=>SK[x[0]]+(x[1]==='*'?'':' '+x[1])).join(', ');return t+(d.p?' · '+d.p:'')+(d.s?' · set '+d.s:'')+(d.m&&find(d.m)?' · '+find(d.m).home+' – '+find(d.m).away:'')}
+function okEmbed(){return /^https?:$/.test(location.protocol)}
+function noEmb(href){return'<div class="vid" style="display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;padding:16px;text-align:center;color:#fff"><div>YouTube nepřehraje video vložené do souboru otevřeného z telefonu nebo disku (chyba 153). Aplikace musí běžet na adrese https://. Do té doby video otevři přímo v YouTube:</div><a class="btn pri" target="_blank" rel="noopener" href="'+href+'">▶ Otevřít v YouTube</a></div>'}
+function go2(){view==='pl'?drawP():view==='st'?drawS():draw3()}
+function dk(i){DR=DL[i];shown=60;go2();setTimeout(function(){var e=$('vsec');if(e&&e.scrollIntoView)e.scrollIntoView();if(LST[0]&&hasVid(LST[0].m))playAll()},60)}
+
+/* ---------- Vyhledávání větou: hráčka v zóně × útok soupeře × předchozí akce ---------- */
+var QT='',QR=null;
+var QEX=['blokař 12 zóna 4,3,2 útok soupeře zóna 4','hráč 7 zóna 2 útok soupeře zóna 2 typ V5 X5','hráč 12 zóna 4 3 2 útok soupeře X5 po příjmu ++ a +','hráč 5 zóna 3 útok soupeře po obraně +'];
+function qnorm(s){var t=String(s||'').toLowerCase();try{t=t.normalize('NFD').replace(/[̀-ͯ]/g,'')}catch(e){}return t}
+function qzones(txt){var z=[],out=txt.replace(/\bzon\w*\s*((?:\d+[\s,;]*(?:a\s+|nebo\s+)?)+)/g,function(all,l){(l.match(/\d/g)||[]).forEach(function(d){if(+d>=1&&+d<=9&&z.indexOf(+d)<0)z.push(+d)});return' '});return{z:z,t:out}}
+function qparse(q){
+  var W={jedna:1,jedno:1,dve:2,dva:2,tri:3,ctyri:4,ctyry:4,pet:5,sest:6};
+  var s=' '+qnorm(q).replace(/\b(jedna|jedno|dve|dva|tri|ctyri|ctyry|pet|sest)\b/g,function(w){return W[w]})+' ';
+  var ix=s.search(/\butok\w*/),left=ix<0?s:s.slice(0,ix),right=ix<0?'':s.slice(ix),P={pl:null,pz:[],az:[],codes:[],prev:null,fs:0,err:''};
+  var zl=qzones(left);P.pz=zl.z;var pm=zl.t.match(/\b(\d{1,3})\b/);if(pm)P.pl=+pm[1];
+  var mm=right.match(/\bpo\s+(prihrav\w*|prijm\w*|prijem\w*|obran\w*|nahrav\w*|freeball\w*|fb)\s*((?:\s*(?:[#+!\/=\-]+|\ba\b|nebo|,|;))*)/);
+  if(mm){var w=mm[1],sk=/^(prihrav|prijm|prijem)/.test(w)?'R':/^obran/.test(w)?'D':/^nahrav/.test(w)?'E':'F',ev=[];
+    (mm[2].match(/[#+!\/=\-]+/g)||[]).forEach(function(t){if(/^\++$/.test(t)&&t.length>=2){if(ev.indexOf('#')<0)ev.push('#')}else t.split('').forEach(function(c){if(ev.indexOf(c)<0)ev.push(c)})});
+    P.prev={sk:sk,ev:ev};right=right.replace(mm[0],' ')}
+  var sm=right.match(/\bset\s*(\d)\b/);if(sm){P.fs=+sm[1];right=right.replace(sm[0],' ')}
+  var zr=qzones(right);P.az=zr.z;right=zr.t;
+  var cm,re=/\b([a-z])\s?(\d)\b/g;while((cm=re.exec(right))){var c=(cm[1]+cm[2]).toUpperCase();if(P.codes.indexOf(c)<0)P.codes.push(c)}
+  if(P.pl===null&&!P.az.length&&!P.codes.length&&!P.prev&&!P.fs)P.err='Napiš například: blokař 12 zóna 4,3,2 útok soupeře zóna 4';
+  else if(P.pl===null&&P.pz.length)P.err='Zadej číslo hráčky (například: blokař 12 zóna 4,3,2 …).';
+  return P}
+function qdesc(P,ms){var m0=ms[0],sd=m0?side(m0):0,nmx=P.pl!==null&&m0&&m0.pl&&m0.pl[sd?'a':'h'][P.pl];
+  var a=[];if(P.pl!==null)a.push('hráčka <b>#'+P.pl+(nmx?' '+esc(nmx):'')+'</b>'+(P.pz.length?' v postavení <b>'+P.pz.join(', ')+'</b>':' (na hřišti, kdekoliv)'));
+  var b=[];if(P.az.length)b.push('ze zóny <b>'+P.az.join(', ')+'</b>');if(P.codes.length)b.push('kód <b>'+P.codes.join(', ')+'</b>');
+  if(P.prev)b.push('po '+({R:'příjmu',D:'obraně',E:'nahrávce',F:'freeballu'})[P.prev.sk]+(P.prev.ev.length?' <b>'+P.prev.ev.map(function(c){return c==='#'?'++':c}).join(' / ')+'</b>':''));
+  if(P.fs)b.push('set <b>'+P.fs+'</b>');
+  a.push('útok soupeře'+(b.length?' '+b.join(' · '):''));return a.join(' · ')}
+function qsearch(q,ms){
+  var P=qparse(q);if(P.err)return{err:P.err,P:P};
+  var out=[],seen={},na=0,miss=[],cnt={};
+  ms.forEach(function(m){
+    if(!m.lt||!m.lt.length){miss.push(m.home+' – '+m.away);return}
+    var sd=side(m),opp=1-sd,ev=m.ev||[],n=ev.length,rs=[],re=[],i,j;
+    for(i=0;i<n;i++){j=(i&&ev[i-1][5]===ev[i][5]&&ev[i-1][9]===ev[i][9])?rs[i-1]:i;rs[i]=j}
+    for(i=n-1;i>=0;i--){re[i]=(i<n-1&&ev[i+1][5]===ev[i][5]&&ev[i+1][9]===ev[i][9])?re[i+1]:i}
+    var mk=function(ix){var a=ev[ix];return{n:ix,t:a[0],p:a[1],k:a[2],y:a[3],e:a[4],s:a[5],z:a[6],w:a[7],x:a[8]||'',u:a[11]||'',sc:a[9]||'',vt:a[10]||0,c:a[12]||'',h:a[13]||'',m:m,ti:a[0],ctx:1}};
+    var add=function(o){var k=m.id+'|'+o.n;if(!seen[k]){seen[k]=1;out.push(o)}};
+    for(i=0;i<n;i++){var a=ev[i];if(a[0]!==opp||a[2]!=='A')continue;
+      if(P.fs&&a[5]!==P.fs)continue;
+      if(P.codes.length&&P.codes.indexOf(String(a[12]||'').toUpperCase())<0)continue;
+      if(P.az.length){var z=+a[6];z=({7:5,8:6,9:1})[z]||z;if(P.az.indexOf(z)<0)continue}
+      if(P.prev){var q=i-1;if(q>=rs[i]&&ev[q][0]===opp&&ev[q][2]==='E'&&P.prev.sk!=='E')q--;
+        if(q<rs[i])continue;var pe=ev[q];if(pe[0]!==opp||pe[2]!==P.prev.sk)continue;if(P.prev.ev.length&&P.prev.ev.indexOf(pe[4])<0)continue}
+      if(P.pl!==null){var li=ev[i][15+sd];if(li===undefined||li<0||!m.lt[li])continue;var lu=m.lt[li].split(',').map(Number),pos=lu.indexOf(P.pl)+1;
+        if(!pos||(P.pz.length&&P.pz.indexOf(pos)<0))continue}
+      na++;add(mk(i));
+      if(P.pl!==null)for(j=i+1;j<=re[i];j++){if(ev[j][0]===sd&&ev[j][1]===P.pl){add(mk(j));var kk=ev[j][2]+ev[j][4];cnt[kk]=(cnt[kk]||0)+1;cnt[ev[j][2]]=(cnt[ev[j][2]]||0)+1}}
+    }
+  });
+  return{P:P,ev:out,na:na,miss:miss,cnt:cnt,q:q}}
+function qrun(v){QT=(v!=null?v:($('qt')||{}).value)||'';var ms=S.m.filter(function(m){return sel[m.id]});QR=qsearch(QT,ms);QR.ms=ms;DR=null;mtab='qs';shown=60;SELE=null;go2();
+  setTimeout(function(){var e=$('vsec')||$('qres');if(e&&e.scrollIntoView)e.scrollIntoView();if(QR&&QR.ev&&QR.ev.length&&LST[0]&&hasVid(LST[0].m))playAll()},60)}
+function qclear(){QR=null;go2()}
+function qex(i){QT=QEX[i];var t=$('qt');if(t)t.value=QT}
+function qcard(ms){
+  var r='';
+  if(QR){
+    if(QR.err)r='<p class="er" id="qres">'+esc(QR.err)+'</p>';
+    else{var bk=QR.cnt.B||0,br=Object.keys(SK).filter(function(k){return QR.cnt[k]}).map(function(k){return SK[k]+' <b>'+QR.cnt[k]+'</b>'+(k==='B'&&QR.cnt['B#']?' (bod '+QR.cnt['B#']+')':'')}).join(' · ');
+      r='<div id="qres" style="margin-top:10px"><div style="font-size:13px">Rozumím: '+qdesc(QR.P,ms)+'</div><div style="margin-top:6px;font-size:14px">Nalezeno útoků soupeře: <b>'+QR.na+'</b>'+(QR.P.pl!==null?' · akce hráčky: '+(br||'<b>0</b>'):'')+'</div>'+
+        (QR.miss.length?'<p class="er" style="font-size:12px;margin:6px 0 0">U utkání '+esc(QR.miss.join(', '))+' chybí postavení hráček na hřišti. Nahraj jeho .dvw znovu v kartě UTKÁNÍ.</p>':'')+
+        (QR.na===0&&!QR.miss.length?'<p class="mut" style="font-size:12px;margin:6px 0 0">Nic nenalezeno. Zkus méně podmínek (třeba jen číslo hráčky a zónu).</p>':'')+'</div>'}}
+  return'<div class="row" style="align-items:stretch"><input id="qt" value="'+esc(QT)+'" placeholder="např. blokař 12 zóna 4,3,2 útok soupeře zóna 4 typ V5 X5 po příjmu ++" style="flex:1;min-width:220px" onkeydown="if(event.key===\'Enter\'){event.preventDefault();qrun(this.value)}"><button class="btn pri" onclick="qrun()">HLEDAT</button>'+(QR?'<button class="btn" onclick="qclear()">✕ ZRUŠIT</button>':'')+'</div>'+
+    '<div class="row" style="margin-top:8px">'+QEX.map(function(t,i){return'<button class="chip" style="font-size:12px" onclick="qex('+i+')">'+esc(t)+'</button>'}).join('')+'</div>'+
+    '<p class="mut" style="font-size:12px;margin:8px 0 0">Zóna hráčky = její postavení na hřišti (1–6) při útoku soupeře. Útok: zóna, kód z DataVolley (V5, X1 …), „po příjmu/obraně/nahrávce“ s hodnocením (++ perfektní, + pozitivní, ! , - , / , =). Hledá se ve vybraných utkáních.</p>'+r}
+
+/* ---------- Přehrávač akcí: ovládání přes YouTube postMessage, kreslení, komentáře, export, klávesové zkratky ---------- */
+/* Zkratky: Mezerník start/stop · Enter další akce · Backspace předchozí · Esc celá obrazovka pryč · ↑ 1 s vpřed · ↓ 1 s zpět · ← snímek zpět · → snímek vpřed · Num +/−/0 zoom · Num 4/6/8/2 posun */
+var YT={id:'',cur:0,st:-1,api:false,endT:0,all:false,built:false,rate:1,t0:0,t1:0,stamp:0,W:null,g:null},YI=-1,XS={},XTXT='',FPS=30,YTO='https://www.youtube-nocookie.com';
+var kt='arrow',kc='#ff3b30',kw=3,kon=false,kshow=true,AK='',KD=null,karm=false,KT2=null,KCT=null,KCAP='',KSV=null,ksticky=false,kloop=false,kdrag=0,ka='arrow',kaop=false;
+function evKey(e){return e.m.id+'|'+e.n}
+function annOf(k,mk){S.ann=S.ann||{};var o=S.ann[k];if(!o&&mk)o=S.ann[k]={c:'',d:[]};return o}
+function sa(id,k,v){var x=$(id);if(x&&x.setAttribute)x.setAttribute(k,v)}
+function ytc(f,a){var x=$('ypf');if(x&&x.tagName==='VIDEO'){lytc(x,f,a);return}if(x&&x.contentWindow)try{x.contentWindow.postMessage(JSON.stringify({event:'command',func:f,args:a||[]}),YTO)}catch(e){}}
+function ytListen(){var n=0,x=$('ypf');(function go(){if(YT.api||n++>12)return;if(x&&x.contentWindow)try{x.contentWindow.postMessage(JSON.stringify({event:'listening',id:1,channel:'widget'}),YTO)}catch(e){}setTimeout(go,500)})()}
+function ytmsg(ev){
+  if(!/^https:\/\/(www\.)?youtube(-nocookie)?\.com$/.test(ev.origin||''))return;
+  var d=ev.data;if(typeof d==='string'){try{d=JSON.parse(d)}catch(x){return}}
+  if(!d||typeof d!=='object')return;
+  var inf=d.info;
+  if(d.event==='onReady'||d.event==='initialDelivery'){if(!YT.api&&YT.rate!==1)setTimeout(function(){ytc('setPlaybackRate',[YT.rate])},300);YT.api=true}
+  if(d.event==='infoDelivery'&&inf){YT.api=true;if(typeof inf.currentTime==='number'){var ct=inf.currentTime,g=YT.g;if(!g||Date.now()>g.u||Math.abs(ct-g.t)<2.5){if(g&&Math.abs(ct-g.t)<2.5)YT.g=null;YT.cur=ct;YT.stamp=Date.now();kprog()}}if(typeof inf.playerState==='number'){if(inf.playerState!==YT.st){if(inf.playerState===2||inf.playerState===0)YT.W=null;else if(inf.playerState===1&&!YT.W)kwall()}YT.st=inf.playerState;YT.stamp=Date.now();kplab()}
+    if(YT.endT&&YT.st===1&&kcur()>=YT.endT)kend()}
+  if(d.event==='onStateChange'&&typeof inf==='number'){if(inf===2||inf===0)YT.W=null;else if(inf===1&&!YT.W)kwall();YT.st=inf;YT.stamp=Date.now();kplab()}
+}
+function yseek(t){YT.cur=t;YT.stamp=Date.now();YT.g={t:t,u:Date.now()+1500};ytc('seekTo',[t,true])}
+function kwall(){YT.W={t:YT.cur,s:Date.now()}}
+function kcur(){var lx=lvEl();if(lx)return lx.currentTime||0;var c=YT.cur||0;if(YT.st===1&&YT.stamp)c+=(Date.now()-YT.stamp)/1000*YT.rate;return c}
+function kend(){YT.endT=0;YT.W=null;clearTimeout(hardT);clearTimeout(tmr);
+  if(YT.all){if(YI+1<LST.length)nextEv(1);else{YT.all=false;kpa();ytc('pauseVideo')}}
+  else if(kloop){yseek(YT.t0);YT.endT=YT.t1;kwall();khard(1500);ytc('playVideo')}
+  else ytc('pauseVideo')}
+function khard(slack){clearTimeout(hardT);if(!YT.endT)return;var d=Math.max(0,(YT.endT-YT.cur))/(YT.rate||1)*1000+slack;hardT=setTimeout(function(){if(YT.endT)kend()},d)}
+function seekBy(d){var t=Math.max(0,kcur()+d);YT.endT=0;YT.W=null;clearTimeout(hardT);yseek(t)}
+function kh(ev){
+  var t=ev.target,tn=t&&t.tagName;
+  if(tn==='INPUT'||tn==='TEXTAREA'||tn==='SELECT')return;
+  if(!document.getElementById('ypw')&&!(LST&&LST.length&&document.getElementById('vsec')))return;
+  var k=ev.key,h=true;
+  if(YI<0){if((k==='Enter'||k===' ')&&LST.length){if(tn==='BUTTON')t.blur();ev.preventDefault();playEv(0)}return}
+  if(tn==='BUTTON')t.blur();
+  var cd=ev.code;
+  if(cd==='NumpadAdd'){zby(1.5);ev.preventDefault();return}
+  if(cd==='NumpadSubtract'){zby(1/1.5);ev.preventDefault();return}
+  if(cd==='Numpad0'||cd==='NumpadMultiply'){zreset();ev.preventDefault();return}
+  if(ZM.s>1&&(cd==='Numpad4'||cd==='Numpad6'||cd==='Numpad8'||cd==='Numpad2')){zpan(cd==='Numpad4'?10:cd==='Numpad6'?-10:0,cd==='Numpad8'?10:cd==='Numpad2'?-10:0);ev.preventDefault();return}
+  if(k==='Escape'&&zs){zs=0;zd=null;zapp();return}
+  if(k===' ')ktoggle();
+  else if(k==='Enter')nextEv(1);
+  else if(k==='Backspace')nextEv(-1);
+  else if(k==='Escape'){if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen()}
+  else if(k==='ArrowUp')seekBy(1);
+  else if(k==='ArrowDown')seekBy(-1);
+  else if(k==='ArrowLeft'){ytc('pauseVideo');seekBy(-1/FPS)}
+  else if(k==='ArrowRight'){ytc('pauseVideo');seekBy(1/FPS)}
+  else h=false;
+  if(h)ev.preventDefault();
+}
+if(typeof window.addEventListener==='function'){window.addEventListener('message',ytmsg);window.addEventListener('resize',function(){kfit()})}
+if(typeof document.addEventListener==='function'){document.addEventListener('keydown',kh);document.addEventListener('fullscreenchange',function(){setTimeout(kfit,80);setTimeout(kfit,450);kfsl()})}
+
+function playEv(i){YI=i;playE(LST[i],i)}
+function nextEv(d){var i=YI+d;if(i<0||i>=LST.length){if(i>=LST.length){YT.all=false;kpa()}return}playEv(i)}
+function playAll(){stopP();YT.all=true;playEv(0)}
+function stopP(){clearTimeout(tmr);clearTimeout(hardT);YT.all=false;YT.endT=0;ytc('pauseVideo');kpa()}
+function kpa(){sa('kpa','aria-pressed',String(!!YT.all))}
+function kall(){if(YT.all)stopP();else playAll()}
+function ktoggle(){if(YT.st===1){YT.W=null;clearTimeout(hardT);ytc('pauseVideo')}else{if(kcur()>=YT.t1-.2){yseek(YT.t0);YT.endT=YT.t1}else if(YT.t1)YT.endT=YT.t1;kwall();khard(1500);ytc('playVideo')}}
+function kstop(){stopP();yseek(YT.t0||0);kprog()}
+function kloopT(){kloop=!kloop;sa('klp','aria-pressed',kloop);if(kloop&&YT.t1&&kcur()<YT.t1)YT.endT=YT.t1}
+function kseek(v){if(!YT.t1)return;var t=YT.t0+v/1000*(YT.t1-YT.t0);YT.endT=YT.t1;yseek(t);if(YT.st===1){kwall();khard(1500)}klen()}
+function kprog(){var o=$('kprg');if(o&&!kdrag&&YT.t1>YT.t0)o.value=Math.round(1000*Math.min(1,Math.max(0,(kcur()-YT.t0)/(YT.t1-YT.t0))));klen()}
+var _kt=(typeof setInterval==='function')?setInterval(function(){if(!$('ypw'))return;if(YT.endT&&YT.st===1&&kcur()>=YT.endT)kend();else if(YT.endT&&YT.W&&YT.st!==2&&YT.st!==0&&Date.now()-YT.W.s>((YT.endT-YT.W.t)/(YT.rate||1))*1000+(YT.st===-1?9000:1800))kend();kprog()},150):0;if(_kt&&_kt.unref)_kt.unref();
+function klen(){var o=$('klen');if(!o)return;var tot=Math.max(0,(YT.t1||0)-(YT.t0||0)),el=Math.min(tot,Math.max(0,kcur()-(YT.t0||0)));o.textContent=(Math.round(el*10)/10).toString().replace('.',',')+' / '+(Math.round(tot*10)/10).toString().replace('.',',')+' s'}
+function kplab(){klen();var b=$('kpp');if(b)b.textContent=YT.st===1?'⏸':'▶'}
+function kfsl(){var b=$('kfs');if(b)b.textContent=document.fullscreenElement?'✕ ZPĚT':'⛶'}
+function krate(d,r){YT.rate=r?1:Math.min(2,Math.max(.25,Math.round((YT.rate+d)*100)/100));ytc('setPlaybackRate',[YT.rate]);var o=$('krt');if(o)o.textContent=YT.rate+'×'}
+function ksc(v){ksticky=!!v;kbar()}
+function vsw(n){vs2=n;sa('vz1','aria-pressed',n===1);sa('vz2','aria-pressed',n===2);if(YI>=0)playEv(YI)}
+function ytFs(){var w=$('ypw');if(!w)return;if(document.fullscreenElement){document.exitFullscreen()}else if(w.requestFullscreen){var p=w.requestFullscreen();if(p&&p.catch)p.catch(function(){var o=$('xo');if(o)o.innerHTML='<p class="mut" style="font-size:12px">Celou obrazovku tady prohlížeč nepovolil.</p>'})}}
+function qsave(i){var e=LST[i];if(!e)return;var v=nv(($('qv')||{}).value||'');if(!v){$('qv').style.outline='2px solid #ff3b30';return}var mm=find(e.m.id)||e.m;mm.v1=v;e.m.v1=v;sv();playEv(i)}
+function playE(e,i){
+  if(!e)return;var m=e.m,id=yid(vs2===2?m.v2:m.v1)||yid(m.v1)||yid(m.v2),cap=(i+1)+'/'+LST.length+' · '+SK[e.k]+' · #'+e.p+' '+pname(e)+' · '+elab(e)+' · Set '+e.s+' · stav '+e.sc;
+  clearTimeout(tmr);
+  [].forEach.call(document.querySelectorAll('.ev.act'),function(x){x.classList.remove('act')});var el=$('ev'+i);if(el){el.classList.add('act');var LV=$('evl');if(LV&&LV.getBoundingClientRect&&el.getBoundingClientRect){var er=el.getBoundingClientRect(),lr=LV.getBoundingClientRect();if(er.top<lr.top)LV.scrollTop-=lr.top-er.top;else if(er.bottom>lr.bottom)LV.scrollTop+=er.bottom-lr.bottom}}
+  var lv=LVID[m.id];
+  if(!id&&!lv){YT.built=false;YT.id='';$('vf').innerHTML='<div class="vid" style="display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;padding:16px;text-align:center;color:#fff"><div>Utkání <b>'+esc(m.home+' – '+m.away)+'</b> nemá uložený odkaz na YouTube. Vlož ho sem a ulož:</div><input id="qv" placeholder="odkaz nebo ID videa" style="max-width:360px"><button class="btn pri" onclick="qsave('+i+')">ULOŽIT A PŘEHRÁT</button></div>';return}
+  var t=Math.round(e.vt+(+m.off||0)),tE=t,st=Math.max(0,t-pre);
+  if(kwhole&&m.ev){var ev0=m.ev,i0=e.n,i1=e.n,sc0=ev0[i0]&&ev0[i0][9],ss0=ev0[i0]&&ev0[i0][5];while(i0>0&&ev0[i0-1][9]===sc0&&ev0[i0-1][5]===ss0)i0--;while(i1<ev0.length-1&&ev0[i1+1][9]===sc0&&ev0[i1+1][5]===ss0)i1++;
+    var vs0=0,ve0=0;for(var q=i0;q<=i1;q++){var vv=ev0[q][10]||0;if(vv){if(!vs0||vv<vs0)vs0=vv;if(vv>ve0)ve0=vv}}
+    if(vs0){t=Math.round(vs0+(+m.off||0));tE=Math.min(t+40,Math.round(ve0+(+m.off||0)));st=Math.max(0,t-pre)}}
+  if(!lv&&!okEmbed()){YT.built=false;YT.id='';$('vf').innerHTML='<div style="margin:8px 0;font-weight:700">'+esc(cap)+'</div>'+noEmb('https://www.youtube.com/watch?v='+id+'&t='+st+'s');return}
+  var mode=lv?'L':'Y',key=lv?lv.url:id,fresh=!YT.built||!$('ypf')||key!==YT.id||YT.mode!==mode;YT.cur=st;YT.endT=tE+post;YT.t0=st;YT.t1=tE+post;YT.st=fresh?-1:1;YT.stamp=Date.now();
+  if(!YT.built||!$('ypf')||YT.mode!==mode){var src=lv?lv.url:'https://www.youtube-nocookie.com/embed/'+id+'?enablejsapi=1&start='+st+'&autoplay=1&rel=0&playsinline=1&fs=0'+(location.origin&&location.origin!=='null'?'&origin='+encodeURIComponent(location.origin):'');$('vf').innerHTML=kplayer(src,lv?1:0);YT.built=true;YT.id=key;YT.mode=mode}
+  else if(key!==YT.id){if(lv){$('ypf').src=lv.url}else $('ypf').src='https://www.youtube-nocookie.com/embed/'+id+'?enablejsapi=1&start='+st+'&autoplay=1&rel=0&playsinline=1&fs=0'+(location.origin&&location.origin!=='null'?'&origin='+encodeURIComponent(location.origin):'');YT.id=key}
+  else{yseek(st);ytc('playVideo')}
+  kwall();khard(fresh?(lv?15000:9000):1500);kload(e,cap);kpa();
+  if(YT.all&&!YT.api)tmr=setTimeout(function(){nextEv(1)},(pre+post)*1000+2500);
+}
+function kplayer(src,loc){
+  ZM={s:1,x:0,y:0};zs=0;
+  return'<div id="ypw"><div class="vid" id="ypv"><div id="ypz" style="position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:0 0">'+(loc?'<video id="ypf" src="'+src+'" playsinline preload="auto" onloadedmetadata="lvMeta()" onplaying="lvEv(1)" onpause="lvEv(2)" onwaiting="lvEv(3)" onended="lvEv(0)" ontimeupdate="lvTick()" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;background:#000;border:0"></video>':'<iframe id="ypf" referrerpolicy="strict-origin-when-cross-origin" src="'+src+'" allow="autoplay;encrypted-media;picture-in-picture" title="Akce" onload="ytListen()" style="position:absolute;left:0;top:0;width:100%;height:100%;border:0"></iframe>')+'</div><div id="ypc"></div>'+
+    '<canvas id="ypk" onwheel="zwh(event)" onpointerdown="kpd(event)" onpointermove="kpm(event)" onpointerup="kpu(event)" onpointercancel="kpu(event)" style="pointer-events:none;cursor:default"></canvas><div id="zov" onwheel="zwh(event)" style="display:block;position:absolute;left:0;top:0;width:100%;height:100%;z-index:6;cursor:default;touch-action:none" onpointerdown="zpd(event)" onpointermove="zpm(event)" onpointerup="zpu(event)" onpointercancel="zpu(event)"><div id="zbx" style="position:absolute;display:none;border:2px solid #fdd835;background:rgba(253,216,53,.15);box-sizing:border-box;pointer-events:none"></div></div></div>'+
+    '<div class="ypb kpan" id="kdd" hidden></div>'+
+    '<div class="ypb kpan" id="kcp" hidden><textarea id="kcm" style="flex:1;min-width:200px;min-height:40px;height:46px;resize:vertical" placeholder="Komentář k akci" oninput="kcsave(this.value)" onchange="kcsave(this.value,1)"></textarea></div>'+
+    '<div class="ypb" id="ypb">'+kmain()+'</div></div>'}
+function kmain(){
+  var B=function(id,t,fn,x,pr){return'<button class="btn"'+(id?' id="'+id+'"':'')+(pr!=null?' aria-pressed="'+pr+'"':'')+' title="'+t+'" onclick="'+fn+'">'+x+'</button>'},
+    SEC=function(l,x){return'<span class="ksec"><small class="kl">'+l+'</small>'+x+'</span>'};
+  return'<style>.ksec{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 8px 5px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.05);position:relative}.ksec>.kl{position:absolute;top:-7px;left:8px;background:#0b1730;padding:0 4px;font-size:9px;opacity:.75;text-transform:uppercase;letter-spacing:.06em}.ypb{row-gap:12px;gap:5px;padding:6px 8px}.ypb .btn{padding:4px 6px;font-size:11px;min-width:0;line-height:1.1}.ypb .ksec{gap:4px;padding:3px 6px 4px}.kprow{display:flex;align-items:center;gap:6px;flex:0 1 150px;min-width:70px}.ypb .ksec{flex:0 0 auto;min-width:50px;justify-content:center}.kprow input[type=range]{flex:1;min-width:60px;width:100%}.kspd{display:inline-flex;align-items:center;gap:3px;white-space:nowrap}.kspd small{font-size:9px;opacity:.8}.ypb.kfs .ksec{flex-wrap:nowrap}.ypb.kc1 .btn{padding:3px 5px;font-size:10.5px}.ypb.kc1 .ksec{gap:3px;padding:2px 4px 3px}.ypb.kc2 .btn{padding:3px 4px;font-size:10px}.ypb.kc3 .btn{padding:2px 3px;font-size:9px}.ypb.kc3 .ksec{gap:2px;padding:1px 3px}.ypb.kc3 .kspd small,.ypb.kc3 .ksec>.kl{display:none}.ypb.kc3 .kprow{min-width:30px;flex-basis:90px}.ypb.kc3 .kprow b{font-size:10px}.ypb.kc2 .ksec{gap:2px;padding:2px 3px}.ypb.kc2 .kspd small{display:none}.ypb.kc2 .kprow{min-width:36px}</style>'+
+  '<div class="kprow"><input type="range" id="kprg" min="0" max="1000" value="0" title="Posuvník klipu – táhni pro posun" onpointerdown="kdrag=1" oninput="kseek(this.value)" onchange="kdrag=0;this.blur()" onpointerup="kdrag=0"><b id="klen" title="Uplynulo / délka klipu">0 / '+(pre+post)+' s</b></div>'+
+  SEC('Přehrávání',B('kpp','Přehrát / pozastavit (Mezerník)','ktoggle()','▶')+B('','Stop – zpět na začátek akce','kstop()','■')+B('','Předchozí akce (Backspace)','nextEv(-1)','⏮')+B('','Další akce (Enter)','nextEv(1)','⏭'))+
+  SEC('Režim a časovač klipu',B('kpa','Přehrát všechny akce v řadě (klik znovu = zastavit)','kall()','▶▶',!!YT.all)+B('klp','Smyčka: zapnuto = klip se opakuje, vypnuto = po konci klipu se zastaví','kloopT()','🔁',kloop)+B('kwh','Přehrávat celou akci (od podání po konec výměny) místo klipu daného časy začátek / délka','kwholeT()','▭ CELÁ AKCE',kwhole)+
+    '<span class="kspd"><small>začátek</small>'+B('','Začátek dřív (−) – klip začne dřív před akcí','adj(\'st\',-1)','−')+'<b id="kst" title="Začátek klipu vůči akci (minus = před akcí)">'+kst()+'</b>'+B('','Začátek později (+)','adj(\'st\',1)','+')+'</span><span class="kspd"><small>délka</small>'+B('','Kratší klip','adj(\'len\',-1)','−')+'<b id="kln" title="Délka klipu">'+(pre+post)+' s</b>'+B('','Delší klip','adj(\'len\',1)','+')+'</span>')+
+  SEC('Rozbor',B('ktr','Míč ve 3 bodech: klikni začátek, nejvyšší bod a konec nahrávky – nakreslí se oblouk','ktrk()','⌖ MÍČ 3 B.')+B('kcmp','Porovnání: ukáže kresby zaškrtnutých akcí (nebo všech v seznamu) najednou přes sebe, každá jinou barvou s číslem akce','kcmpT()','⧉ POROVNAT',kcmp)+'<small id="kcmi" class="mut"></small>'+B('kbt','Kreslit – rozbalí nástroje','kpanel(\'d\')','✎ KRESLIT ▾',false)+B('kbc','Komentář k akci','kpanel(\'c\')','💬 KOMENTÁŘ',false))+
+  SEC('Obraz',  '<span class="kspd"><small>rychlost</small>'+B('','Pomaleji','krate(-.25)','−')+'<b id="krt" title="Klik = normální rychlost" onclick="krate(0,1)">'+YT.rate+'×</b>'+B('','Rychleji','krate(.25)','+')+'</span>'+
+    '<span class="kspd"><small>zoom</small>'+B('kzb','Lupa – táhnutím vyber čtvercový výřez obrazu (Esc = zrušit)','zsel()','🔍',false)+B('','Oddálit (Num −)','zby(1/1.5)','−')+'<b id="kzr" title="Klik = původní velikost (Num 0)" onclick="zreset()">1×</b>'+B('','Přiblížit (Num +)','zby(1.5)','+')+'</span>')+
+  SEC('Okno',B('kfs','Celá obrazovka / zpět (Esc)','ytFs()','⛶'))}
+var ZM={s:1,x:0,y:0},zs=0,zd=null;
+function zclamp(){ZM.s=Math.min(8,Math.max(1,ZM.s));ZM.x=Math.min(0,Math.max(100*(1-ZM.s),ZM.x));ZM.y=Math.min(0,Math.max(100*(1-ZM.s),ZM.y))}
+function zapp(){var e=$('ypz');if(e&&e.style)e.style.transform=ZM.s===1?'':'translate('+ZM.x.toFixed(3)+'%,'+ZM.y.toFixed(3)+'%) scale('+ZM.s.toFixed(4)+')';var b=$('kzr');if(b)b.textContent=(Math.round(ZM.s*10)/10)+'×';var o=$('zov');if(o&&o.style){o.style.cursor=zs?'crosshair':ZM.s>1?'grab':'default';o.style.pointerEvents=kon&&!zs?'none':'auto'}sa('kzb','aria-pressed',zs)}
+function zby(f){var ns=Math.min(8,Math.max(1,ZM.s*f)),cx=(50-ZM.x)/ZM.s,cy=(50-ZM.y)/ZM.s;ZM.s=ns;ZM.x=50-cx*ns;ZM.y=50-cy*ns;zclamp();zapp()}
+function zpan(dx,dy){if(ZM.s<=1)return;ZM.x+=dx;ZM.y+=dy;zclamp();zapp()}
+function zreset(){ZM={s:1,x:0,y:0};zs=0;zapp()}
+function zsel(){if(kon)ktog();zs=!zs;zd=null;var b=$('zbx');if(b&&b.style)b.style.display='none';zapp()}
+function zwh(ev){if(!ev.deltaY)return;ytc('pauseVideo');seekBy(ev.deltaY>0?1/FPS:-1/FPS);if(ev.preventDefault)ev.preventDefault()}
+function zpd(ev){var o=$('zov');if(!o||!o.getBoundingClientRect)return;var r=o.getBoundingClientRect();zd={x:ev.clientX-r.left,y:ev.clientY-r.top,w:0,h:0,W:r.width,H:r.height,l:r.left,t:r.top};if(!zs){zd.pan=1;zd.cx=ev.clientX;zd.cy=ev.clientY;zd.x0=ZM.x;zd.y0=ZM.y;zd.mv=0;if(ZM.s>1&&o.style)o.style.cursor='grabbing'}try{o.setPointerCapture(ev.pointerId)}catch(e){}ev.preventDefault()}
+function zpm(ev){if(!zd)return;if(zd.pan){var ddx=ev.clientX-zd.cx,ddy=ev.clientY-zd.cy;if(Math.abs(ddx)+Math.abs(ddy)>4)zd.mv=1;if(ZM.s>1&&zd.mv){ZM.x=zd.x0+100*ddx/zd.W;ZM.y=zd.y0+100*ddy/zd.H;zclamp();zapp();var o=$('zov');if(o&&o.style)o.style.cursor='grabbing'}return}var dx=ev.clientX-zd.l-zd.x,dy=ev.clientY-zd.t-zd.y,w=Math.abs(dx),h=w*zd.H/zd.W,b=$('zbx');zd.w=w;zd.h=h;zd.sx=dx<0?-1:1;zd.sy=dy<0?-1:1;
+  var x=dx<0?zd.x-w:zd.x,y=dy<0?zd.y-h:zd.y;x=Math.max(0,Math.min(zd.W-w,x));y=Math.max(0,Math.min(zd.H-h,y));zd.rx=x;zd.ry=y;
+  if(b&&b.style){b.style.display='block';b.style.left=x+'px';b.style.top=y+'px';b.style.width=w+'px';b.style.height=h+'px'}}
+function zpu(ev){if(!zd)return;var d=zd;zd=null;if(d.pan){zapp();if(!d.mv)ktoggle();return}var b=$('zbx');if(b&&b.style)b.style.display='none';
+  if(d.w<12||d.rx==null){return}
+  var rx=100*d.rx/d.W,ry=100*d.ry/d.H,rw=100*d.w/d.W,cx0=(rx-ZM.x)/ZM.s,cy0=(ry-ZM.y)/ZM.s,ns=Math.min(8,ZM.s*100/rw);
+  ZM.x=-cx0*ns;ZM.y=-cy0*ns;ZM.s=ns;zclamp();zs=0;zapp()}
+function kpanel(w,force){
+  var d=$('kdd'),c=$('kcp');if(!d||!c)return;var od=!d.hidden,oc=!c.hidden;
+  if(w==='d'){od=force!=null?force:!od;if(od)oc=false}else{oc=force!=null?force:!oc;if(oc)od=false}
+  d.hidden=!od;c.hidden=!oc;kon=od;if(od)kbar();kupd();sa('kbt','aria-pressed',od);sa('kbc','aria-pressed',oc);
+  setTimeout(kfit,30);if(oc){var t=$('kcm');if(t&&t.focus)setTimeout(function(){try{t.focus({preventScroll:true})}catch(e){t.focus()}},40)}}
+function kbarHtml(){
+  var AR={arrow:['↗','Šipka'],darrow:['⇢','Přerušovaná šipka'],traj:['⤴','Trajektorie (oblouk)'],dtraj:['⤴⇢','Přerušovaná trajektorie']},isA=!!AR[kt];if(isA)ka=kt;
+  var arrowUI='<select class="btn'+(isA?' pri':'')+'" title="Šipky – vyber druh" style="width:auto;padding:6px 8px;font-weight:700" onchange="if(this.value)ksel(this.value)">'+(isA?'':'<option value="" selected>↗ Šipky ▾</option>')+['arrow','darrow','traj','dtraj'].map(function(t){return'<option value="'+t+'"'+(isA&&kt===t?' selected':'')+'>'+AR[t][0]+' '+AR[t][1]+'</option>'}).join('')+'</select>';
+  return[['pen','✎','Tužka'],['ARROW'],['trk','⌖','Míč ve 3 bodech'],['circle','○','Kruh'],['square','□','Čtverec'],['ell','⬭','Elipsa'],['ball','●','Koule']].map(function(x){if(x[0]==='ARROW')return arrowUI;return'<button class="btn'+(kt===x[0]?' pri':'')+'" title="'+x[2]+'" onclick="ksel(\''+x[0]+'\')">'+x[1]+' '+x[2]+'</button>'}).join('')+
+    (kt==='trk'?'<span class="mut" style="font-size:11px">klikni v obraze: ① kde míč nahrávka začíná, ② nejvyšší bod, ③ kde končí ('+KP.length+'/3)</span>':'')+((klast()||kt!=='pen')?'<span class="mut" style="font-size:11px" title="Poslední nakreslený tvar jde upravit tažením průhledných bodů">◌ poslední tvar: táhni body (začátek, konec'+((kt==='traj'||kt==='dtraj'||(klast()&&/traj/.test(klast().t)))?', ohyb oblouku':'')+')</span>':'')+'<span style="margin-left:6px">Barva</span>'+['#ff3b30','#ffd60a','#34c759'].map(function(c){return'<button class="btn" style="width:26px;height:26px;padding:0;border-radius:50%;background:'+c+';border:'+(kc===c?'3px solid #fdd835':'2px solid #888')+'" title="'+c+'" onclick="kcol(\''+c+'\')"></button>'}).join('')+
+    '<input type="color" value="'+(/^#[0-9a-f]{6}$/i.test(kc)?kc:'#ff3b30')+'" title="Vlastní barva" style="width:34px;height:30px;padding:0" onchange="kcol(this.value)">'+
+    '<span>Tl.</span><select title="Tloušťka čáry" style="width:auto;padding:6px" onchange="kw=+this.value">'+[1,2,3,5,8].map(function(w){return'<option'+(kw===w?' selected':'')+'>'+w+'</option>'}).join('')+'</select>'+
+    '<button class="btn" title="Zpět – smaže poslední nakreslenou kresbu (opakovaně jde pozpátku)" onclick="kundo()">↶ ZPĚT</button><button class="btn" aria-pressed="'+kshow+'" title="Zobrazit / skrýt kresby" onclick="kvis()">👁</button>'+
+    '<span class="ksp"></span><span>Kreslit na:</span><button class="btn" aria-pressed="'+!ksticky+'" onclick="ksc(0)">Tento klip</button><button class="btn" aria-pressed="'+ksticky+'" title="Kresba se ukáže u každé akce" onclick="ksc(1)">Všechny klipy</button>'+
+    '<span class="ksp"></span><button class="btn dg" title="Smaže kresby jen u této akce" onclick="kclr()">🗑 Tento klip</button><button class="btn dg" title="Smaže kresby u všech akcí i společné kresby" onclick="kclr(1)">'+(karm==='a'?'Opravdu smazat vše?':'🗑 Všechny kresby')+'</button>'}
+function kbar(){var b=$('kdd');if(b&&!b.hidden)b.innerHTML=kbarHtml()}
+function kupd(){zapp();var c=$('ypk');if(c&&c.style){c.style.pointerEvents=kon?'auto':'none';c.style.cursor=kon?'crosshair':'default'}sa('vkd','aria-pressed',kon)}
+function ksel(t){kt=t;kon=true;KP=[];kbar();kupd();kdraw()}
+function kwholeT(){kwhole=!kwhole;sa('kwh','aria-pressed',kwhole);if(YI>=0)playEv(YI)}
+function ktrk(){ksel('trk');kpanel('d',true)}
+function kcmpT(){kcmp=!kcmp;sa('kcmp','aria-pressed',kcmp);kdraw();var o=$('kcmi');if(o)o.textContent=kcmp?kcmpN()+' akcí přes sebe':''}
+function kcmpN(){var L=LST.filter(function(e){return XS[evKey(e)]});return(L.length?L:LST).length}
+function ktog(){kon=!kon;kupd()}
+function kvis(){kshow=!kshow;kbar();kdraw()}
+function kcol(c){kc=c;kbar()}
+function kcsave(v,now){if(!AK)return;annOf(AK,1).c=v;kcap();krow();clearTimeout(KSV);if(now)sv();else KSV=setTimeout(sv,700)}
+function kundo(){var a=ksticky?S.annAll:(annOf(AK)||{}).d;if(a&&a.length){a.pop();sv();kdraw();krow()}}
+function kclr(all){if(all){if(karm!=='a'){karm='a';kbar();clearTimeout(KT2);KT2=setTimeout(function(){karm=false;kbar()},3000);return}karm=false;S.annAll=[];for(var k in (S.ann||{}))if(S.ann[k].d)S.ann[k].d=[]}else{var o=annOf(AK);if(o)o.d=[]}sv();kdraw();kbar();krowAll()}
+function kload(e,cap){
+  AK=evKey(e);KD=null;KP=[];KCAP=cap;var o=annOf(AK),c=$('kcm');if(c){c.value=o?o.c:'';c.placeholder='Komentář k akci: '+cap}
+  kcap();kplab();kfit();
+}
+function kcap(){var p=$('ypc');if(!p)return;var o=annOf(AK);p.innerHTML='<b>'+esc(KCAP)+'</b>'+(o&&o.c?'<div class="cm">'+esc(o.c)+'</div>':'');p.style.display='block'}
+function krowAll(){for(var i=0;i<LST.length&&i<shown;i++)krow(i)}
+function krow(i){if(i==null)i=YI;var e=LST[i];if(!e)return;var a=annOf(evKey(e)),rt=$('rt'+i);
+  sa('rc'+i,'aria-pressed',String(!!(a&&a.c)));sa('rd'+i,'aria-pressed',String(!!(a&&a.d&&a.d.length)));
+  if(rt&&rt.style){rt.textContent=a&&a.c?'💬 '+a.c:'';rt.style.display=a&&a.c?'block':'none'}}
+function rowAct(i,w){var same=YI===i;if(!same)playEv(i);kpanel(w,same?undefined:true)}
+function kfit(){var c=$('ypk'),v=$('ypv');if(!c||!v||!v.getBoundingClientRect)return;var r=v.getBoundingClientRect(),d=window.devicePixelRatio||1;c.width=Math.max(1,Math.round(r.width*d));c.height=Math.max(1,Math.round(r.height*d));kdraw();kbfit()}
+function kbfit(){var b=$('ypb');if(!b||!b.classList||!b.children)return;var fs=!!(document.fullscreenElement);b.classList.remove('kc1');b.classList.remove('kc2');b.classList.remove('kc3');if(fs)b.classList.add('kfs');else b.classList.remove('kfs');b.style.flexWrap=fs?'nowrap':'wrap';
+  var bad=function(){if(fs)return b.scrollWidth>b.clientWidth+1;var t={};[].forEach.call(b.children,function(c){if(c.tagName!=='STYLE')t[c.offsetTop]=1});return Object.keys(t).length>2},lv=0;
+  while(bad()&&lv<3){lv++;if(lv>1)b.classList.remove('kc'+(lv-1));b.classList.add('kc'+lv)}
+  if(fs&&bad())b.style.flexWrap='wrap'}
+var hardT=null,kwhole=false,KE=null,KP=[],kcmp=false,KPAL=['#ff3b30','#ffd60a','#34c759','#00c7ff','#ff9f0a','#bf5af2','#ff6bd6','#a2845e'];
+function klast(){var a=ksticky?S.annAll:(annOf(AK)||{}).d;return a&&a.length?a[a.length-1]:null}
+function ktc(s,W,H){if(s.cx!=null)return[s.cx*W,s.cy*H];var x1=s.x1*W,y1=s.y1*H,x2=s.x2*W,y2=s.y2*H,L=Math.hypot(x2-x1,y2-y1)||1,nx=-(y2-y1)/L,ny=(x2-x1)/L;if(ny>0){nx=-nx;ny=-ny}return[(x1+x2)/2+nx*L*.28,(y1+y2)/2+ny*L*.28]}
+function khs(s,W,H){if(s.t==='pen')return[];var o=[{k:'p1',x:s.x1*W,y:s.y1*H},{k:'p2',x:s.x2*W,y:s.y2*H}];if(/traj/.test(s.t)){var m=ktm(s,W,H);o.push({k:'mid',x:m[0],y:m[1]})}return o}
+function ktm(s,W,H){var c=ktc(s,W,H);return[.25*s.x1*W+.5*c[0]+.25*s.x2*W,.25*s.y1*H+.5*c[1]+.25*s.y2*H]}
+function kshape(g,s,W,H){
+  var lw=Math.max(1,s.w*W/640),x1=s.x1*W,y1=s.y1*H,x2=s.x2*W,y2=s.y2*H;
+  g.lineWidth=lw;g.lineCap='round';g.lineJoin='round';g.strokeStyle=s.c;g.fillStyle=s.c;g.beginPath();
+  if(s.t==='pen'){(s.p||[]).forEach(function(q,i){if(i)g.lineTo(q[0]*W,q[1]*H);else g.moveTo(q[0]*W,q[1]*H)});g.stroke()}
+  else if(s.t==='arrow'||s.t==='darrow'){var a=Math.atan2(y2-y1,x2-x1),hl=Math.max(12,lw*4);if(s.t==='darrow')g.setLineDash([lw*3,lw*2.5]);g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();g.setLineDash([]);g.beginPath();g.moveTo(x2,y2);g.lineTo(x2-hl*Math.cos(a-.45),y2-hl*Math.sin(a-.45));g.moveTo(x2,y2);g.lineTo(x2-hl*Math.cos(a+.45),y2-hl*Math.sin(a+.45));g.stroke()}
+  else if(s.t==='traj'||s.t==='dtraj'){var cp=ktc(s,W,H),cx=cp[0],cy=cp[1],a=Math.atan2(y2-cy,x2-cx),hl=Math.max(12,lw*4);if(s.t==='dtraj')g.setLineDash([lw*3,lw*2.5]);g.moveTo(x1,y1);g.quadraticCurveTo(cx,cy,x2,y2);g.stroke();g.setLineDash([]);g.beginPath();g.moveTo(x2,y2);g.lineTo(x2-hl*Math.cos(a-.45),y2-hl*Math.sin(a-.45));g.moveTo(x2,y2);g.lineTo(x2-hl*Math.cos(a+.45),y2-hl*Math.sin(a+.45));g.stroke()}
+  else if(s.t==='circle'){g.arc(x1,y1,Math.hypot(x2-x1,y2-y1),0,Math.PI*2);g.stroke()}
+  else if(s.t==='ball'){var r=Math.max(4,Math.hypot(x2-x1,y2-y1)),gr=g.createRadialGradient(x1-r*.3,y1-r*.3,r*.1,x1,y1,r);gr.addColorStop(0,'#ffffff');gr.addColorStop(.4,s.c);gr.addColorStop(1,s.c);g.arc(x1,y1,r,0,Math.PI*2);g.fillStyle=gr;g.fill();g.stroke()}
+  else if(s.t==='square'){var sd=Math.max(Math.abs(x2-x1),Math.abs(y2-y1));g.rect(x1,y1,(x2<x1?-1:1)*sd,(y2<y1?-1:1)*sd);g.stroke()}
+  else if(s.t==='ell'){g.ellipse((x1+x2)/2,(y1+y2)/2,Math.max(1,Math.abs(x2-x1)/2),Math.max(1,Math.abs(y2-y1)/2),0,0,Math.PI*2);g.stroke()}
+}
+function kdraw(){var c=$('ypk');if(!c||!c.getContext)return;var g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);if(!kshow)return;var o=annOf(AK);
+  if(kcmp){var CL=LST.filter(function(e){return XS[evKey(e)]});if(!CL.length)CL=LST;CL.slice(0,40).forEach(function(e,ix){var k2=evKey(e);if(k2===AK)return;var a2=annOf(k2);if(!a2||!a2.d||!a2.d.length)return;var col=KPAL[LST.indexOf(e)%KPAL.length],lst=null;g.globalAlpha=.75;a2.d.forEach(function(s2){var q={};for(var kk in s2)q[kk]=s2[kk];q.c=col;kshape(g,q,c.width,c.height);lst=q});g.globalAlpha=1;if(lst){g.fillStyle=col;g.font='bold '+Math.max(11,c.width/55)+'px system-ui';g.textAlign='left';g.fillText(String(LST.indexOf(e)+1),lst.x2*c.width+6,lst.y2*c.height-6)}})}
+  if(kon&&kt==='trk'&&KP.length){g.setLineDash([6,5]);g.strokeStyle=kc;g.lineWidth=2;g.beginPath();KP.forEach(function(q,i){if(i)g.lineTo(q[0]*c.width,q[1]*c.height);else g.moveTo(q[0]*c.width,q[1]*c.height)});g.stroke();g.setLineDash([]);KP.forEach(function(q,i){g.beginPath();g.fillStyle=kc;g.arc(q[0]*c.width,q[1]*c.height,Math.max(7,c.width/80),0,Math.PI*2);g.fill();g.fillStyle='#000';g.font='bold '+Math.max(10,c.width/70)+'px system-ui';g.textAlign='center';g.fillText(String(i+1),q[0]*c.width,q[1]*c.height+4)})}
+(S.annAll||[]).concat(o?o.d:[]).concat(KD?[KD]:[]).forEach(function(s){kshape(g,s,c.width,c.height)});var ls=kon&&klast();if(ls&&!KD){g.setLineDash([]);khs(ls,c.width,c.height).forEach(function(h){g.beginPath();g.lineWidth=1.5;g.strokeStyle='rgba(253,216,53,.75)';g.fillStyle='rgba(255,255,255,.22)';g.arc(h.x,h.y,Math.max(5,c.width/130),0,Math.PI*2);g.fill();g.stroke()})}}
+function kpos(ev){var r=ev.target.getBoundingClientRect();return[(ev.clientX-r.left)/r.width,(ev.clientY-r.top)/r.height]}
+function kpd(ev){if(!kon||!AK)return;ev.preventDefault();try{ev.target.setPointerCapture(ev.pointerId)}catch(x){}var p=kpos(ev);if(kt==='trk'){KP.push(p);if(KP.length===3){var a1=KP[0],ap=KP[1],a3=KP[2],sh={t:'traj',c:kc,w:kw,x1:a1[0],y1:a1[1],x2:a3[0],y2:a3[1],cx:2*ap[0]-.5*(a1[0]+a3[0]),cy:2*ap[1]-.5*(a1[1]+a3[1])};if(ksticky){S.annAll=S.annAll||[];S.annAll.push(sh)}else annOf(AK,1).d.push(sh);KP=[];sv();krow();kbar()}kdraw();return}var ls=klast();if(ls){var cc=$('ypk'),W=cc.width,H=cc.height,hr=Math.max(14,W/50),hh=khs(ls,W,H),best=null,bd=1e9;hh.forEach(function(h){var d=Math.hypot(p[0]*W-h.x,p[1]*H-h.y);if(d<hr&&d<bd){bd=d;best=h}});if(best){KE={s:ls,k:best.k};return}}KD={t:kt,c:kc,w:kw,x1:p[0],y1:p[1],x2:p[0],y2:p[1],p:[p]};kdraw()}
+function kpm(ev){if(KE){var q=kpos(ev),e=KE.s;if(KE.k==='p1'){e.x1=q[0];e.y1=q[1]}else if(KE.k==='p2'){e.x2=q[0];e.y2=q[1]}else{e.cx=2*q[0]-.5*(e.x1+e.x2);e.cy=2*q[1]-.5*(e.y1+e.y2)}kdraw();return}if(!KD)return;var p=kpos(ev);KD.x2=p[0];KD.y2=p[1];if(KD.t==='pen')KD.p.push(p);kdraw()}
+function kpu(ev){
+  if(KE){KE=null;sv();kdraw();krow();return}
+  if(!KD)return;var s=KD,c=$('ypk');KD=null;
+  var tiny=Math.hypot((s.x2-s.x1)*c.width,(s.y2-s.y1)*c.height)<6;
+  if(tiny){if(s.t==='circle'||s.t==='ball')s.x2=s.x1+18/c.width;else if(s.t!=='pen'){kdraw();return}}
+  if(s.t!=='pen')delete s.p;
+  if(ksticky){S.annAll=S.annAll||[];S.annAll.push(s)}else annOf(AK,1).d.push(s);sv();kdraw();krow();kbar();
+}
+
+/* Export vybraných akcí (video z YouTube se stáhnout nedá – export obsahuje odkazy v čase a komentáře) */
+function xs(i,on){var e=LST[i];if(!e)return;if(on)XS[evKey(e)]=1;else delete XS[evKey(e)];xcnt()}
+function xcnt(){var n=LST.filter(function(e){return XS[evKey(e)]}).length,o=$('xcnt');if(o)o.textContent=n||''}
+function xall(on){LST.forEach(function(e){if(on)XS[evKey(e)]=1;else delete XS[evKey(e)]});[].forEach.call(document.querySelectorAll('.xc'),function(c){c.checked=!!on});xcnt()}
+function xexp(){
+  var L=LST.filter(function(e){return XS[evKey(e)]}),o=$('xo');if(!o)return;
+  if(!L.length){o.innerHTML='<p class="mut" style="font-size:12px;margin:6px 0">Nejdřív zaškrtni akce vlevo v seznamu.</p>';return}
+  var T='Gálík příprava – export akcí ('+L.length+')\n\n';
+  L.forEach(function(e,i){var m=e.m,id=yid(vs2===2?m.v2:m.v1)||yid(m.v1)||yid(m.v2),t=Math.max(0,Math.round(e.vt+(+m.off||0))-pre),a=annOf(evKey(e));
+    T+=(i+1)+'. '+SK[e.k]+' · #'+e.p+' '+pname(e)+' · '+elab(e)+' · Set '+e.s+' · stav '+e.sc+' · '+m.home+' – '+m.away+' ('+fd(m.date)+')\n'+(id?'   Video: https://www.youtube.com/watch?v='+id+'&t='+t+'s\n':'   Video: (utkání nemá odkaz)\n')+(a&&a.c?'   Komentář: '+a.c+'\n':'')+(a&&a.d.length?'   Kresba: '+a.d.length+' objektů (je uložená v aplikaci u akce)\n':'')+'\n'});
+  XTXT=T;
+  o.innerHTML='<div class="card" style="margin:8px 0"><textarea id="xta" readonly style="height:150px">'+esc(T)+'</textarea><div class="row" style="margin-top:6px"><button class="btn pri" onclick="xcopy()">KOPÍROVAT</button><button class="btn" onclick="xdl()">STÁHNOUT .TXT</button><button class="btn" onclick="$(\'xo\').innerHTML=\'\'">ZAVŘÍT</button><span class="ok" id="xm"></span></div><p class="mut" style="font-size:12px;margin:6px 0 0">Samotné video se z YouTube stáhnout nedá. Export obsahuje odkazy na jednotlivé akce v čase a tvoje komentáře.</p></div>'}
+function xcopy(){var t=$('xta'),ok=false;if(t&&t.select)t.select();try{ok=document.execCommand('copy')}catch(e){}try{if(navigator.clipboard){navigator.clipboard.writeText(XTXT);ok=true}}catch(e){}$('xm').textContent=ok?'Zkopírováno':'Označeno – zkopíruj ručně'}
+function xdl(){try{var b=new Blob([XTXT],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='export-akci.txt';document.body.appendChild(a);a.click();a.remove();$('xm').textContent='Staženo (pokud prohlížeč stahování nepovolil, použij Kopírovat)'}catch(e){$('xm').textContent='Stažení se nepovedlo – použij Kopírovat'}}
+function kkeys(){var o=$('xo');if(o)o.innerHTML='<div class="card" style="margin:8px 0;font-size:13px"><b>Klávesové zkratky</b><br>Mezerník – start / stop · Enter – další akce · Backspace – předchozí akce · Esc – opustit celou obrazovku<br>↑ 1 s vpřed · ↓ 1 s zpět · ← snímek zpět · → snímek vpřed (snímek = 1/'+FPS+' s)<br>Zoom: Num + přiblížit · Num − oddálit · Num 0 původní velikost · Num 4 / 6 / 8 / 2 posun přiblíženého obrazu · 🔍 vybrat výřez myší (Esc zruší výběr) · přiblížený obraz jde přesně posouvat tažením myší<br>Kolečko myši nad videem: k sobě = snímek vpřed, od sebe = snímek zpět · klik do videa = start / stop<br><span class="mut">Zkratky nefungují, když píšeš komentář.</span> <button class="btn" onclick="$(\'xo\').innerHTML=\'\'">ZAVŘÍT</button></div>'}
+
+function kstrip(){
+  var b=function(id,tt,fn,tx,pr){return'<button class="ib"'+(id?' id="'+id+'"':'')+(pr!=null?' aria-pressed="'+pr+'"':'')+' title="'+tt+'" onclick="'+fn+'">'+tx+'</button>'};
+  return b('vz1','Záznam 1',"vsw(1)",'Z1',vs2===1)+b('vz2','Záznam 2',"vsw(2)",'Z2',vs2===2)+
+    b('','Vybrat všechny akce v seznamu','xall(1)','☑')+b('','Zrušit výběr','xall(0)','☐')+b('','Exportovat zaškrtnuté akce','xexp()','⭳')+'<small id="xcnt"></small>'+b('','Klávesové zkratky','kkeys()','⌨')}
+
+function vidSec(dr){
+  YT.built=false;YT.id='';YT.all=false;YI=-1;AK='';
+  var css='<style>.vs-g{display:grid;grid-template-columns:minmax(0,1fr) 30px;gap:6px;align-items:start}.vs-r{display:flex;flex-direction:column;gap:3px;align-items:stretch}.ib{width:30px;height:24px;padding:0;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font:700 11px/1 system-ui;cursor:pointer}.ib[aria-pressed=true]{background:var(--yel);border-color:var(--yel);color:#1a1400}.vs-r small{font-size:9px;text-align:center;color:var(--mut);line-height:1.1}.ev input.xc{width:18px;height:18px;margin:0}.evc{flex:1;min-width:0}.evn{min-width:24px;text-align:right;font:700 12px system-ui;color:var(--mut)}.ra{display:flex;gap:4px;margin-left:auto}.ra+.ytl{margin-left:0}.ra .ib{width:30px;height:28px;font-size:14px}.rtx{display:none;font-style:normal;font-size:12px;margin-top:2px;color:var(--ink);white-space:pre-wrap}.kpan[hidden]{display:none}.ypb{gap:5px;padding:6px 8px}.ypb .btn{padding:5px 8px;font-size:12px}.ypb .btn[aria-pressed=true]{background:var(--yel);border-color:var(--yel);color:#1a1400}.ypb .ksp{flex:1}.kprow{flex-basis:100%;display:flex;gap:8px;align-items:center}.kprow input{flex:1;accent-color:var(--yel)}.kspd{display:inline-flex;gap:4px;align-items:center}#ypc{right:auto;max-width:78%;border-radius:0 0 10px 0;font-size:13px;padding:6px 10px}#ypc .cm{font-weight:500;margin-top:3px;white-space:pre-wrap}#ypw:fullscreen .ypb .btn{font-size:14px;padding:8px 12px}</style>';
+  return'<div class="card" id="vsec">'+css+'<h2>AKCE A VIDEO ('+LST.length+' akcí)</h2>'+(dr?'<div class="row" style="margin:0 0 10px"><span><b>Výběr z tabulky:</b> '+esc(dlab(dr))+'</span><button class="btn" onclick="DR=null;QR=null;go2()">✕ ZRUŠIT VÝBĚR</button></div>':'')+
+   '<div class="vs-g"><div id="vf"><div class="vid" style="display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;color:#fff">Klikni na akci v seznamu a spustí se video z YouTube.</div></div><div class="vs-r">'+kstrip()+'</div></div>'+
+   '<div id="xo"></div><div class="evl" id="evl">'+
+   LST.slice(0,shown).map(function(e,i){var a=annOf(evKey(e));return'<div class="ev" id="ev'+i+'" onclick="playEv('+i+')"><input type="checkbox" class="xc" title="Vybrat pro export"'+(XS[evKey(e)]?' checked':'')+' onclick="event.stopPropagation()" onchange="xs('+i+',this.checked);this.blur()"><span class="evn">'+(i+1)+'</span><div class="ic '+ecl(e.e)+'">'+esc(e.e)+'</div><div class="evc"><b>'+SK[e.k]+'</b> · #'+e.p+' '+esc(pname(e))+' · '+elab(e)+'<small>'+(LST.some(function(x){return x.m!==e.m})?esc(e.m.home+' – '+e.m.away)+' · ':'')+'Set '+e.s+' · stav '+esc(e.sc.replace(/^(\d):/,'0$1:').replace(/:(\d)$/,':0$1'))+' · video '+mmss(e.vt+(+e.m.off||0))+'</small><i class="rtx" id="rt'+i+'"'+(a&&a.c?' style="display:block"':'')+'>'+(a&&a.c?'💬 '+esc(a.c):'')+'</i></div><div class="ra"><button class="ib" id="rc'+i+'" aria-pressed="'+!!(a&&a.c)+'" title="Komentář k akci" onclick="event.stopPropagation();rowAct('+i+',\'c\')">💬</button><button class="ib" id="rd'+i+'" aria-pressed="'+!!(a&&a.d&&a.d.length)+'" title="Kreslit do videa" onclick="event.stopPropagation();rowAct('+i+',\'d\')">✎</button></div>'+ytl(e)+'</div>'}).join('')+
+   (LST.length>shown?'<button class="btn" style="width:100%" onclick="shown+=80;go2()">ZOBRAZIT DALŠÍ AKCE ('+(LST.length-shown)+')</button>':'')+'</div>'+
+   '<p class="mut" style="font-size:11px;margin:6px 0 0">Zkratky: Mezerník start/stop · Enter další · Backspace předchozí · ↑↓ ±1 s · ←→ snímek · Num +/− zoom, Num 0 původní, Num 4/6/8/2 posun · tažení myší = posun přiblíženého obrazu · kolečko = snímek vpřed/zpět · Esc zavře celou obrazovku</p></div>';
+}
+
+/* ---------- Samotest aplikace (tlačítko v kartě UTKÁNÍ) ---------- */
+function stLine(code,set,vt,h,a){var f=new Array(26).fill('');f[0]=code;f[8]=set;f[12]=vt;(h||[]).forEach(function(n,i){f[14+i]=n});(a||[]).forEach(function(n,i){f[20+i]=n});return f.join(';')}
+function stDvw(){
+  var A=[21,22,23,24,25,26],sc=[];
+  function rally(t,cs,sp,call,tgc,zone,res){var H=[5,7,9,12,10,11];H[sp-1]=6;
+    sc.push(stLine('a21SH+',1,t,H,A),stLine('*05RH'+(res=='#'?'#':'+')+'   5'+'3A',1,t+2,H,A),stLine('*06EH+'+call+tgc+'1'+zone,1,t+3,H,A),stLine('*09AH'+res+'X1 '+zone,1,t+4,H,A),stLine('*p'+cs,1,t+6,H,A))}
+  rally(100,'01:00',1,'K1','F','4','#');rally(200,'02:00',1,'K1','F','3','=');rally(300,'03:00',1,'K7','B','1','#');rally(400,'04:00',2,'KC','P','6','#');rally(500,'05:00',2,'KC','P','6','#');rally(600,'06:00',3,'K1','C','3','#');
+  return['[3MATCH]','13/11/2026;18.30.00;;L;;;','[3TEAMS]','0;NVC;0;;','1;Lib;0;;','[3SET]','1;;;;25-20;30;','[3SETTERCALL]','K1;;First tempo;;255;4050;4550;4850;4050,4550,4850;0','K7;;Pipe;;255;3320;4030;4440;3320,3930,4440;0','KC;;Slide;;255;4220;4250;4280;4220,4250,4280;0','[3PLAYERS-H]','0;6;1;3;;;;;;Set;Ter;;5;5','[3SCOUT]'].concat(sc).join('\n')}
+function selfTest(){
+  var R=[],ok=function(t,c,x){R.push([c?'ok':'er',t+(x?' – '+x:'')])};
+  try{var m=parse(stDvw(),'selftest.dvw'),E=m.ev||[],ee=E.filter(function(e){return e[2]==='E'}),cnt=function(c){return ee.filter(function(e){return String(e[17]).toUpperCase()===c}).length};
+    ok('Čtení souboru DataVolley (parser)',E.length>=15,E.length+' událostí');
+    ok('Kódy nahrávek K1 / K7 / KC se načtou',cnt('K1')===3&&cnt('K7')===1&&cnt('KC')===2,'K1 '+cnt('K1')+'×, K7 '+cnt('K7')+'×, KC '+cnt('KC')+'×');
+    ok('Rotace nahrávačky se dopočítají u všech útoků',E.filter(function(e){return e[2]==='A'}).every(function(e){return e[14]>=1&&e[14]<=6}));
+    ok('Definice setter callů ze souboru se načtou',m.scr&&Object.keys(m.scr).length===3,Object.keys(m.scr||{}).join(', '));
+    var rows=distAtt([m],true).filter(function(r){return r.cat==='set'});
+    ok('Útoky po nahrávce se spárují s nahrávkou',rows.length===6&&rows.every(function(r){return!!r.call}),rows.length+' z 6');
+  }catch(e){ok('Čtení souboru DataVolley (parser)',false,String(e&&e.message||e))}
+  try{var k='__gp_test';localStorage.setItem(k,'1');localStorage.removeItem(k);ok('Ukládání v prohlížeči funguje',true)}catch(e){ok('Ukládání v prohlížeči funguje',false,'prohlížeč neumožňuje ukládat data (anonymní okno?)')}
+  try{var sz=JSON.stringify(S).length,pc=Math.round(100*sz/5000000);ok('Zaplněnost úložiště',pc<70,(sz/1e6).toFixed(2).replace('.',',')+' MB z asi 5 MB (≈ '+pc+' %)'+(pc>=70?' – udělej zálohu a smaž stará utkání':''))}catch(e){}
+  ok('Stránka běží na https / http (nutné pro YouTube video)',okEmbed(),okEmbed()?'':'otevři ji z hostingu, ne jako soubor z disku');
+  ok('Přehrávač a zoom jsou načtené',typeof ytc==='function'&&typeof zby==='function'&&typeof kshape==='function'&&typeof yseek==='function');
+  var bad=S.m.filter(function(m){return mbad(m).length});
+  ok('Uložená utkání ('+S.m.length+')',!bad.length,bad.length?bad.length+' staré nebo poškozené: '+bad.map(function(m){return m.home+' – '+m.away}).join(', '):'všechna v pořádku');
+  var nok=R.filter(function(x){return x[0]==='ok'}).length,o=$('stout');
+  if(o)o.innerHTML='<div class="card" style="margin:8px 0"><b>Samotest: '+nok+' z '+R.length+' v pořádku</b>'+R.map(function(x){return'<div class="'+x[0]+'" style="margin-top:4px">'+(x[0]==='ok'?'✓ ':'⚠ ')+esc(x[1])+'</div>'}).join('')+'<div class="mut" style="font-size:11px;margin-top:6px">Samotest nic nemění ani neukládá. Spusť ho po každé nové verzi aplikace a před důležitým rozborem.</div></div>';
+  return R}
+
+/* ---------- Místní video ze složky v počítači (File System Access API; Chrome / Edge, stránka musí běžet na https nebo localhost) ---------- */
+var LVID={},LVD=null,LVS='',LVN=0;
+function lvEl(){var x=$('ypf');return x&&x.tagName==='VIDEO'?x:null}
+function hasVid(m){return!!(LVID[m.id]||yid(m.v1)||yid(m.v2))}
+function lvNorm(n){return String(n||'').replace(/\.[a-z0-9]{2,4}$/i,'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function lytc(x,f,a){try{if(f==='playVideo'){var p=x.play();if(p&&p.catch)p.catch(function(){})}else if(f==='pauseVideo')x.pause();else if(f==='seekTo')x.currentTime=a[0];else if(f==='setPlaybackRate')x.playbackRate=a[0]}catch(e){}}
+function lvMeta(){var x=lvEl();if(!x)return;YT.api=true;x.playbackRate=YT.rate||1;try{x.currentTime=YT.t0||0}catch(e){}lytc(x,'playVideo')}
+function lvEv(st){var x=lvEl();if(!x)return;YT.st=st;YT.cur=x.currentTime;YT.stamp=Date.now();if(st===1&&!YT.W)kwall();if(st===2||st===0)YT.W=null;kplab()}
+function lvTick(){var x=lvEl();if(!x)return;YT.cur=x.currentTime;YT.stamp=Date.now();kprog();if(YT.endT&&YT.st===1&&x.currentTime>=YT.endT)kend()}
+function lvDb(){return new Promise(function(res,rej){try{var r=indexedDB.open('gp_lv',1);r.onupgradeneeded=function(){r.result.createObjectStore('h')};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}}catch(e){rej(e)}})}
+function lvPut(h){return lvDb().then(function(db){return new Promise(function(res){var t=db.transaction('h','readwrite');if(h)t.objectStore('h').put(h,'dir');else t.objectStore('h').delete('dir');t.oncomplete=function(){res()};t.onerror=function(){res()}})}).catch(function(){})}
+function lvGet(){return lvDb().then(function(db){return new Promise(function(res){var q=db.transaction('h').objectStore('h').get('dir');q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}})}).catch(function(){return null})}
+function lvRefresh(){var o=$('lvbox');if(o)o.innerHTML=lvUi()}
+async function lvInit(){
+  if(typeof window.showDirectoryPicker!=='function'||typeof indexedDB==='undefined'){LVS='nosup';return}
+  LVD=await lvGet();if(!LVD){LVS='none';lvRefresh();return}
+  try{var p=await LVD.queryPermission({mode:'read'});if(p==='granted')await lvScan();else{LVS='perm';lvRefresh()}}catch(e){LVS='perm';lvRefresh()}}
+async function lvPick(){
+  if(typeof window.showDirectoryPicker!=='function'){LVS='nosup';lvRefresh();return}
+  try{var h=await window.showDirectoryPicker({id:'gp-videa',mode:'read'});LVD=h;await lvPut(h);await lvScan()}catch(e){if(e&&e.name!=='AbortError'){LVS='err:'+(e.message||e.name);lvRefresh()}}}
+async function lvAllow(){if(!LVD)return;try{var p=await LVD.requestPermission({mode:'read'});if(p==='granted')await lvScan();else{LVS='perm';lvRefresh()}}catch(e){LVS='perm';lvRefresh()}}
+async function lvForget(){LVD=null;await lvPut(null);Object.keys(LVID).forEach(function(k){try{URL.revokeObjectURL(LVID[k].url)}catch(e){}});LVID={};LVS='none';lvRefresh()}
+async function lvScan(){
+  if(!LVD)return;LVS='scan';lvRefresh();var F={};
+  var walk=async function(d,depth){for await(var en of d.entries()){var n=en[0],h=en[1];if(h.kind==='file'&&/\.(mp4|m4v|mov|webm|mkv)$/i.test(n))F[lvNorm(n)]=h;else if(h.kind==='directory'&&depth<2)await walk(h,depth+1)}};
+  try{await walk(LVD,0)}catch(e){LVS='err:'+(e.message||e.name);lvRefresh();return}
+  var keys=Object.keys(F),n=0;
+  for(var i=0;i<S.m.length;i++){var m=S.m[i],cands=(m.vf||[]).concat([m.fn||'']).map(lvNorm).filter(function(x){return x.length>=4}),hit=null;
+    for(var c=0;c<cands.length&&!hit;c++)if(F[cands[c]])hit=F[cands[c]];
+    for(var c2=0;c2<cands.length&&!hit;c2++)for(var k=0;k<keys.length&&!hit;k++)if(keys[k].length>=8&&cands[c2].length>=8&&(keys[k].indexOf(cands[c2])===0||cands[c2].indexOf(keys[k])===0))hit=F[keys[k]];
+    if(hit){try{var f=await hit.getFile();if(LVID[m.id]&&LVID[m.id].name===f.name&&LVID[m.id].size===f.size&&LVID[m.id].mod===f.lastModified){n++;continue}if(LVID[m.id])try{URL.revokeObjectURL(LVID[m.id].url)}catch(e){}LVID[m.id]={name:f.name,size:f.size,mod:f.lastModified,url:URL.createObjectURL(f)};n++}catch(e){delete LVID[m.id]}}
+    else if(LVID[m.id]){try{URL.revokeObjectURL(LVID[m.id].url)}catch(e){}delete LVID[m.id]}}
+  LVN=n;LVS='ok';lvRefresh()}
+function lvUi(){
+  var st=LVS,h='<div class="card" style="margin:8px 0"><b>💾 Videa v tomto počítači</b>';
+  if(st==='nosup')return h+'<p class="mut" style="font-size:12px;margin:6px 0 0">Výběr složky umí jen Chrome a Edge a stránka musí běžet na https (nebo localhost). Tady se video bere z YouTube.</p></div>';
+  h+='<p class="mut" style="font-size:12px;margin:6px 0">Vyber složku, kam ukládáš videa zápasů. U každého utkání aplikace najde video podle názvu souboru (stejný název jako .dvw nebo jako video zapsané v DataVolley) a přehraje ho místo YouTube – rychleji, přesně po snímcích a v původní ostrosti.</p><div class="row">';
+  h+='<button class="btn pri" onclick="lvPick()">📁 '+(LVD?'ZMĚNIT SLOŽKU':'VYBRAT SLOŽKU S VIDEI')+'</button>';
+  if(LVD&&st==='perm')h+='<button class="btn pri" onclick="lvAllow()">POVOLIT PŘÍSTUP KE SLOŽCE „'+esc(LVD.name||'')+'“</button>';
+  if(LVD&&st==='ok')h+='<button class="btn" onclick="lvScan()">↻ HLEDAT ZNOVU</button>';
+  if(LVD)h+='<button class="btn dg" onclick="lvForget()">ZAPOMENOUT SLOŽKU</button>';
+  h+='</div>';
+  if(st==='scan')h+='<p class="mut" style="font-size:12px;margin:6px 0 0">Hledám videa…</p>';
+  else if(st==='perm')h+='<p class="er" style="font-size:12px;margin:6px 0 0">Po novém otevření stránky prohlížeč chce znovu povolit přístup ke složce (jedno kliknutí).</p>';
+  else if(st&&st.indexOf('err:')===0)h+='<p class="er" style="font-size:12px;margin:6px 0 0">'+esc(st.slice(4))+'</p>';
+  else if(st==='ok'){h+='<p style="font-size:12px;margin:6px 0 0"><b>Složka „'+esc(LVD.name||'')+'“: video nalezeno u '+LVN+' z '+S.m.length+' utkání.</b></p>'+S.m.map(function(m){var v=LVID[m.id];return'<div style="font-size:12px">'+(v?'<span class="ok">✓</span> ':'✗ ')+esc(m.home+' – '+m.away)+(v?' – '+esc(v.name):' – nenalezeno (soubor se musí jmenovat stejně jako .dvw)')+'</div>'}).join('')}
+  return h+'</div>'}
+if(typeof window!=='undefined'&&typeof window.addEventListener==='function')setTimeout(function(){try{lvInit()}catch(e){}},50);
+
+</script>
+<script>
+/* ===== tab-hracka.js ===== */
+/* ---------- Karta Hráčka ---------- */
+var pn='',psc=4,pvw='short',pown=true;
+var MT=[['Body v utkání',r=>pts(r),'n'],['Bilance V-P',r=>pts(r)-err(r),'s'],['Příjem pozitivní',r=>r.rn?100*r.rp/r.rn:null,'%'],['Příjem perfektní',r=>r.rn?100*r.rf/r.rn:null,'%'],['Úspěšnost útoku',r=>r.an?100*r.ak/r.an:null,'%'],['Efektivita útoku',r=>r.an?100*(r.ak-r.ae-r.ab)/r.an:null,'%s'],['Esa v utkání',r=>r.ace,'n'],['Efektivita podání',r=>r.sn?100*(r.ace-r.se)/r.sn:null,'%s'],['Bodové bloky',r=>r.bk,'n']];
+
+function plNames(ow){var o={};S.m.forEach(m=>{var pl=m.pl&&m.pl[(ow===false?1-side(m):side(m))?'a':'h'];if(pl)for(var k in pl)if(pl[k])o[pl[k]]=1});return Object.keys(o).sort((a,b)=>a.localeCompare(b,'cs'))}
+function pmatches(name,ow){var o=[];S.m.forEach(m=>{var ti=ow===false?1-side(m):side(m),pl=m.pl&&m.pl[ti?'a':'h'],n=null;if(pl)for(var k in pl)if(pl[k]===name)n=+k;if(n==null)return;
+  var ev=(m.ev||[]).filter(a=>a[0]===ti&&a[1]===n).map(a=>({n:m.ev.indexOf(a),t:a[0],p:a[1],k:a[2],y:a[3],e:a[4],s:a[5],z:a[6],w:a[7],x:a[8]||'',u:a[11]||'',sc:a[9]||'',vt:a[10]||0,c:a[12]||'',h:a[13]||'',m:m,ti:ti})),pp=(m.pp&&m.pp[ti]&&m.pp[ti][n])||[];
+  if(!ev.length&&!pp.some(x=>x))return;o.push({m:m,n:n,ev:ev,pp:pp,ti:ti,cn:cnt(ev)})});
+  return o.sort((a,b)=>(a.m.date||'').localeCompare(b.m.date||''))}
+
+function fm(v,k){if(v==null)return'–';if(k==='n')return String(Math.round(v*10)/10);if(k==='s')return sg(Math.round(v*10)/10);if(k==='%')return Math.round(v)+'%';return sg(Math.round(v))+'%'}
+function spark(vals,labs,k){
+  var n=vals.length,v=vals.filter(x=>x!=null);if(!v.length)return'<div class="mut">bez dat</div>';
+  var mn=Math.min.apply(null,v),mx=Math.max.apply(null,v);if(mx===mn){mx+=1;mn-=1}
+  var X=i=>n===1?100:20+i*160/(n-1),Y=x=>22+(mx-x)/(mx-mn)*34,pt=[],o='';
+  vals.forEach((x,i)=>{if(x!=null){pt.push(X(i)+','+Y(x));o+='<circle cx="'+X(i)+'" cy="'+Y(x)+'" r="3.5" fill="#f2c200" stroke="#8a6600" stroke-width="1.5"/><text x="'+X(i)+'" y="'+(Y(x)-6)+'" font-size="9" text-anchor="middle" fill="currentColor">'+fm(x,k)+'</text>'}o+='<text x="'+X(i)+'" y="76" font-size="8" text-anchor="middle" fill="#8a97ab">'+labs[i]+'</text>'});
+  return'<svg viewBox="0 0 200 82" style="width:100%;color:var(--ink)"><polyline points="'+pt.join(' ')+'" fill="none" style="stroke:var(--blue)" stroke-width="2"/>'+o+'</svg>'}
+function fbs(k,v){S.fb[k]=v;sv()}
+function drawP(){var y=window.scrollY;vPl();window.scrollTo(0,y)}
+
+function vPl(){
+  DL=[];var names=plNames(pown).filter(n=>pmatches(n,pown).length);
+  if(!names.length){$('v').innerHTML='<div class="card"><p class="mut">Nejdřív nahraj utkání v kartě UTKÁNÍ a v detailu utkání nastav „Náš tým“.</p></div>';return}
+  if(names.indexOf(pn)<0){var bx=-1;names.forEach(n=>{var c=pmatches(n,pown).reduce((a,x)=>a+x.ev.length,0);if(c>bx){bx=c;pn=n}})}
+  var pm=pmatches(pn,pown),sc=psc?pm.slice(-psc):pm,al=[];pm.forEach(x=>{al=al.concat(x.ev)});
+  var h='<div class="card"><h2>HRÁČKA</h2><div class="row" style="margin-bottom:10px"><button class="chip" aria-pressed="'+pown+'" onclick="pown=true;pn=\'\';DR=null;drawP()">Náš tým</button><button class="chip" aria-pressed="'+!pown+'" onclick="pown=false;pn=\'\';DR=null;drawP()">Soupeři</button></div><div class="row"><select style="max-width:320px" onchange="pn=this.value;DR=null;drawP()">'+names.map(n=>'<option'+(n===pn?' selected':'')+'>'+esc(n)+'</option>').join('')+'</select><span class="mut">'+pm.length+' utkání v sezóně</span></div></div>';
+  var ps=0,ts=0,pr=0,tr=0,pg=0;S.m.forEach(m=>{ts+=m.sets.length;tr+=m.sets.reduce((a,x)=>a+x[0]+x[1],0)});
+  var rows=pm.map(x=>{var m=x.m,sp=x.pp.filter(v=>v>0).length,rl=x.pp.reduce((a,v)=>a+(v||0),0),t1=m.sets.length,t2=m.sets.reduce((a,q)=>a+q[0]+q[1],0),r=x.ti===side(m)?res(m):res(m).slice().reverse();if(m.lv&&m.lb&&m.lb[x.ti?'a':'h'][x.n]){sp=x.ev.length?t1:0;rl=x.ev.length?t2-(m.sm?m.sm[x.ti]:0):0}if(m.pp){ps+=sp;pr+=rl;if(sp)pg++}else pg++;
+    return'<tr><td>'+esc(nm(m,1-x.ti))+'</td><td>'+esc(m.comp)+'</td><td>'+fd(m.date)+'</td><td>'+r[0]+':'+r[1]+'</td><td>'+(m.pp?sp+' / '+t1:'–')+'</td><td>'+(m.pp?rl+' ('+pc(rl,t2)+')':'–')+'</td></tr>'}).join('');
+  h+='<div class="card"><h2>ODEHRANÁ UTKÁNÍ – VYTÍŽENÍ</h2><div class="kp"><div>Počet utkání<b>'+S.m.length+'</b></div><div>Nastoupila – utkání<b>'+pc(pg,S.m.length)+'</b>'+pg+' z '+S.m.length+'</div><div>Nastoupila – sety<b>'+pc(ps,ts)+'</b>'+ps+' z '+ts+'</div><div>Odehrála – výměn<b>'+pc(pr,tr)+'</b>'+pr+' z '+tr+'</div></div>'+
+   '<div class="tw"><table><tr><th>Utkání (soupeř)</th><th>Soutěž</th><th>Datum</th><th>Výsledek</th><th>Sety</th><th>Výměn</th></tr>'+rows+'</table></div></div>';
+  var rr=sc.map(x=>[fd(x.m.date),nm(x.m,1-x.ti),x.cn,'',{p:pn,m:x.m.id}]),sa=[];sc.forEach(x=>{sa=sa.concat(x.ev)});
+  rr.push(['','SEZÓNA – CELKEM',cnt(sa),'t',{p:pn,ms:sc.map(x=>x.m.id)}]);
+  h+='<div class="card"><h2>SEZÓNA – '+esc(pn.toUpperCase())+'</h2><div class="row" style="margin-bottom:10px">'+[['short','DataVolley statistika'],['det','Podrobná statistika'],['eff','Statistika efektivity']].map(x=>'<button class="chip" aria-pressed="'+(pvw===x[0])+'" onclick="pvw=\''+x[0]+'\';drawP()">'+x[1]+'</button>').join('')+'</div>'+tbl(groups(pvw),rr,'Datum','Soupeř')+
+   '<p class="mut" style="font-size:12px;margin:8px 0 0">Kliknutím na číslo se zobrazí příslušné akce s videem níže.</p><div class="row" style="margin-top:10px"><button class="chip" aria-pressed="'+(psc===4)+'" onclick="psc=4;DR=null;drawP()">POSLEDNÍCH 4 UTKÁNÍ</button><button class="chip" aria-pressed="'+(psc===0)+'" onclick="psc=0;DR=null;drawP()">CELÁ SEZÓNA</button></div></div>';
+  var labs=sc.map(x=>fd(x.m.date).replace(/\. 20\d\d$/,'.')),ca=cnt(sa);
+  h+='<div class="card"><h2>VÝVOJ V UTKÁNÍCH ('+(psc?'posledních '+sc.length:'celá sezóna')+')</h2><div class="tiles">'+MT.map(t=>{var vals=sc.map(x=>t[1](x.cn)),v=vals.filter(x=>x!=null),big=(t[2]==='n'||t[2]==='s')?(v.length?v.reduce((a,b)=>a+b,0)/v.length:null):t[1](ca);
+    return'<div class="tile"><div class="mut" style="font-size:11px;font-weight:700;text-transform:uppercase">'+t[0]+'</div><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:28px">'+fm(big,t[2])+'</b><span class="mut" style="font-size:12px">poslední: '+fm(vals[vals.length-1],t[2])+'</span></div>'+spark(vals,labs,t[2])+'</div>'}).join('')+'</div></div>';
+  h+='<div class="card"><h2>NÁKRES SMĚRU AKCÍ – '+esc(pn.toUpperCase())+'</h2>'+mapsHtml(sa)+'</div>';
+  LST=(DR?al.filter(dmatch(DR)):sa.filter(fcf)).slice().sort(srt);h+=vidSec(DR);
+  h+='<div class="card"><h2>UTKÁNÍ A HODNOCENÍ TRENÉRA</h2>'+sc.slice().reverse().map(x=>{var m=x.m,r=x.cn,kc='c'+m.id,ki='i'+m.id+'|'+pn;
+    return'<div style="border-top:1px solid var(--line);padding:12px 0"><b>'+fd(m.date)+' · '+esc(m.home)+' '+m.sw[0]+' : '+m.sw[1]+' '+esc(m.away)+'</b><div class="mut" style="font-size:13px">Body '+pts(r)+' (V-P '+sg(pts(r)-err(r))+') · příjem '+r.rn+' / pozitivní '+pc(r.rp,r.rn)+' · útok '+r.an+' / body '+pc(r.ak,r.an)+' · podání '+r.sn+' / esa '+r.ace+'</div>'+
+     '<label>Společné hodnocení utkání (pro všechny hráčky)</label><textarea data-k="'+esc(kc)+'" onchange="fbs(this.dataset.k,this.value)">'+esc(S.fb[kc]||'')+'</textarea>'+
+     '<label>Individuální zpětná vazba – '+esc(pn)+'</label><textarea data-k="'+esc(ki)+'" onchange="fbs(this.dataset.k,this.value)">'+esc(S.fb[ki]||'')+'</textarea></div>'}).join('')+'</div>';
+  $('v').innerHTML=h;
+}
+
+</script>
+<script>
+/* ===== tab-statistika.js ===== */
+/* ---------- Karta Statistika družstva a Vytížení hráček ---------- */
+var vg='all',stT='own',stg='all',stv='ws',STO=[];
+
+function vytData(ms){
+  var P={},skip=0,old=0;
+  ms.forEach(function(m){
+    if(!m.pp){skip++;return}
+    var ti=side(m),key=ti?'a':'h',pl=m.pl&&m.pl[key]||{},ts=m.sets.length,tr=m.sets.reduce(function(a,q){return a+q[0]+q[1]},0);
+    for(var num in pl){var name=pl[num];if(!name)continue;num=+num;
+      var o=P[name]||(P[name]={n:num+' '+name,gs:{},u:0,tu:0,sp:0,ts:0,rl:0,tr:0});
+      var arr=(m.pp[ti]&&m.pp[ti][num])||[],ss={},my=(m.ev||[]).filter(function(a){return a[0]===ti&&a[1]===num});
+      arr.forEach(function(v,i){if(v>0)ss[i+1]=1});
+      my.forEach(function(a){ss[a[5]]=1});
+      var sn=Object.keys(ss).length,rl=arr.reduce(function(a,v){return a+(v||0)},0);
+      var lib=m.lv?!!(m.lb&&m.lb[key][num]):(my.length>0&&!my.some(function(a){return a[2]==='S'||a[2]==='A'||a[2]==='B'}));
+      if(lib)o.lib=1;
+      if(lib&&m.lv){sn=my.length?ts:0;rl=my.length?tr-(m.sm?m.sm[ti]:0):0}
+      else if(lib)old++;
+      o.gs[gp(m)]=1;o.tu++;o.ts+=ts;o.tr+=tr;
+      if(sn>0||rl>0){o.u++;o.sp+=sn;o.rl+=rl}
+    }});
+  return{rows:Object.keys(P).map(function(k){return P[k]}).sort(function(a,b){return a.n.localeCompare(b.n,'cs')}),skip:skip,old:old}
+}
+function vcell(a,b){var q=b?Math.round(100*a/b):0;return'<b>'+(b?q+' %':'–')+'</b><span class="bar"><i style="width:'+q+'%"></i></span><span class="mut">('+a+' z '+b+')</span>'}
+function vVyt(){
+  var sh=S.m.filter(function(m){return vg==='all'||gp(m)===vg}),d=vytData(sh);
+  var chips=[['all','Všechna utkání']].concat(GR.map(function(g){return[g[0],g[1]]}));
+  if(S.m.some(function(m){return!gp(m)}))chips.push(['','Nezařazeno']);
+  var h='<div class="card"><h2>VYTÍŽENÍ HRÁČEK</h2><div class="mut" style="margin-bottom:10px">Počítá se pouze účast na hřišti, ne akce ani zapojení do výměny. Blokařka se počítá i na zadní řadě. Libero (L) se počítá do všech setů a všech výměn utkání kromě těch, kdy podává naše blokařka. Libero bez jediné akce v utkání má v tomto utkání nulu. Skupinu utkání nastavíš v detailu utkání.</div><div class="row">'+
+    chips.map(function(c){return'<button class="chip" aria-pressed="'+(vg===c[0])+'" onclick="vg=\''+c[0]+'\';vVyt()">'+c[1]+'</button>'}).join('')+'</div></div>';
+  if(!d.rows.length){$('v').innerHTML=h+'<div class="card"><p class="mut">'+(S.m.length?'V této skupině nejsou žádná utkání s daty o sestavě.':'Nejdřív nahraj utkání v kartě UTKÁNÍ.')+'</p></div>';return}
+  h+='<div class="card"><div class="tw"><table class="vyt"><tr><th>Hráčka</th><th>Utkání</th><th>Počet utkání</th><th>Nastoupila – utkání</th><th>Nastoupila – sety</th><th>Odehrála – výměny</th></tr>'+
+    d.rows.map(function(o){return'<tr><td>'+esc(o.n)+(o.lib?' (L)':'')+'</td><td>'+Object.keys(o.gs).map(gbadge).join('')+'</td><td>'+o.tu+'</td><td>'+vcell(o.u,o.tu)+'</td><td>'+vcell(o.sp,o.ts)+'</td><td>'+vcell(o.rl,o.tr)+'</td></tr>'}).join('')+'</table></div>'+
+    '<p class="mut" style="font-size:12px;margin:8px 0 0">Hráčky se počítají ve všech utkáních, ve kterých jsou v souboru DataVolley. Nastoupila – sety a výměny se počítají vůči všem setům a výměnám těchto utkání.'+(d.old?' U libera z '+d.old+' starších utkání se pravidlo nedá použít přesně – nahraj jejich .dvw znovu.':'')+(d.skip?' Přeskočeno '+d.skip+' starších utkání bez dat o sestavě – nahraj jejich .dvw znovu.':'')+'</p></div>';
+  $('v').innerHTML=h;
+}
+
+function stSel(i){stT=STO[i];DR=null;drawS()}
+function drawS(){var y=window.scrollY;vSt();window.scrollTo(0,y)}
+function lbCards(g,T){
+  var R=Object.keys(g).map(function(k){return{n:k,r:cnt(g[k].l)}}),pc2=function(a,b){return Math.round(100*a/b)},sp=function(v){return(v>0?'+':v<0?'–':'')+Math.abs(v)},
+  mn=function(k){return Math.max(3,Math.ceil(.05*T[k]))},
+  D=[['BODY V UTKÁNÍ',function(o){return pts(o.r)},null,function(v){return''+v},1],['BILANCE V–P',function(o){return pts(o.r)-err(o.r)},null,sp,0],
+  ['PŘÍJEM POZITIVNÍ',function(o){return pc2(o.r.rp,o.r.rn)},'rn',function(v){return v+' %'},0],['PŘÍJEM PERFEKTNÍ',function(o){return pc2(o.r.rf,o.r.rn)},'rn',function(v){return v+' %'},0],
+  ['ÚSPĚŠNOST ÚTOKU',function(o){return pc2(o.r.ak,o.r.an)},'an',function(v){return v+' %'},0],['EFEKTIVITA ÚTOKU',function(o){return pc2(o.r.ak-o.r.ae-o.r.ab,o.r.an)},'an',function(v){return sp(v)+' %'},0],
+  ['ESA PODÁNÍ',function(o){return o.r.ace},null,function(v){return''+v},1],['EFEKTIVITA PODÁNÍ',function(o){return pc2(o.r.ace-o.r.se,o.r.sn)},'sn',function(v){return sp(v)+' %'},0],['BODOVÉ BLOKY',function(o){return o.r.bk},null,function(v){return''+v},1]];
+  return'<div class="lbg">'+D.map(function(d){
+    var L=R.filter(function(o){return!d[2]||o.r[d[2]]>=mn(d[2])}).map(function(o){return{n:o.n,v:d[1](o),a:d[2]?o.r[d[2]]:null}}).filter(function(x){return!d[4]||x.v>0}).sort(function(x,y){return y.v-x.v||(y.a||0)-(x.a||0)});
+    return'<div class="lbc"><h3>'+d[0]+'</h3>'+(L.length?L.slice(0,3).map(function(x){var rk=1+L.filter(function(y){return y.v>x.v}).length;return'<div class="lbr"><span>'+rk+'.</span><span>'+esc(x.n)+'</span><b>'+d[3](x.v)+(x.a!=null?' <small>('+x.a+')</small>':'')+'</b></div>'}).join(''):'<div class="mut" style="font-size:12px">Zatím není dost dat.</div>')+'</div>'}).join('')+'</div>'
+}
+function vSt(){
+  DL=[];
+  if(!S.m.length){$('v').innerHTML='<div class="card"><p class="mut">Nejdřív nahraj utkání v kartě UTKÁNÍ.</p></div>';return}
+  var sh=S.m.filter(function(m){return stg==='all'||gp(m)===stg}),opp={};
+  S.m.forEach(function(m){var o=nm(m,1-side(m));opp[o]=(opp[o]||0)+1});
+  var on=Object.keys(opp).sort(function(a,b){return a.localeCompare(b,'cs')});STO=['own','*'].concat(on);
+  if(STO.indexOf(stT)<0)stT='own';
+  var own=stT==='own',ms=own?sh:sh.filter(function(m){return stT==='*'||nm(m,1-side(m))===stT}),
+  title=own?(nm(ms[0]||S.m[0],side(ms[0]||S.m[0]))||S.my||'Náš tým'):(stT==='*'?'Všichni soupeři':stT);
+  var ch=function(on2,fn,t){return'<button class="chip" aria-pressed="'+on2+'" onclick="'+fn+'">'+esc(t)+'</button>'};
+  var h='<div class="card"><h2>STATISTIKA DRUŽSTVA</h2><label>Družstvo</label><div class="row">'+STO.map(function(t,i){return ch(stT===t,'stSel('+i+')',t==='own'?'Náš tým':t==='*'?'Všichni soupeři':t+' ('+opp[t]+')')}).join('')+'</div>'+
+    '<label>Utkání</label><div class="row">'+[['all','Všechna utkání']].concat(GR.map(function(g){return[g[0],g[1]]})).map(function(c){return ch(stg===c[0],'stg=\''+c[0]+'\';DR=null;drawS()',c[1])}).join('')+'</div>'+
+    '<label>Zobrazení</label><div class="row">'+[['ws','Statistika efektivity'],['short','Stručná statistika'],['det','Podrobná statistika']].map(function(c){return ch(stv===c[0],'stv=\''+c[0]+'\';DR=null;drawS()',c[1])}).join('')+'</div></div>';
+  if(!ms.length){$('v').innerHTML=h+'<div class="card"><p class="mut">Pro tento výběr nejsou žádná utkání.</p></div>';return}
+  var L=pick(ms,own),g={};
+  L.forEach(function(e){var n=pname(e);var o=g[n]||(g[n]={p:e.p,l:[],lb:0});o.l.push(e);if(e.m.lb&&e.m.lb[e.ti?'a':'h']&&e.m.lb[e.ti?'a':'h'][e.p])o.lb=1});
+  var ks=Object.keys(g).sort((x,y)=>g[x].p-g[y].p),T=cnt(L),
+  rows=ks.map(k=>[g[k].p+(g[k].lb?' <b>L</b>':''),k,cnt(g[k].l),'',{p:k}]);
+  rows.push(['','SEZÓNA '+title.toUpperCase()+' CELKEM ('+ms.length+')',T,'t',{}]);
+  h+='<div class="card"><h2>'+esc(title.toUpperCase())+'</h2><div class="mut" style="margin-bottom:8px">'+ms.length+' utkání'+(stg!=='all'?' · '+gname(stg):'')+' · Kliknutím na políčko se spustí video vybraných akcí.</div>'+tbl(groups(stv),rows,'#',title)+'</div>';
+  h+='<div class="card"><h2>ŽEBŘÍČEK – '+esc(title.toUpperCase())+'</h2>'+lbCards(g,T)+'</div>';
+  h+='<div class="card"><p class="mut" style="font-size:12px;margin:0"><b>Legenda</b> · Tot – všechny kontakty; Err – chyby (podání =, příjem =, útok =); „/“ u příjmu – míč přes síť; Blo – útok zablokovaný; Pos% = (# + +) / příjmy; Exc% = # / příjmy; Pts% = body z útoku / útoky; Effc% = (body − chyby − zablokované) / útoky; Blok Err = blok / + blok =. Červeně: pod 40 % (Pos%, Pts%) a pod 20 % (Exc%). Žebříček: do procentních žebříčků se počítají hráčky s alespoň 5 % akcí družstva (nejméně 3); body = podání # + útok # + blok #; bilance V–P = body − chyby (podání =, příjem =, útok =, útok /).</p></div>';
+  LST=DR?L.filter(dmatch(DR)).sort(srt):[];
+  if(DR)h+=vidSec(DR);
+  $('v').innerHTML=h;
+}
+
+</script>
+<script>
+/* ===== tab-zaloha.js ===== */
+/* ---------- Karta Záloha a nastavení ---------- */
+function vBk(){
+  $('v').innerHTML='<div class="card"><h2>NADPIS APLIKACE</h2><input value="'+esc(S.team)+'" onchange="S.team=this.value||\'Gálík příprava\';sv();$(\'ttl\').textContent=S.team.toUpperCase()"></div>'+
+  '<div class="card"><h2>MOJE DRUŽSTVO V SOUBORECH DATAVOLLEY</h2><p class="mut">Napiš název tak, jak je v souborech (stačí část, např. Dukla). U nově nahraných utkání se podle toho sama nastaví tvoje strana.</p><input value="'+esc(S.my)+'" placeholder="např. Dukla Liberec" onchange="S.my=this.value.trim();sv()"><div class="row" style="margin-top:8px"><button class="btn pri" onclick="var c=0;S.m.forEach(function(m){if(autoMine(m))c++});sv();$(\'am\').textContent=\'Nastaveno u \'+c+\' z \'+S.m.length+\' utkání\'">POUŽÍT U VŠECH UTKÁNÍ</button><span class="ok" id="am"></span></div></div>'+
+  '<div class="card"><h2>ZÁLOHA DAT</h2><p class="mut">Data jsou jen v tomto prohlížeči. Zkopíruj text a ulož ho do souboru nebo e-mailu. U více utkání může být dlouhý.</p><textarea id="ex" readonly>'+esc(JSON.stringify(S))+'</textarea><div class="row" style="margin-top:8px"><button class="btn pri" onclick="cp()">KOPÍROVAT ZÁLOHU</button><span class="ok" id="cm"></span></div></div>'+
+  '<div class="card"><h2>OBNOVIT ZE ZÁLOHY</h2><textarea id="im" placeholder="Vlož sem zálohu…"></textarea><div class="row" style="margin-top:8px"><button class="btn" onclick="rst()">OBNOVIT (PŘEPÍŠE DATA)</button><span id="im2"></span></div></div>'+
+  '<div class="card"><h2>SMAZAT VŠE</h2><button class="btn dg" onclick="wipe()">'+(armed==='all'?'OPRAVDU SMAZAT VŠECHNA UTKÁNÍ?':'SMAZAT VŠECHNA UTKÁNÍ')+'</button></div>';
+}
+function cp(){var t=$('ex');t.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}try{if(navigator.clipboard){navigator.clipboard.writeText(t.value);ok=true}}catch(e){}$('cm').textContent=ok?'Zkopírováno':'Označeno – zkopíruj ručně'}
+function rst(){try{var x=JSON.parse($('im').value);if(!x||!Array.isArray(x.m))throw 0;S=x;sv();$('ttl').textContent=S.team.toUpperCase();$('im2').className='ok';$('im2').textContent='Obnoveno ('+S.m.length+' utkání)'}catch(e){$('im2').className='er';$('im2').textContent='Záloha není platná'}}
+function wipe(){if(armed!=='all'){armed='all';vBk();return}S.m=[];sv();go('list')}
+
+</script>
+<script>
+try{ld()}catch(e){showErr("ld(): "+e.message)}
+try{draw()}catch(e){showErr("draw(): "+e.message)}
+</script>
+</body>
+</html>
